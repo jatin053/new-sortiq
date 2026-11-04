@@ -38,8 +38,25 @@ class BlogRequest extends FormRequest
             $slug = Str::slug((string) $this->input('title'));
         }
 
+        // Process multi-category input
+        $rawCategories = $this->input('categories');
+        $rawCategory = $this->input('category');
+
+        $categoriesList = [];
+        if (is_array($rawCategories)) {
+            $categoriesList = array_values(array_filter(array_map('trim', $rawCategories)));
+        } elseif (is_string($rawCategory) && trim($rawCategory) !== '') {
+            $categoriesList = array_values(array_filter(array_map('trim', explode(',', $rawCategory))));
+        }
+
+        // Clean & deduplicate
+        $categoriesList = array_values(array_unique($categoriesList));
+        $categoryString = !empty($categoriesList) ? implode(', ', $categoriesList) : null;
+
         $this->merge([
             'slug' => $slug,
+            'category' => $categoryString,
+            'categories' => $categoriesList,
         ]);
     }
 
@@ -67,7 +84,9 @@ class BlogRequest extends FormRequest
             'image' => ['nullable', 'string', 'max:255'],
             'delete_image' => ['nullable'],
             'image_file' => ['nullable', 'file', 'mimes:webp,png,jpg,jpeg', 'max:4096'],
-            'category' => ['nullable', 'string', 'max:100'],
+            'category' => ['nullable', 'string', 'max:500'],
+            'categories' => ['nullable', 'array'],
+            'categories.*' => ['string', 'max:100'],
             'excerpt' => ['nullable', 'string'],
             'content' => ['required', 'string', 'min:5'],
             'published_at' => ['required', 'date'],

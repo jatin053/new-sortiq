@@ -22,8 +22,8 @@ class InternshipApplicationRequest extends FormRequest
             'institute' => trim((string) $this->institute),
             'technology' => trim((string) $this->technology),
             'message' => trim((string) $this->message),
-            'url' => $this->url ? trim((string) $this->url) : null,
-            'recaptcha' => $this->recaptcha ? trim((string) $this->recaptcha) : null,
+            'url' => $this->url ? trim((string) $this->url) : ($this->header('referer') ?: url()->previous() ?: null),
+            'recaptcha' => $this->recaptcha ? trim((string) $this->recaptcha) : ($this->input('g-recaptcha-response') ? trim((string) $this->input('g-recaptcha-response')) : null),
         ]);
     }
 
@@ -39,6 +39,8 @@ class InternshipApplicationRequest extends FormRequest
             'technology' => 'required|string|max:150',
             'message' => 'required|string',
             'url' => 'nullable|string|max:2048',
+            'resume' => 'nullable|file|max:10240|mimes:pdf,doc,docx',
+            'attachment' => 'nullable|file|max:10240|mimes:pdf,doc,docx',
             'recaptcha' => 'nullable|string|max:4096',
         ];
     }

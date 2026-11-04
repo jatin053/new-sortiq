@@ -20,8 +20,8 @@ class FresherHiringRequest extends FormRequest
             'phone' => $this->phone ? preg_replace('/[^0-9]/', '', (string) $this->phone) : null,
             'institute' => $this->institute ? trim((string) $this->institute) : null,
             'technology' => $this->technology ? trim((string) $this->technology) : null,
-            'url' => $this->url ? trim((string) $this->url) : null,
-            'recaptcha' => $this->recaptcha ? trim((string) $this->recaptcha) : null,
+            'url' => $this->url ? trim((string) $this->url) : ($this->header('referer') ?: url()->previous() ?: null),
+            'recaptcha' => $this->recaptcha ? trim((string) $this->recaptcha) : ($this->input('g-recaptcha-response') ? trim((string) $this->input('g-recaptcha-response')) : null),
         ]);
     }
 

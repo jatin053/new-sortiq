@@ -49,7 +49,10 @@ class BlogController extends Controller
             $blogs = $this->publishedBlogsQuery()
                 ->get()
                 ->map(function (Blog $blog) {
-                    $category = $blog->category ?: 'General';
+                    $cats = $blog->categories_list;
+                    if (empty($cats)) {
+                        $cats = ['General'];
+                    }
 
                     return [
                         'title' => $blog->title,
@@ -57,12 +60,10 @@ class BlogController extends Controller
                         'image' => $blog->image_url,
                         'excerpt' => $blog->excerpt ?: Str::limit(strip_tags($blog->content), 140),
                         'date' => $blog->published_at?->toDateString(),
-                        'categories' => [
-                            [
-                                'name' => $category,
-                                'slug' => Str::slug($category),
-                            ],
-                        ],
+                        'categories' => array_map(fn ($c) => [
+                            'name' => $c,
+                            'slug' => Str::slug($c),
+                        ], $cats),
                     ];
                 })
                 ->values();
@@ -185,21 +186,29 @@ class BlogController extends Controller
     private function categories()
     {
         try {
-            return Blog::query()
+            $blogs = Blog::query()
                 ->published()
                 ->whereNotNull('category')
                 ->where('category', '!=', '')
-                ->selectRaw('category, COUNT(*) as total')
-                ->groupBy('category')
-                ->orderBy('category')
-                ->get()
-                ->map(function ($item) {
-                    return (object) [
-                        'name' => $item->category,
-                        'slug' => Str::slug($item->category),
-                        'total' => $item->total,
-                    ];
-                });
+                ->get(['category']);
+
+            $counts = [];
+            foreach ($blogs as $blog) {
+                $cats = $blog->categories_list;
+                foreach ($cats as $cat) {
+                    $counts[$cat] = ($counts[$cat] ?? 0) + 1;
+                }
+            }
+
+            ksort($counts);
+
+            return collect($counts)->map(function ($total, $name) {
+                return (object) [
+                    'name' => $name,
+                    'slug' => Str::slug($name),
+                    'total' => $total,
+                ];
+            })->values();
         } catch (Throwable $exception) {
             report($exception);
 
@@ -232,7 +241,13 @@ class BlogController extends Controller
             }
 
             if ($activeCategory !== '') {
-                $blogsQuery->where('category', $categoryMap[$activeCategory]);
+                $targetCat = $categoryMap[$activeCategory];
+                $blogsQuery->where(function ($q) use ($targetCat) {
+                    $q->where('category', $targetCat)
+                        ->orWhere('category', 'like', "%, {$targetCat}%")
+                        ->orWhere('category', 'like', "%{$targetCat},%")
+                        ->orWhere('category', 'like', "%{$targetCat}%");
+                });
             }
 
             return $blogsQuery

@@ -3,26 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>New Internship Application Received</title>
+    <title>New Internship Application - Sortiq Solutions</title>
 </head>
 <body style="margin: 0; padding: 0; background-color: #f1f5f9; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; color: #1e293b; line-height: 1.6;">
     <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background-color: #f1f5f9; padding: 30px 15px;">
         <tr>
             <td align="center">
-                <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="max-width: 650px; background-color: #ffffff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.06); border: 1px solid #e2e8f0;">
+                <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="max-width: 660px; background-color: #ffffff; border-radius: 12px; overflow: hidden; box-shadow: 0 8px 24px rgba(0,0,0,0.06); border: 1px solid #e2e8f0;">
                     
-                    <!-- Header -->
+                    <!-- Top Brand Accent Bar -->
                     <tr>
-                        <td style="background: linear-gradient(135deg, #0b132b 0%, #1c2541 100%); padding: 28px 36px;">
+                        <td style="height: 5px; background: linear-gradient(90deg, #6366f1 0%, #4f46e5 50%, #2563eb 100%);"></td>
+                    </tr>
+
+                    <!-- Header with Site Logo and Badge -->
+                    <tr>
+                        <td style="padding: 24px 32px; background-color: #ffffff; border-bottom: 1px solid #f1f5f9;">
                             <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
                                 <tr>
-                                    <td>
-                                        <h1 style="margin: 0; color: #ffffff; font-size: 22px; font-weight: 700; letter-spacing: -0.3px;">Sortiq Solutions</h1>
-                                        <p style="margin: 4px 0 0 0; color: #94a3b8; font-size: 13px;">Internship &amp; Industrial Training Program</p>
+                                    <td align="left" style="vertical-align: middle;">
+                                        <a href="{{ url('/') }}" target="_blank" style="text-decoration: none; display: inline-block;">
+                                            <img src="{{ asset('frontend-assets/media/imports/sortiqsolutions/2025/11/final-logo.png') }}" alt="Sortiq Solutions" height="42" style="max-height: 42px; width: auto; display: block; border: 0;">
+                                        </a>
                                     </td>
-                                    <td align="right">
-                                        <span style="display: inline-block; padding: 6px 14px; background-color: #6366f1; color: #ffffff; font-size: 12px; font-weight: 600; border-radius: 20px; text-transform: uppercase; letter-spacing: 0.5px;">
-                                            INTERNSHIP
+                                    <td align="right" style="vertical-align: middle;">
+                                        <span style="display: inline-block; padding: 6px 14px; background-color: #eef2ff; color: #4f46e5; border: 1px solid rgba(99, 102, 241, 0.3); font-size: 11px; font-weight: 700; border-radius: 20px; text-transform: uppercase; letter-spacing: 0.5px;">
+                                            INTERNSHIP APPLICATION
                                         </span>
                                     </td>
                                 </tr>
@@ -32,22 +38,39 @@
 
                     <!-- Body Content -->
                     <tr>
-                        <td style="padding: 32px 36px 24px 36px;">
-                            <h2 style="margin: 0 0 8px 0; color: #0f172a; font-size: 18px; font-weight: 700;">
-                                New Internship Application
+                        <td style="padding: 30px 32px 24px 32px;">
+                            
+                            <h2 style="margin: 0 0 6px 0; color: #0f172a; font-size: 19px; font-weight: 700;">
+                                New Internship & Training Application
                             </h2>
-                            <p style="margin: 0 0 20px 0; color: #64748b; font-size: 14px;">
-                                An applicant has submitted the internship application form. Full details below:
+                            <p style="margin: 0 0 20px 0; color: #64748b; font-size: 13.5px;">
+                                An applicant submitted an application for the Industrial Training &amp; Internship Program.
                             </p>
 
-                            <!-- Applicant Details Table -->
-                            <div style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 20px; margin-bottom: 24px;">
-                                <h3 style="margin: 0 0 14px 0; color: #0f172a; font-size: 15px; font-weight: 600; border-bottom: 2px solid #e2e8f0; padding-bottom: 8px;">
+                            <!-- Highlighted Source URL Box (Always Visible) -->
+                            <div style="background: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%); border: 1px solid #c7d2fe; border-left: 4px solid #4f46e5; border-radius: 8px; padding: 14px 18px; margin-bottom: 22px;">
+                                <div style="font-size: 11px; font-weight: 700; text-transform: uppercase; color: #3730a3; letter-spacing: 0.5px; margin-bottom: 4px;">
+                                     Submitted From Page URL
+                                </div>
+                                <div style="font-size: 14px; font-weight: 600; word-break: break-all;">
+                                    @if($application->url)
+                                        <a href="{{ $application->url }}" target="_blank" rel="noopener noreferrer" style="color: #4338ca; text-decoration: underline;">
+                                            {{ $application->url }}
+                                        </a>
+                                    @else
+                                        <span style="color: #64748b; font-style: italic;">Internship Application Page</span>
+                                    @endif
+                                </div>
+                            </div>
+
+                            <!-- Applicant Information Table -->
+                            <div style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 18px 20px; margin-bottom: 22px;">
+                                <h3 style="margin: 0 0 12px 0; color: #0f172a; font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 2px solid #e2e8f0; padding-bottom: 8px;">
                                     Applicant Information
                                 </h3>
-                                <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="font-size: 14px;">
+                                <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="font-size: 13.5px;">
                                     <tr>
-                                        <td style="padding: 7px 0; color: #64748b; width: 32%; font-weight: 500;">Applicant Name:</td>
+                                        <td style="padding: 7px 0; color: #64748b; width: 34%; font-weight: 500;">Applicant Name:</td>
                                         <td style="padding: 7px 0; color: #0f172a; font-weight: 600;">{{ $application->name }}</td>
                                     </tr>
                                     <tr>
@@ -66,77 +89,98 @@
                                             @endif
                                         </td>
                                     </tr>
+
                                     @if($application->subject)
                                     <tr>
                                         <td style="padding: 7px 0; color: #64748b; font-weight: 500;">Subject / Objective:</td>
                                         <td style="padding: 7px 0; color: #0f172a; font-weight: 600;">{{ $application->subject }}</td>
                                     </tr>
                                     @endif
+
                                     @if($application->technology)
                                     <tr>
                                         <td style="padding: 7px 0; color: #64748b; font-weight: 500;">Technology / Domain:</td>
-                                        <td style="padding: 7px 0; color: #0f172a;">{{ $application->technology }}</td>
-                                    </tr>
-                                    @endif
-                                    @if($application->institute)
-                                    <tr>
-                                        <td style="padding: 7px 0; color: #64748b; font-weight: 500;">College / Institute:</td>
-                                        <td style="padding: 7px 0; color: #0f172a;">{{ $application->institute }}</td>
-                                    </tr>
-                                    @endif
-                                    @if(!empty($application->resume))
-                                    <tr>
-                                        <td style="padding: 7px 0; color: #64748b; font-weight: 500;">Resume:</td>
-                                        <td style="padding: 7px 0; color: #16a34a; font-weight: 600;">
-                                            &#128206; Attached to this Email
+                                        <td style="padding: 7px 0; color: #4f46e5; font-weight: 700;">
+                                            <span style="display: inline-block; padding: 2px 10px; background-color: #eef2ff; border: 1px solid rgba(99, 102, 241, 0.25); border-radius: 4px;">
+                                                {{ $application->technology }}
+                                            </span>
                                         </td>
                                     </tr>
                                     @endif
+
+                                    @if($application->institute)
+                                    <tr>
+                                        <td style="padding: 7px 0; color: #64748b; font-weight: 500;">College / Institute:</td>
+                                        <td style="padding: 7px 0; color: #0f172a; font-weight: 600;">{{ $application->institute }}</td>
+                                    </tr>
+                                    @endif
                                 </table>
                             </div>
 
-                            <!-- Message / Statement Section -->
-                            @if($application->message)
-                            <div style="background-color: #ffffff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 20px; margin-bottom: 24px;">
-                                <h3 style="margin: 0 0 10px 0; color: #0f172a; font-size: 15px; font-weight: 600;">
-                                    Cover Note / Message:
-                                </h3>
-                                <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 14px 16px; color: #1e293b; font-size: 14px; line-height: 1.6; white-space: pre-wrap;">{{ $application->message }}</div>
+                            <!-- CV / Resume Section (If present) -->
+                            @php
+                                $resumePath = $application->resume ?: ($application->attachment ?? null);
+                            @endphp
+                            @if(!empty($resumePath))
+                            <div style="background-color: #f0fdf4; border: 1px solid #bbf7d0; border-left: 4px solid #16a34a; border-radius: 8px; padding: 16px 20px; margin-bottom: 22px;">
+                                <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+                                    <tr>
+                                        <td>
+                                            <div style="font-size: 13px; font-weight: 700; color: #166534;">
+                                                📎 CV / Resume Document Attached
+                                            </div>
+                                            <div style="font-size: 12px; color: #15803d; margin-top: 3px;">
+                                                File: <strong>{{ basename($resumePath) }}</strong> (attached directly to this email)
+                                            </div>
+                                        </td>
+                                        <td align="right">
+                                            <a href="{{ asset('storage/' . $resumePath) }}" target="_blank" style="display: inline-block; padding: 7px 16px; background-color: #16a34a; color: #ffffff; font-size: 12px; font-weight: 700; text-decoration: none; border-radius: 6px;">
+                                                View / Download CV ↗
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </table>
                             </div>
                             @endif
 
-                            <!-- Meta / Source Info -->
-                            <div style="background-color: #f1f5f9; border-radius: 8px; padding: 14px 18px; margin-bottom: 20px; font-size: 12px; color: #64748b;">
+                            <!-- Cover Note / Message Section -->
+                            @if($application->message)
+                            <div style="background-color: #ffffff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 18px 20px; margin-bottom: 22px;">
+                                <h3 style="margin: 0 0 10px 0; color: #0f172a; font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">
+                                    Cover Note / Statement
+                                </h3>
+                                <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 14px 16px; color: #1e293b; font-size: 13.5px; line-height: 1.6; white-space: pre-wrap;">{{ $application->message }}</div>
+                            </div>
+                            @endif
+
+                            <!-- Technical Audit Info -->
+                            <div style="background-color: #f8fafc; border-radius: 6px; padding: 12px 16px; margin-bottom: 20px; font-size: 11.5px; color: #64748b;">
                                 <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
-                                    @if($application->url)
                                     <tr>
-                                        <td style="padding: 3px 0; width: 28%; font-weight: 600;">Submitted From:</td>
-                                        <td style="padding: 3px 0;"><a href="{{ $application->url }}" style="color: #2563eb; text-decoration: none;">{{ $application->url }}</a></td>
+                                        <td style="padding: 2px 0; width: 24%; font-weight: 600;">Received At:</td>
+                                        <td style="padding: 2px 0; color: #334155;">{{ $application->created_at ? $application->created_at->format('d M Y, h:i A') : now()->format('d M Y, h:i A') }}</td>
                                     </tr>
-                                    @endif
                                     @if($application->ip_address)
                                     <tr>
-                                        <td style="padding: 3px 0; font-weight: 600;">IP Address:</td>
-                                        <td style="padding: 3px 0;">{{ $application->ip_address }}</td>
+                                        <td style="padding: 2px 0; font-weight: 600;">IP Address:</td>
+                                        <td style="padding: 2px 0; color: #334155;">{{ $application->ip_address }}</td>
                                     </tr>
                                     @endif
-                                    <tr>
-                                        <td style="padding: 3px 0; font-weight: 600;">Received At:</td>
-                                        <td style="padding: 3px 0;">{{ $application->created_at ? $application->created_at->format('d M Y, h:i A') : now()->format('d M Y, h:i A') }}</td>
-                                    </tr>
                                 </table>
                             </div>
 
-                            <p style="margin: 0; font-size: 13px; color: #94a3b8; text-align: center;">
-                                <em>Tip: You can hit <strong>Reply</strong> to directly reach out to {{ $application->name }} ({{ $application->email }}).</em>
+                            <p style="margin: 0; font-size: 12.5px; color: #94a3b8; text-align: center;">
+                                <em>Tip: You can click <strong>Reply</strong> in your email client to directly reply to {{ $application->name }} ({{ $application->email }}).</em>
                             </p>
+
                         </td>
                     </tr>
 
                     <!-- Footer -->
                     <tr>
-                        <td style="background-color: #f8fafc; border-top: 1px solid #e2e8f0; padding: 16px 36px; text-align: center; font-size: 12px; color: #94a3b8;">
-                            Sortiq Solutions &bull; Internship Application Alert
+                        <td style="background-color: #f8fafc; border-top: 1px solid #e2e8f0; padding: 16px 32px; text-align: center; font-size: 11.5px; color: #94a3b8; line-height: 1.5;">
+                            Sortiq Solutions Pvt. Ltd. &bull; Internship Notification System<br>
+                            E-51, Phase 8, Industrial Area, Mohali, Punjab &bull; +91 9646522110
                         </td>
                     </tr>
 

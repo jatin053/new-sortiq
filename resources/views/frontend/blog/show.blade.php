@@ -41,7 +41,17 @@
           <img src="{{ $blog->image_url }}" alt="{{ $blog['title'] }}" class="blog-single-image w-full mb-6">
         @endif
 
-        @if (!empty($blog['category']))
+        @php
+          $singleCats = $blog->categories_list;
+        @endphp
+        @if (!empty($singleCats))
+          <div class="blog-single-meta mb-3 flex items-center flex-wrap gap-2" style="margin-top: 0;">
+            <i class="fa-regular fa-folder-open text-blue-600" style="font-size: 16px;"></i>
+            @foreach ($singleCats as $sc)
+              <a href="{{ route('frontend.blog.index', ['category' => Str::slug($sc)]) }}" class="hover:underline text-blue-600 font-medium" style="text-decoration: none;">{{ $sc }}</a>@if(!$loop->last) <span style="color: #94a3b8;">&bull;</span> @endif
+            @endforeach
+          </div>
+        @elseif (!empty($blog['category']))
           <div class="blog-single-meta mb-3 flex items-center gap-2" style="margin-top: 0;">
             <i class="fa-regular fa-folder-open text-blue-600" style="font-size: 16px;"></i>
             <span>{{ $blog['category'] }}</span>

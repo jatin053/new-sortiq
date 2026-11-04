@@ -36,7 +36,7 @@ return [
     ],
 
     'contact' => [
-        'notification_email' => env('CONTACT_NOTIFICATION_EMAIL'),
+        'notification_email' => env('CONTACT_NOTIFICATION_EMAIL', 'jatinchoudhary053@gmail.com'),
     ],
 
     'recaptcha' => [

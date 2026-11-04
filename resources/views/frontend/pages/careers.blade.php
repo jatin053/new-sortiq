@@ -4167,14 +4167,12 @@ a  {
 
 
       <form class="career-form" method="post" action="{{ route('api.contact-messages.store') }}" enctype="multipart/form-data">
-
-        <input type="hidden" name="action" value="sortiq_contact_form">
-
-        <input type="hidden" name="form_type" value="Career Application">
-
-        <input type="hidden" name="country_code" value="+91">
-
         @csrf
+        <input type="hidden" name="action" value="sortiq_contact_form">
+        <input type="hidden" name="form_type" value="Career Application">
+        <input type="hidden" name="type" value="careers">
+        <input type="hidden" name="url" value="{{ url()->current() }}">
+        <input type="hidden" name="country_code" value="+91">
 
 
 

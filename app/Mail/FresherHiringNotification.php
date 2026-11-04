@@ -6,9 +6,11 @@ use App\Models\FresherHiring;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Address;
+use Illuminate\Mail\Mailables\Attachment;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Storage;
 
 class FresherHiringNotification extends Mailable
 {
@@ -26,7 +28,7 @@ class FresherHiringNotification extends Mailable
         }
 
         return new Envelope(
-            subject: 'New Fresher Hiring Submission: Connect Request',
+            subject: "[FRESHER CONNECT] New Application: {$this->fresherHiring->name} - " . ($this->fresherHiring->technology ?: 'Candidate'),
             replyTo: $replyTo,
         );
     }
@@ -40,12 +42,25 @@ class FresherHiringNotification extends Mailable
 
     public function attachments(): array
     {
-        if ($this->fresherHiring->attachment && \Illuminate\Support\Facades\Storage::disk('public')->exists($this->fresherHiring->attachment)) {
-            return [
-                \Illuminate\Mail\Mailables\Attachment::fromStorageDisk('public', $this->fresherHiring->attachment),
-            ];
+        $attachments = [];
+        $filePath = $this->fresherHiring->attachment;
+
+        if (!empty($filePath)) {
+            if (Storage::disk('public')->exists($filePath)) {
+                $attachments[] = Attachment::fromStorageDisk('public', $filePath);
+            } else {
+                $absPath = storage_path('app/public/' . ltrim($filePath, '/'));
+                if (is_file($absPath)) {
+                    $attachments[] = Attachment::fromPath($absPath);
+                } else {
+                    $pubPath = public_path(ltrim($filePath, '/'));
+                    if (is_file($pubPath)) {
+                        $attachments[] = Attachment::fromPath($pubPath);
+                    }
+                }
+            }
         }
 
-        return [];
+        return $attachments;
     }
 }

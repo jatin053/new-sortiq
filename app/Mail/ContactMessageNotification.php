@@ -6,9 +6,11 @@ use App\Models\ContactMessage;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Address;
+use Illuminate\Mail\Mailables\Attachment;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Storage;
 
 class ContactMessageNotification extends Mailable
 {
@@ -25,8 +27,11 @@ class ContactMessageNotification extends Mailable
             $replyTo[] = new Address($this->contactMessage->email, $this->contactMessage->name ?: '');
         }
 
+        $typeLabel = strtoupper($this->contactMessage->type ?: 'ENQUIRY');
+        $subjectText = $this->contactMessage->subject ?: 'New Website Enquiry';
+
         return new Envelope(
-            subject: 'New contact enquiry: '.$this->contactMessage->subject,
+            subject: "[{$typeLabel}] {$subjectText} - {$this->contactMessage->name}",
             replyTo: $replyTo,
         );
     }
@@ -40,12 +45,25 @@ class ContactMessageNotification extends Mailable
 
     public function attachments(): array
     {
-        if ($this->contactMessage->attachment && \Illuminate\Support\Facades\Storage::disk('public')->exists($this->contactMessage->attachment)) {
-            return [
-                \Illuminate\Mail\Mailables\Attachment::fromStorageDisk('public', $this->contactMessage->attachment),
-            ];
+        $attachments = [];
+        $filePath = $this->contactMessage->attachment;
+
+        if (!empty($filePath)) {
+            if (Storage::disk('public')->exists($filePath)) {
+                $attachments[] = Attachment::fromStorageDisk('public', $filePath);
+            } else {
+                $absPath = storage_path('app/public/' . ltrim($filePath, '/'));
+                if (is_file($absPath)) {
+                    $attachments[] = Attachment::fromPath($absPath);
+                } else {
+                    $pubPath = public_path(ltrim($filePath, '/'));
+                    if (is_file($pubPath)) {
+                        $attachments[] = Attachment::fromPath($pubPath);
+                    }
+                }
+            }
         }
 
-        return [];
+        return $attachments;
     }
 }

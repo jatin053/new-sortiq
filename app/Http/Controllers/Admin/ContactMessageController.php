@@ -24,10 +24,11 @@ class ContactMessageController extends Controller
         $query = ContactMessage::query();
 
         // Apply filter (inquiry vs application)
-        if ($filter === 'application') {
-            $query->where('type', '!=', 'contact');
+        $isApp = ($filter === 'application');
+        if ($isApp) {
+            $query->whereIn('type', ['careers', 'application', 'job']);
         } else {
-            $query->where('type', 'contact');
+            $query->whereNotIn('type', ['careers', 'application', 'job']);
         }
 
         // Search filter
@@ -35,7 +36,9 @@ class ContactMessageController extends Controller
             $query->where(function ($q) use ($searchTerm) {
                 $q->where('name', 'like', "%$searchTerm%")
                     ->orWhere('email', 'like', "%$searchTerm%")
+                    ->orWhere('phone', 'like', "%$searchTerm%")
                     ->orWhere('subject', 'like', "%$searchTerm%")
+                    ->orWhere('technology', 'like', "%$searchTerm%")
                     ->orWhere('message', 'like', "%$searchTerm%")
                     ->orWhere('url', 'like', "%$searchTerm%");
             });
@@ -53,10 +56,14 @@ class ContactMessageController extends Controller
         $messages = $query->latestFirst()->paginate(10)->withQueryString();
 
         // Stats (overall filtered by current view)
+        $typeCondition = $isApp
+            ? fn ($q) => $q->whereIn('type', ['careers', 'application', 'job'])
+            : fn ($q) => $q->whereNotIn('type', ['careers', 'application', 'job']);
+
         $stats = [
-            'total' => ($filter === 'application') ? ContactMessage::where('type', '!=', 'contact')->count() : ContactMessage::where('type', 'contact')->count(),
-            'unread' => ($filter === 'application') ? ContactMessage::where('type', '!=', 'contact')->where('status', 'unread')->count() : ContactMessage::where('type', 'contact')->where('status', 'unread')->count(),
-            'read' => ($filter === 'application') ? ContactMessage::where('type', '!=', 'contact')->where('status', 'read')->count() : ContactMessage::where('type', 'contact')->where('status', 'read')->count(),
+            'total' => $typeCondition(ContactMessage::query())->count(),
+            'unread' => $typeCondition(ContactMessage::query())->where('status', 'unread')->count(),
+            'read' => $typeCondition(ContactMessage::query())->where('status', 'read')->count(),
         ];
 
         // Tab counts (filtered)

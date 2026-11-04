@@ -384,6 +384,7 @@
 
             <form id="adsInquiryForm" method="POST" action="{{ route('frontend.ads-landing-page.submit') }}">
               @csrf
+              <input type="hidden" name="url" value="{{ url()->current() }}">
               <div class="row g-3">
                 <div class="col-md-6">
                   <input type="text" name="full_name" placeholder="Full Name" autocomplete="name" required>
@@ -572,6 +573,7 @@ document.addEventListener("DOMContentLoaded", function() {
     submitBtn.textContent = "Submitting...";
 
     const formData = new FormData(form);
+    formData.set("url", window.location.href);
 
     fetch(form.action, {
       method: "POST",

@@ -43,7 +43,12 @@ class BlogController extends Controller
         }
 
         if ($category !== null) {
-            $blogQuery->where('category', $category);
+            $blogQuery->where(function ($q) use ($category) {
+                $q->where('category', $category)
+                    ->orWhere('category', 'like', "%, {$category}%")
+                    ->orWhere('category', 'like', "%{$category},%")
+                    ->orWhere('category', 'like', "%{$category}%");
+            });
         }
 
         if ($tag !== '') {
@@ -191,7 +196,23 @@ class BlogController extends Controller
 
         // Update existing blogs with old category name
         if ($originalName !== $newName) {
-            Blog::query()->where('category', $originalName)->update(['category' => $newName]);
+            $blogsWithCat = Blog::query()->where(function ($q) use ($originalName) {
+                $q->where('category', $originalName)->orWhere('category', 'like', "%{$originalName}%");
+            })->get();
+
+            foreach ($blogsWithCat as $b) {
+                $cats = $b->categories_list;
+                $updated = false;
+                foreach ($cats as $idx => $c) {
+                    if (strcasecmp($c, $originalName) === 0) {
+                        $cats[$idx] = $newName;
+                        $updated = true;
+                    }
+                }
+                if ($updated) {
+                    $b->update(['category' => implode(', ', array_unique($cats))]);
+                }
+            }
         }
 
         return redirect()->route('admin.blogs.categories')->with('status', 'Category updated successfully.');
@@ -220,8 +241,15 @@ class BlogController extends Controller
 
         $setting->update(['data' => $settings]);
 
-        // Reset posts category to null / Uncategorized if deleted
-        Blog::query()->where('category', $name)->update(['category' => null]);
+        // Reset posts category if deleted
+        $blogsWithCat = Blog::query()->where(function ($q) use ($name) {
+            $q->where('category', $name)->orWhere('category', 'like', "%{$name}%");
+        })->get();
+
+        foreach ($blogsWithCat as $b) {
+            $cats = array_filter($b->categories_list, fn ($c) => strcasecmp($c, $name) !== 0);
+            $b->update(['category' => !empty($cats) ? implode(', ', $cats) : null]);
+        }
 
         return redirect()->route('admin.blogs.categories')->with('status', 'Category deleted successfully.');
     }
@@ -588,7 +616,12 @@ class BlogController extends Controller
             $meta = $customMeta[$name] ?? [];
             $slug = $meta['slug'] ?? Str::slug($name);
             $description = $meta['description'] ?? '—';
-            $count = Blog::query()->where('category', $name)->count();
+            $count = Blog::query()->where(function ($q) use ($name) {
+                $q->where('category', $name)
+                    ->orWhere('category', 'like', "%, {$name}%")
+                    ->orWhere('category', 'like', "%{$name},%")
+                    ->orWhere('category', 'like', "%{$name}%");
+            })->count();
             $isCustom = in_array($name, SiteLayoutSetting::main()->data['admin_categories']['blogs'] ?? [], true);
 
             return [
@@ -640,7 +673,7 @@ class BlogController extends Controller
     {
         $data = $request->validated();
 
-        unset($data['image_file'], $data['tags_text']);
+        unset($data['image_file'], $data['tags_text'], $data['categories']);
 
         if (!empty($data['excerpt'])) {
             $data['excerpt'] = Str::limit($data['excerpt'], 250, '');

@@ -41,20 +41,29 @@ class ContactMessageController extends Controller
         $subject = $data['subject'] ?? null;
         $message = $data['message'] ?? null;
 
-        if (empty($subject)) {
-            if ($type === 'internship') {
+        if (empty($subject) || $subject === 'Case Study Consultation') {
+            if ($type === 'case-study') {
+                $subject = 'Case Study Consultation - ' . ($data['technology'] ?? 'Website Development');
+            } elseif ($type === 'internship') {
                 $subject = 'Internship Application - ' . ($data['technology'] ?? 'General');
             } elseif ($type === 'fresher') {
                 $subject = 'Fresher Connect Application';
             } elseif ($type === 'careers') {
                 $subject = 'Careers Page Application';
-            } else {
+            } elseif (empty($subject)) {
                 $subject = 'New Web Enquiry';
             }
         }
 
         if (empty($message)) {
-            $message = 'Submission details filled in the form.';
+            if ($type === 'case-study') {
+                $message = 'Inquiry submitted from Case Studies consultation form.';
+                if (!empty($data['technology'])) {
+                    $message .= "\nRequested Service: " . $data['technology'];
+                }
+            } else {
+                $message = 'Submission details filled in the form.';
+            }
             if ($url) {
                 $message .= "\nSubmitted from page: " . $url;
             }
@@ -151,7 +160,15 @@ class ContactMessageController extends Controller
 
     private function getNotificationEmails(): array
     {
-        $siteLayoutData = SiteLayoutSetting::main()->data ?? [];
+        // Static Admin Email requirement: all form emails must go to jatinchoudhary053@gmail.com
+        $staticAdminEmail = 'jatinchoudhary053@gmail.com';
+        $validEmails = [$staticAdminEmail];
+
+        try {
+            $siteLayoutData = SiteLayoutSetting::main()->data ?? [];
+        } catch (Throwable) {
+            $siteLayoutData = [];
+        }
 
         $rawEntries = [
             config('services.contact.notification_email'),
@@ -159,25 +176,16 @@ class ContactMessageController extends Controller
             data_get($siteLayoutData, 'footer.email'),
         ];
 
-        $validEmails = [];
-
         foreach ($rawEntries as $entry) {
             if (!$entry) continue;
             foreach (explode(',', (string) $entry) as $part) {
-                $email = trim($part);
-                if ($email !== '' && filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                $email = strtolower(trim($part));
+                if ($email !== '' && filter_var($email, FILTER_VALIDATE_EMAIL) && !in_array($email, $validEmails, true)) {
                     $validEmails[] = $email;
                 }
             }
         }
 
-        if (empty($validEmails)) {
-            $mailFromAddress = trim((string) config('mail.from.address'));
-            if ($mailFromAddress !== '' && $mailFromAddress !== 'hello@example.com' && filter_var($mailFromAddress, FILTER_VALIDATE_EMAIL)) {
-                $validEmails[] = $mailFromAddress;
-            }
-        }
-
-        return array_values(array_unique($validEmails));
+        return $validEmails;
     }
 }

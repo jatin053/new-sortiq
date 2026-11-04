@@ -51,7 +51,18 @@
                             </div>
                         </td>
                         <td>
-                            @if($blog['category'])
+                            @php
+                                $tableCats = $blog->categories_list;
+                            @endphp
+                            @if(count($tableCats) > 0)
+                                <div style="display: flex; flex-wrap: wrap; gap: 4px;">
+                                    @foreach($tableCats as $c)
+                                        <a href="{{ route('admin.blogs.index', ['category' => $c]) }}" class="cat-link-badge">
+                                            {{ $c }}
+                                        </a>
+                                    @endforeach
+                                </div>
+                            @elseif($blog['category'])
                                 <a href="{{ route('admin.blogs.index', ['category' => $blog['category']]) }}" class="cat-link-badge">
                                     {{ $blog['category'] }}
                                 </a>

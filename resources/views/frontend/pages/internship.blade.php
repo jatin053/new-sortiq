@@ -45,7 +45,10 @@
                 <div class="internship-form-shell">
                     <div class="internship-form-panel">
 
-                        <form class="internship-application-form" method="post" action="{{ route('api.internship-applications.store') }}">
+                        <form class="internship-application-form" method="post" action="{{ route('api.internship-applications.store') }}" enctype="multipart/form-data">
+                            @csrf
+                            <input type="hidden" name="type" value="internship">
+                            <input type="hidden" name="url" value="{{ url()->current() }}">
                             <!-- Name -->
                             <div class="custom-field">
                                 <span class="field-icon">

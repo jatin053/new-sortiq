@@ -6,9 +6,11 @@ use App\Models\InternshipApplication;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Address;
+use Illuminate\Mail\Mailables\Attachment;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Storage;
 
 class InternshipApplicationNotification extends Mailable
 {
@@ -25,8 +27,10 @@ class InternshipApplicationNotification extends Mailable
             $replyTo[] = new Address($this->application->email, $this->application->name ?: '');
         }
 
+        $domain = $this->application->technology ?: 'General';
+
         return new Envelope(
-            subject: 'New Internship Application Received',
+            subject: "[INTERNSHIP] New Application: {$this->application->name} - {$domain}",
             replyTo: $replyTo,
         );
     }
@@ -40,12 +44,25 @@ class InternshipApplicationNotification extends Mailable
 
     public function attachments(): array
     {
-        if ($this->application->resume && \Illuminate\Support\Facades\Storage::disk('public')->exists($this->application->resume)) {
-            return [
-                \Illuminate\Mail\Mailables\Attachment::fromStorageDisk('public', $this->application->resume),
-            ];
+        $attachments = [];
+        $filePath = $this->application->resume ?: ($this->application->attachment ?? null);
+
+        if (!empty($filePath)) {
+            if (Storage::disk('public')->exists($filePath)) {
+                $attachments[] = Attachment::fromStorageDisk('public', $filePath);
+            } else {
+                $absPath = storage_path('app/public/' . ltrim($filePath, '/'));
+                if (is_file($absPath)) {
+                    $attachments[] = Attachment::fromPath($absPath);
+                } else {
+                    $pubPath = public_path(ltrim($filePath, '/'));
+                    if (is_file($pubPath)) {
+                        $attachments[] = Attachment::fromPath($pubPath);
+                    }
+                }
+            }
         }
 
-        return [];
+        return $attachments;
     }
 }

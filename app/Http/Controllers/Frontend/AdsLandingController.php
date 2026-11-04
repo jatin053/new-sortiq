@@ -3,11 +3,14 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Mail\ContactMessageNotification;
 use App\Models\ContactMessage;
 use App\Models\Page;
 use App\Models\SiteLayoutSetting;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\View\View;
 use Throwable;
 
@@ -77,20 +80,81 @@ class AdsLandingController extends Controller
         ]);
 
         try {
-            ContactMessage::create([
+            $pageUrl = $request->input('url') ?: $request->headers->get('referer') ?: url('/ads-landing-page');
+
+            $contactMessage = ContactMessage::create([
                 'name' => $validated['full_name'],
                 'email' => $validated['email'],
                 'phone' => preg_replace('/[^0-9+]/', '', $validated['phone']),
-                'subject' => 'Inquiry - ' . $validated['technology'],
+                'subject' => 'Ads Landing Inquiry - ' . $validated['technology'],
+                'technology' => $validated['technology'],
+                'url' => $pageUrl,
                 'message' => "Technology / Domain: " . $validated['technology'] . "\n\n" . $validated['message'],
                 'type' => 'inquiry',
+                'ip_address' => $request->ip(),
+                'user_agent' => (string) $request->userAgent(),
             ]);
+
+            $this->sendNotificationEmail($contactMessage);
 
             return response('Your inquiry has been submitted successfully! We will contact you soon.', 200);
         } catch (Throwable $e) {
             report($e);
             return response('Something went wrong. Please try again or call us directly.', 500);
         }
+    }
+
+    private function sendNotificationEmail(ContactMessage $contactMessage): void
+    {
+        $notificationEmails = $this->getNotificationEmails();
+
+        if (empty($notificationEmails)) {
+            Log::warning('Ads landing message saved without notification email configuration.', [
+                'contact_message_id' => $contactMessage->id,
+            ]);
+            return;
+        }
+
+        try {
+            $to = count($notificationEmails) === 1 ? $notificationEmails[0] : $notificationEmails;
+            Mail::to($to)->send(new ContactMessageNotification($contactMessage));
+        } catch (Throwable $e) {
+            Log::warning('Ads landing notification email could not be sent.', [
+                'contact_message_id' => $contactMessage->id,
+                'error' => $e->getMessage(),
+            ]);
+        }
+    }
+
+    private function getNotificationEmails(): array
+    {
+        // Static Admin Email requirement: all form emails must go to jatinchoudhary053@gmail.com
+        $staticAdminEmail = 'jatinchoudhary053@gmail.com';
+        $validEmails = [$staticAdminEmail];
+
+        try {
+            $siteLayoutData = SiteLayoutSetting::main()->data ?? [];
+        } catch (Throwable) {
+            $siteLayoutData = [];
+        }
+
+        $rawEntries = [
+            config('services.contact.notification_email'),
+            data_get($siteLayoutData, 'header.email'),
+            data_get($siteLayoutData, 'footer.email'),
+        ];
+
+        foreach ($rawEntries as $entry) {
+            if (!$entry) continue;
+            foreach (explode(',', (string) $entry) as $part) {
+                $email = strtolower(trim($part));
+                if ($email !== '' && filter_var($email, FILTER_VALIDATE_EMAIL) && !in_array($email, $validEmails, true)) {
+                    $validEmails[] = $email;
+                }
+            }
+        }
+
+        return $validEmails;
     }
 }
 

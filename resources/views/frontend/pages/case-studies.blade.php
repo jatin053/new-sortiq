@@ -589,6 +589,8 @@
         <form id="caseStudyInquiryForm" method="POST" action="{{ route('api.contact-messages.store') }}">
           @csrf
           <input type="hidden" name="type" value="case-study">
+          <input type="hidden" name="subject" value="Case Study Consultation">
+          <input type="hidden" name="url" value="{{ url()->current() }}">
 
           <div class="cs-form-grid">
             <div class="cs-field" style="margin-bottom: 0;">
@@ -689,6 +691,7 @@ document.addEventListener("DOMContentLoaded", function() {
     submitBtn.innerHTML = "<span>Sending Enquiry...</span>";
 
     const formData = new FormData(form);
+    formData.set("url", window.location.href);
 
     fetch(form.action, {
       method: "POST",
@@ -706,7 +709,12 @@ document.addEventListener("DOMContentLoaded", function() {
         form.reset();
       } else {
         feedback.className = "cs-form-feedback error";
-        feedback.innerHTML = "❌ " + (data.message || "Please complete all required fields and try again.");
+        let errMsg = data.message || "Please complete all required fields and try again.";
+        if (data.errors && typeof data.errors === 'object') {
+          const firstErr = Object.values(data.errors).flat()[0];
+          if (firstErr) errMsg = firstErr;
+        }
+        feedback.innerHTML = "❌ " + errMsg;
       }
     })
     .catch(() => {

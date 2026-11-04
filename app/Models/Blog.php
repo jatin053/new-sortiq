@@ -74,6 +74,31 @@ class Blog extends Model
         return LocalMedia::url($this->image) ?: (str_starts_with((string) $this->image, 'http') ? $this->image : null);
     }
 
+    public function getCategoriesListAttribute(): array
+    {
+        if (is_array($this->category)) {
+            return $this->category;
+        }
+
+        if (empty($this->category)) {
+            return [];
+        }
+
+        if (str_starts_with(trim($this->category), '[') && str_ends_with(trim($this->category), ']')) {
+            $decoded = json_decode($this->category, true);
+            if (is_array($decoded)) {
+                return array_values(array_filter(array_map('trim', $decoded)));
+            }
+        }
+
+        return array_values(array_filter(array_map('trim', explode(',', (string) $this->category))));
+    }
+
+    public function hasCategory(string $categoryName): bool
+    {
+        return in_array(mb_strtolower(trim($categoryName)), array_map('mb_strtolower', $this->categories_list), true);
+    }
+
     public static function cleanupDuplicateSlugs(): void
     {
         try {

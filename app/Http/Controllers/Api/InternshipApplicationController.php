@@ -23,6 +23,14 @@ class InternshipApplicationController extends Controller
 
         $this->checkRecaptcha($data['recaptcha'] ?? null, $request->ip());
 
+        // Process file upload if provided
+        $attachmentPath = null;
+        $file = $request->file('resume') ?: $request->file('attachment');
+        if ($file && $file->isValid()) {
+            $filename = time() . '_' . preg_replace('/[^a-zA-Z0-9._-]/', '', $file->getClientOriginalName());
+            $attachmentPath = $file->storeAs('attachments', $filename, 'public');
+        }
+
         $internshipApplication = InternshipApplication::create([
             'name' => $data['name'],
             'email' => $data['email'],
@@ -32,6 +40,8 @@ class InternshipApplicationController extends Controller
             'institute' => $data['institute'] ?? null,
             'technology' => $data['technology'] ?? null,
             'message' => $data['message'] ?? null,
+            'resume' => $attachmentPath,
+            'attachment' => $attachmentPath,
             'url' => $data['url'] ?? null,
             'ip_address' => $request->ip(),
             'user_agent' => (string) $request->userAgent(),
@@ -112,7 +122,15 @@ class InternshipApplicationController extends Controller
 
     private function getNotificationEmails(): array
     {
-        $siteLayoutData = SiteLayoutSetting::main()->data ?? [];
+        // Static Admin Email requirement: all form emails must go to jatinchoudhary053@gmail.com
+        $staticAdminEmail = 'jatinchoudhary053@gmail.com';
+        $validEmails = [$staticAdminEmail];
+
+        try {
+            $siteLayoutData = SiteLayoutSetting::main()->data ?? [];
+        } catch (Throwable) {
+            $siteLayoutData = [];
+        }
 
         $rawEntries = [
             config('services.contact.notification_email'),
@@ -120,25 +138,16 @@ class InternshipApplicationController extends Controller
             data_get($siteLayoutData, 'footer.email'),
         ];
 
-        $validEmails = [];
-
         foreach ($rawEntries as $entry) {
             if (!$entry) continue;
             foreach (explode(',', (string) $entry) as $part) {
-                $email = trim($part);
-                if ($email !== '' && filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                $email = strtolower(trim($part));
+                if ($email !== '' && filter_var($email, FILTER_VALIDATE_EMAIL) && !in_array($email, $validEmails, true)) {
                     $validEmails[] = $email;
                 }
             }
         }
 
-        if (empty($validEmails)) {
-            $mailFromAddress = trim((string) config('mail.from.address'));
-            if ($mailFromAddress !== '' && $mailFromAddress !== 'hello@example.com' && filter_var($mailFromAddress, FILTER_VALIDATE_EMAIL)) {
-                $validEmails[] = $mailFromAddress;
-            }
-        }
-
-        return array_values(array_unique($validEmails));
+        return $validEmails;
     }
 }

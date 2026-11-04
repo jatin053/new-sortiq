@@ -11,6 +11,13 @@
             $content = old('content', $blog['content']);
             $image = old('image', $blog['image']);
             $categoryValue = old('category', $blog['category']);
+            $selectedCategories = old('categories', $blog->categories_list);
+            if (empty($selectedCategories) && !empty($categoryValue)) {
+                $selectedCategories = array_values(array_filter(array_map('trim', explode(',', (string) $categoryValue))));
+            }
+            if (!is_array($selectedCategories)) {
+                $selectedCategories = (array) $selectedCategories;
+            }
             $publishedAt = old('published_at', $blog->published_at?->format('Y-m-d'));
             $excerpt = old('excerpt', $blog['excerpt']);
         @endphp
@@ -1134,20 +1141,299 @@
                             @enderror
                         </div>
 
-                        <label>
-                            Category
-                            <select name="category" class="@error('category') is-invalid @enderror">
-                                <option value="">Select category</option>
-                                @foreach ($categories as $category)
-                                    <option value="{{ $category }}" @selected($categoryValue === $category)>
-                                        {{ $category }}
-                                    </option>
-                                @endforeach
-                            </select>
+                        {{-- Multi-Category Manager --}}
+                        <div class="multi-cat-container" id="multiCatContainer" style="position: relative; margin-bottom: 16px;">
+                            <label style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; font-size: 13px; font-weight: 600; color: #1e293b;">
+                                <span>Category <small style="font-weight: 400; color: #64748b;">(Select multiple)</small></span>
+                                <span id="multiCatSelectedCountBadge" style="font-size: 11px; font-weight: 600; color: #2563eb; background: #eff6ff; padding: 2px 8px; border-radius: 12px; border: 1px solid #bfdbfe;">
+                                    {{ count($selectedCategories) }} selected
+                                </span>
+                            </label>
+
+                            {{-- Hidden input for backward compatibility --}}
+                            <input type="hidden" name="category" id="multiCategoryHiddenInput" value="{{ implode(', ', $selectedCategories) }}">
+
+                            {{-- Dropdown Trigger Box --}}
+                            <div id="multiCatTrigger" tabindex="0" role="combobox" aria-expanded="false" aria-haspopup="listbox" style="display: flex; flex-wrap: wrap; align-items: center; gap: 6px; min-height: 42px; padding: 6px 36px 6px 10px; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 6px; cursor: pointer; position: relative; user-select: none; transition: border-color 0.15s ease, box-shadow 0.15s ease;">
+                                <div id="multiCatPillsContainer" style="display: flex; flex-wrap: wrap; gap: 5px; align-items: center; flex: 1;">
+                                    @forelse ($selectedCategories as $cat)
+                                        <span class="multi-cat-pill" data-cat="{{ $cat }}" style="display: inline-flex; align-items: center; gap: 4px; background: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe; font-size: 12px; font-weight: 600; padding: 2px 8px; border-radius: 4px;">
+                                            <span>{{ $cat }}</span>
+                                            <span class="multi-cat-remove-btn" data-cat="{{ $cat }}" style="display: inline-flex; align-items: center; justify-content: center; width: 14px; height: 14px; border-radius: 50%; color: #60a5fa; font-size: 14px; line-height: 1; cursor: pointer;" title="Remove">&times;</span>
+                                        </span>
+                                    @empty
+                                        <span id="multiCatPlaceholder" style="color: #94a3b8; font-size: 13px;">Select categories...</span>
+                                    @endforelse
+                                </div>
+                                <span style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); pointer-events: none; color: #64748b; display: inline-flex; align-items: center;">
+                                    <svg id="multiCatArrowIcon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="transition: transform 0.2s ease;">
+                                        <polyline points="6 9 12 15 18 9"></polyline>
+                                    </svg>
+                                </span>
+                            </div>
+
+                            {{-- Dropdown Panel --}}
+                            <div id="multiCatDropdown" style="display: none; position: absolute; top: calc(100% + 4px); left: 0; right: 0; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.12), 0 8px 10px -6px rgba(0,0,0,0.08); z-index: 1050; padding: 10px; max-height: 290px; flex-direction: column;">
+                                {{-- Search Input --}}
+                                <div style="position: relative; margin-bottom: 8px;">
+                                    <input type="text" id="multiCatSearchInput" placeholder="Search categories..." style="width: 100%; box-sizing: border-box; padding: 6px 10px 6px 28px; font-size: 12.5px; border: 1px solid #cbd5e1; border-radius: 5px; outline: none;">
+                                    <span style="position: absolute; left: 8px; top: 50%; transform: translateY(-50%); color: #94a3b8; pointer-events: none; display: flex;">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                                    </span>
+                                </div>
+
+                                {{-- Quick Actions --}}
+                                <div style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 6px; margin-bottom: 6px; border-bottom: 1px solid #f1f5f9; font-size: 11.5px;">
+                                    <span style="color: #64748b;">Options:</span>
+                                    <div style="display: flex; gap: 8px;">
+                                        <button type="button" id="multiCatSelectAllBtn" style="background: none; border: none; padding: 0; color: #2563eb; font-size: 11.5px; font-weight: 600; cursor: pointer;">Select All</button>
+                                        <span style="color: #cbd5e1;">|</span>
+                                        <button type="button" id="multiCatClearAllBtn" style="background: none; border: none; padding: 0; color: #ef4444; font-size: 11.5px; font-weight: 600; cursor: pointer;">Clear All</button>
+                                    </div>
+                                </div>
+
+                                {{-- Scrollable Checkbox List --}}
+                                <div id="multiCatList" style="overflow-y: auto; max-height: 180px; display: flex; flex-direction: column; gap: 2px;">
+                                    @foreach ($categories as $category)
+                                        <label class="multi-cat-item-row" data-cat-name="{{ strtolower($category) }}" style="display: flex; align-items: center; gap: 9px; padding: 7px 8px; border-radius: 5px; cursor: pointer; user-select: none; transition: background 0.12s ease;">
+                                            <input type="checkbox" name="categories[]" value="{{ $category }}" class="multi-cat-checkbox" @checked(in_array($category, $selectedCategories, true)) style="width: 16px; height: 16px; accent-color: #2563eb; cursor: pointer; margin: 0;">
+                                            <span style="font-size: 13px; font-weight: 500; color: #1e293b; flex: 1;">{{ $category }}</span>
+                                        </label>
+                                    @endforeach
+                                    <div id="multiCatNoMatch" style="display: none; padding: 12px; text-align: center; color: #94a3b8; font-size: 12px;">No matching categories found</div>
+                                </div>
+                            </div>
+
                             @error('category')
-                                <span class="field-error">{{ $message }}</span>
+                                <span class="field-error" style="display: block; margin-top: 4px;">{{ $message }}</span>
                             @enderror
-                        </label>
+                            @error('categories')
+                                <span class="field-error" style="display: block; margin-top: 4px;">{{ $message }}</span>
+                            @enderror
+
+                            <style>
+                                .multi-cat-item-row:hover {
+                                    background-color: #f1f5f9;
+                                }
+                                .multi-cat-pill:hover {
+                                    background-color: #dbeafe !important;
+                                }
+                                #multiCatTrigger:focus {
+                                    border-color: #2563eb !important;
+                                    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15) !important;
+                                    outline: none;
+                                }
+                            </style>
+
+                            <script>
+                            (function initBlogMultiCategorySelector() {
+                                function setup() {
+                                    var container = document.getElementById('multiCatContainer');
+                                    if (!container) return;
+
+                                    var trigger = document.getElementById('multiCatTrigger');
+                                    var dropdown = document.getElementById('multiCatDropdown');
+                                    var pillsContainer = document.getElementById('multiCatPillsContainer');
+                                    var countBadge = document.getElementById('multiCatSelectedCountBadge');
+                                    var hiddenInput = document.getElementById('multiCategoryHiddenInput');
+                                    var searchInput = document.getElementById('multiCatSearchInput');
+                                    var selectAllBtn = document.getElementById('multiCatSelectAllBtn');
+                                    var clearAllBtn = document.getElementById('multiCatClearAllBtn');
+                                    var arrowIcon = document.getElementById('multiCatArrowIcon');
+                                    var rows = container.querySelectorAll('.multi-cat-item-row');
+                                    var checkboxes = container.querySelectorAll('.multi-cat-checkbox');
+                                    var noMatch = document.getElementById('multiCatNoMatch');
+
+                                    function isOpen() {
+                                        return dropdown.style.display === 'flex';
+                                    }
+
+                                    function setOpen(open) {
+                                        if (open) {
+                                            dropdown.style.display = 'flex';
+                                            trigger.setAttribute('aria-expanded', 'true');
+                                            trigger.style.borderColor = '#2563eb';
+                                            trigger.style.boxShadow = '0 0 0 3px rgba(37, 99, 235, 0.15)';
+                                            if (arrowIcon) arrowIcon.style.transform = 'rotate(180deg)';
+                                            if (searchInput) {
+                                                searchInput.value = '';
+                                                filterRows('');
+                                                setTimeout(function() { searchInput.focus(); }, 50);
+                                            }
+                                        } else {
+                                            dropdown.style.display = 'none';
+                                            trigger.setAttribute('aria-expanded', 'false');
+                                            trigger.style.borderColor = '#cbd5e1';
+                                            trigger.style.boxShadow = 'none';
+                                            if (arrowIcon) arrowIcon.style.transform = 'rotate(0deg)';
+                                        }
+                                    }
+
+                                    function filterRows(query) {
+                                        var q = query.trim().toLowerCase();
+                                        var matched = 0;
+                                        rows.forEach(function(row) {
+                                            var name = row.getAttribute('data-cat-name') || '';
+                                            if (!q || name.indexOf(q) !== -1) {
+                                                row.style.display = 'flex';
+                                                matched++;
+                                            } else {
+                                                row.style.display = 'none';
+                                            }
+                                        });
+                                        if (noMatch) {
+                                            noMatch.style.display = matched === 0 ? 'block' : 'none';
+                                        }
+                                    }
+
+                                    function updateState() {
+                                        var selected = [];
+                                        checkboxes.forEach(function(cb) {
+                                            if (cb.checked) {
+                                                selected.push(cb.value);
+                                            }
+                                        });
+
+                                        if (countBadge) {
+                                            countBadge.textContent = selected.length + ' selected';
+                                        }
+
+                                        if (hiddenInput) {
+                                            hiddenInput.value = selected.join(', ');
+                                        }
+
+                                        pillsContainer.innerHTML = '';
+                                        if (selected.length === 0) {
+                                            var placeholder = document.createElement('span');
+                                            placeholder.id = 'multiCatPlaceholder';
+                                            placeholder.style.color = '#94a3b8';
+                                            placeholder.style.fontSize = '13px';
+                                            placeholder.textContent = 'Select categories...';
+                                            pillsContainer.appendChild(placeholder);
+                                        } else {
+                                            selected.forEach(function(cat) {
+                                                var pill = document.createElement('span');
+                                                pill.className = 'multi-cat-pill';
+                                                pill.setAttribute('data-cat', cat);
+                                                pill.style.display = 'inline-flex';
+                                                pill.style.alignItems = 'center';
+                                                pill.style.gap = '4px';
+                                                pill.style.background = '#eff6ff';
+                                                pill.style.color = '#1d4ed8';
+                                                pill.style.border = '1px solid #bfdbfe';
+                                                pill.style.fontSize = '12px';
+                                                pill.style.fontWeight = '600';
+                                                pill.style.padding = '2px 8px';
+                                                pill.style.borderRadius = '4px';
+
+                                                var textSpan = document.createElement('span');
+                                                textSpan.textContent = cat;
+
+                                                var removeBtn = document.createElement('span');
+                                                removeBtn.className = 'multi-cat-remove-btn';
+                                                removeBtn.setAttribute('data-cat', cat);
+                                                removeBtn.style.display = 'inline-flex';
+                                                removeBtn.style.alignItems = 'center';
+                                                removeBtn.style.justifyContent = 'center';
+                                                removeBtn.style.width = '14px';
+                                                removeBtn.style.height = '14px';
+                                                removeBtn.style.borderRadius = '50%';
+                                                removeBtn.style.color = '#60a5fa';
+                                                removeBtn.style.fontSize = '14px';
+                                                removeBtn.style.lineHeight = '1';
+                                                removeBtn.style.cursor = 'pointer';
+                                                removeBtn.innerHTML = '&times;';
+                                                removeBtn.title = 'Remove';
+
+                                                pill.appendChild(textSpan);
+                                                pill.appendChild(removeBtn);
+                                                pillsContainer.appendChild(pill);
+                                            });
+                                        }
+                                    }
+
+                                    trigger.addEventListener('click', function(e) {
+                                        if (e.target.closest('.multi-cat-remove-btn')) {
+                                            var catToRemove = e.target.closest('.multi-cat-remove-btn').getAttribute('data-cat');
+                                            if (catToRemove) {
+                                                checkboxes.forEach(function(cb) {
+                                                    if (cb.value === catToRemove) {
+                                                        cb.checked = false;
+                                                    }
+                                                });
+                                                updateState();
+                                            }
+                                            e.stopPropagation();
+                                            return;
+                                        }
+                                        setOpen(!isOpen());
+                                    });
+
+                                    trigger.addEventListener('keydown', function(e) {
+                                        if (e.key === 'Enter' || e.key === ' ') {
+                                            e.preventDefault();
+                                            setOpen(!isOpen());
+                                        } else if (e.key === 'Escape') {
+                                            setOpen(false);
+                                        }
+                                    });
+
+                                    if (searchInput) {
+                                        searchInput.addEventListener('input', function() {
+                                            filterRows(this.value);
+                                        });
+                                        searchInput.addEventListener('keydown', function(e) {
+                                            if (e.key === 'Escape') {
+                                                setOpen(false);
+                                                trigger.focus();
+                                            }
+                                        });
+                                    }
+
+                                    checkboxes.forEach(function(cb) {
+                                        cb.addEventListener('change', function() {
+                                            updateState();
+                                        });
+                                    });
+
+                                    if (selectAllBtn) {
+                                        selectAllBtn.addEventListener('click', function(e) {
+                                            e.preventDefault();
+                                            rows.forEach(function(row) {
+                                                if (row.style.display !== 'none') {
+                                                    var cb = row.querySelector('.multi-cat-checkbox');
+                                                    if (cb) cb.checked = true;
+                                                }
+                                            });
+                                            updateState();
+                                        });
+                                    }
+
+                                    if (clearAllBtn) {
+                                        clearAllBtn.addEventListener('click', function(e) {
+                                            e.preventDefault();
+                                            checkboxes.forEach(function(cb) {
+                                                cb.checked = false;
+                                            });
+                                            updateState();
+                                        });
+                                    }
+
+                                    document.addEventListener('click', function(e) {
+                                        if (!container.contains(e.target)) {
+                                            setOpen(false);
+                                        }
+                                    });
+                                }
+
+                                if (document.readyState === 'loading') {
+                                    document.addEventListener('DOMContentLoaded', setup);
+                                } else {
+                                    setup();
+                                }
+                            })();
+                            </script>
+                        </div>
 
                         <label>
                             Tags

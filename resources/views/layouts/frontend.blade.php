@@ -276,7 +276,10 @@
 
           <h3 class="fresher-connect-title">Lets'Connect</h3>
 
-          <form class="fresher-connect-form" enctype="multipart/form-data">
+          <form class="fresher-connect-form" method="post" action="{{ route('api.fresher-hirings.store') }}" enctype="multipart/form-data">
+            @csrf
+            <input type="hidden" name="type" value="fresher">
+            <input type="hidden" name="url" value="{{ url()->current() }}">
             <input type="hidden" name="country_code" value="+91">
 
             <div class="fresher-connect-grid">

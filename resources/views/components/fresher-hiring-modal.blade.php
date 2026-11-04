@@ -429,9 +429,10 @@
             </div>
 
             <!-- Form -->
-            <form action="#" method="POST" enctype="multipart/form-data" class="fresher-connect-form space-y-4">
-
+            <form action="{{ route('api.fresher-hirings.store') }}" method="POST" enctype="multipart/form-data" class="fresher-connect-form space-y-4">
                 @csrf
+                <input type="hidden" name="type" value="fresher">
+                <input type="hidden" name="url" value="{{ url()->current() }}">
 
                 <!-- Row -->
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">

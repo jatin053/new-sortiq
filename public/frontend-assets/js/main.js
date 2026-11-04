@@ -399,7 +399,7 @@ const serializeContactForm = (form) => {
   }
 
   // Always append the current page URL
-  data.append("url", window.location.href);
+  data.set("url", window.location.href);
 
   // Append recaptcha token
   data.append("recaptcha", getRecaptchaToken(form) || "");

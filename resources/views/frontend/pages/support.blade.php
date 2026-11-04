@@ -783,7 +783,10 @@
         </h2>
       </div>
 
-      <form class="ask-form">
+      <form class="ask-form sortiq-contact-form" method="post" action="{{ route('api.contact-messages.store') }}">
+        @csrf
+        <input type="hidden" name="type" value="support">
+        <input type="hidden" name="url" value="{{ url()->current() }}">
         <div class="ask-form-row">
           <div class="ask-form-group">
             <label class="ask-form-label">Your name</label>
