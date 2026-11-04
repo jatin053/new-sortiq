@@ -120,6 +120,14 @@ class SeoPageCatalog
                 keywords: 'Best IT Company in Mohali, IT Company Mohali, IT services Mohali, software company Mohali, web development Mohali'
             ),
             self::page(
+                section: 'Landing Pages',
+                label: 'Ads Landing Page',
+                routeName: 'frontend.ads-landing-page',
+                title: 'Inquiry | Sortiq Solutions Pvt Ltd',
+                description: 'Web Development, Design & Digital Marketing Services - Scalable Digital Solutions for USA, Canada, UK, Australia & Israel',
+                keywords: 'Web Development, Design, Digital Marketing, Sortiq Solutions, Scalable Digital Solutions'
+            ),
+            self::page(
                 section: 'Company Pages',
                 label: 'FAQ',
                 routeName: 'frontend.faq',

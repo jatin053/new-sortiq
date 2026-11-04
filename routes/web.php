@@ -74,7 +74,8 @@ Route::view('/privacy', 'frontend.pages.privacy-policy');
 
 Route::view('/contact', 'frontend.pages.contact')->name('frontend.contact');
 Route::view('/contact-us', 'frontend.pages.contact');
-Route::view('/ads-landing-page', 'frontend.pages.contact');
+Route::get('/ads-landing-page', [\App\Http\Controllers\Frontend\AdsLandingController::class, 'show'])->name('frontend.ads-landing-page');
+Route::post('/ads-landing-page/submit', [\App\Http\Controllers\Frontend\AdsLandingController::class, 'submit'])->name('frontend.ads-landing-page.submit');
 
 // Service Pages (Direct Canonical and Alias Routes)
 Route::view('/website-development-services', 'frontend.services.web')->name('frontend.services.web');

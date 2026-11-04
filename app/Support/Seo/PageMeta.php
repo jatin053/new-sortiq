@@ -207,7 +207,7 @@ class PageMeta
             'privacy' => 'frontend.privacy-policy',
             'contact' => 'frontend.contact',
             'contact-us' => 'frontend.contact',
-            'ads-landing-page' => 'frontend.contact',
+            'ads-landing-page' => 'frontend.ads-landing-page',
             'reviews' => 'frontend.reviews',
             'reviews-old' => 'frontend.reviews',
             'reviews-latest' => 'frontend.reviews',
