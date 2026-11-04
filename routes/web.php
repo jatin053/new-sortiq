@@ -279,6 +279,7 @@ Route::prefix('sortiqadmin')->name('admin.')->group(function () use ($registerAd
         $registerAdminResourceRoutes('blogs', 'blogs', BlogController::class, 'blog');
         Route::post('/blogs/{blog}/toggle-status', [BlogController::class, 'toggleStatus'])->name('blogs.toggle-status');
         Route::post('/blogs/{blog}/update-slug', [BlogController::class, 'updateSlug'])->name('blogs.update-slug');
+        Route::delete('/blogs/{blog}/delete-image', [BlogController::class, 'deleteImage'])->name('blogs.delete-image');
 
         // Portfolio Management
         Route::get('/portfolios/categories', [AdminPortfolioController::class, 'categories'])->name('portfolios.categories');

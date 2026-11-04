@@ -65,6 +65,7 @@ class BlogRequest extends FormRequest
                 Rule::unique('blogs', 'slug')->ignore($blogId),
             ],
             'image' => ['nullable', 'string', 'max:255'],
+            'delete_image' => ['nullable'],
             'image_file' => ['nullable', 'file', 'mimes:webp,png,jpg,jpeg', 'max:4096'],
             'category' => ['nullable', 'string', 'max:100'],
             'excerpt' => ['nullable', 'string'],

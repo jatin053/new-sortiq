@@ -468,6 +468,19 @@ class BlogController extends Controller
         return back()->with('status', "\"{$blog->title}\" status changed to {$statusLabel}.");
     }
 
+    public function deleteImage(Blog $blog): JsonResponse
+    {
+        if ($blog->image) {
+            \App\Support\LocalMedia::deleteUploadedFile($blog->image);
+            $blog->update(['image' => null]);
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Featured image deleted successfully.',
+        ]);
+    }
+
     public function updateSlug(Request $request, $blog): JsonResponse
     {
         $blogModel = null;
@@ -633,8 +646,10 @@ class BlogController extends Controller
             $data['excerpt'] = Str::limit($data['excerpt'], 250, '');
         }
 
+        $deleteImage = $request->boolean('delete_image') || $request->input('delete_image') === '1' || $request->input('delete_image') === 1;
+
         if ($request->hasFile('image_file')) {
-            if ($blog) {
+            if ($blog && $blog->image) {
                 \App\Support\LocalMedia::deleteUploadedFile($blog->image);
             }
 
@@ -643,6 +658,11 @@ class BlogController extends Controller
                 'uploads/blogs',
                 $request->input('title', 'blog-image')
             );
+        } elseif ($deleteImage) {
+            if ($blog && $blog->image) {
+                \App\Support\LocalMedia::deleteUploadedFile($blog->image);
+            }
+            $data['image'] = null;
         } elseif ($blog) {
             $data['image'] = $blog->image;
         }

@@ -904,6 +904,117 @@
                             });
                         }
                     })();
+
+                    // Blog Featured Image Preview & Delete Manager
+                    (function initBlogFeaturedImageManager() {
+                        var fileInput = document.getElementById('blogImageFileInput');
+                        var newPreviewCard = document.getElementById('newBlogImagePreviewCard');
+                        var newPreviewImg = document.getElementById('newBlogImagePreviewImg');
+                        var newPreviewName = document.getElementById('newBlogImageName');
+                        var btnCancelNew = document.getElementById('btnCancelNewImage');
+                        var currentCard = document.getElementById('currentBlogImageCard');
+                        var btnDeleteCurrent = document.getElementById('btnDeleteBlogImage');
+                        var hiddenImageInput = document.getElementById('blogCurrentHiddenImage');
+                        var deleteFlagInput = document.getElementById('inputDeleteBlogImage');
+                        var wrapper = document.getElementById('blogFeaturedImageWrapper');
+                        var deleteUrl = @json($blog->exists ? route('admin.blogs.delete-image', $blog) : '');
+                        var csrfToken = @json(csrf_token());
+
+                        // Handle New File Selection Preview
+                        if (fileInput) {
+                            fileInput.addEventListener('change', function() {
+                                if (fileInput.files && fileInput.files[0]) {
+                                    var file = fileInput.files[0];
+                                    if (!file.type.match('image.*')) {
+                                        alert('Please select a valid image file (WebP, PNG, JPG).');
+                                        fileInput.value = '';
+                                        return;
+                                    }
+
+                                    var reader = new FileReader();
+                                    reader.onload = function(e) {
+                                        if (newPreviewImg) newPreviewImg.src = e.target.result;
+                                        if (newPreviewName) newPreviewName.textContent = file.name + ' (' + (file.size / 1024).toFixed(1) + ' KB)';
+                                        if (newPreviewCard) newPreviewCard.style.display = 'block';
+                                        if (deleteFlagInput) deleteFlagInput.value = '0';
+                                    };
+                                    reader.readAsDataURL(file);
+                                } else {
+                                    if (newPreviewCard) newPreviewCard.style.display = 'none';
+                                }
+                            });
+                        }
+
+                        // Cancel New File Selection
+                        if (btnCancelNew) {
+                            btnCancelNew.addEventListener('click', function() {
+                                if (fileInput) fileInput.value = '';
+                                if (newPreviewCard) newPreviewCard.style.display = 'none';
+                                if (newPreviewImg) newPreviewImg.src = '';
+                            });
+                        }
+
+                        // Handle Delete Current Image
+                        if (btnDeleteCurrent) {
+                            btnDeleteCurrent.addEventListener('click', function() {
+                                if (!confirm('Are you sure you want to permanently delete this image from the database and storage?')) {
+                                    return;
+                                }
+
+                                btnDeleteCurrent.disabled = true;
+                                btnDeleteCurrent.innerHTML = '<iconify-icon icon="lucide:loader" width="14" height="14" class="animate-spin"></iconify-icon> <span>Deleting...</span>';
+
+                                if (deleteUrl) {
+                                    fetch(deleteUrl, {
+                                        method: 'DELETE',
+                                        headers: {
+                                            'X-CSRF-TOKEN': csrfToken,
+                                            'Accept': 'application/json',
+                                            'Content-Type': 'application/json'
+                                        }
+                                    })
+                                    .then(function(res) {
+                                        return res.json().then(function(data) {
+                                            return { status: res.status, data: data };
+                                        });
+                                    })
+                                    .then(function(res) {
+                                        if (res.status === 200 && res.data && res.data.success) {
+                                            if (currentCard) currentCard.remove();
+                                            if (hiddenImageInput) hiddenImageInput.value = '';
+                                            if (deleteFlagInput) deleteFlagInput.value = '1';
+
+                                            var successNotice = document.createElement('div');
+                                            successNotice.style = 'font-size: 12px; color: #16a34a; background: #dcfce7; border: 1px solid #86efac; border-radius: 6px; padding: 7px 10px; margin-bottom: 10px; font-weight: 600; display: flex; align-items: center; gap: 5px;';
+                                            successNotice.innerHTML = '<iconify-icon icon="lucide:check-circle" width="15" height="15"></iconify-icon> Image permanently deleted from database.';
+                                            if (wrapper && fileInput) {
+                                                wrapper.insertBefore(successNotice, fileInput);
+                                                setTimeout(function() {
+                                                    successNotice.style.transition = 'opacity 0.5s';
+                                                    successNotice.style.opacity = '0';
+                                                    setTimeout(function() { successNotice.remove(); }, 500);
+                                                }, 5000);
+                                            }
+                                        } else {
+                                            alert((res.data && res.data.message) || 'Error deleting image.');
+                                            btnDeleteCurrent.disabled = false;
+                                            btnDeleteCurrent.innerHTML = '<iconify-icon icon="lucide:trash-2" width="14" height="14"></iconify-icon> <span>Delete Image</span>';
+                                        }
+                                    })
+                                    .catch(function(err) {
+                                        alert('Network error while deleting image.');
+                                        btnDeleteCurrent.disabled = false;
+                                        btnDeleteCurrent.innerHTML = '<iconify-icon icon="lucide:trash-2" width="14" height="14"></iconify-icon> <span>Delete Image</span>';
+                                    });
+                                } else {
+                                    // New unsaved post
+                                    if (currentCard) currentCard.remove();
+                                    if (hiddenImageInput) hiddenImageInput.value = '';
+                                    if (deleteFlagInput) deleteFlagInput.value = '1';
+                                }
+                            });
+                        }
+                    })();
                 })();
                 </script>
 
@@ -961,26 +1072,67 @@
                 <div class="meta-box">
                     <div class="meta-title">Blog Details</div>
                     <div class="meta-body review-fields blog-fields">
-                        <label>
-                            Featured Image
-                            <input type="hidden" name="image" value="{{ $image }}">
+                        <div class="form-group blog-featured-image-wrapper" id="blogFeaturedImageWrapper" style="margin-bottom: 16px;">
+                            <label style="display: block; font-weight: 600; margin-bottom: 6px; color: #1e293b; font-size: 13px;">Featured Image</label>
+                            <input type="hidden" name="image" id="blogCurrentHiddenImage" value="{{ $image }}">
+                            <input type="hidden" name="delete_image" id="inputDeleteBlogImage" value="0">
+
+                            {{-- Current Image Display (if exists) --}}
+                            @if (!empty($blog['image']))
+                                <div id="currentBlogImageCard" style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 10px; margin-bottom: 10px;">
+                                    <div style="font-size: 11px; font-weight: 700; text-transform: uppercase; color: #64748b; letter-spacing: 0.5px; margin-bottom: 6px;">Current Image</div>
+                                    <div style="position: relative; max-width: 100%; border-radius: 6px; overflow: hidden; background: #0b132b; text-align: center; margin-bottom: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.08);">
+                                        <img 
+                                            id="currentBlogImageImg"
+                                            src="{{ $blog->image_url }}" 
+                                            alt="{{ $blog->title ?: 'Featured image' }}" 
+                                            style="max-width: 100%; max-height: 180px; width: auto; height: auto; object-fit: contain; display: block; margin: 0 auto; border-radius: 4px;"
+                                        >
+                                    </div>
+                                    <div style="font-size: 11px; color: #64748b; word-break: break-all; margin-bottom: 8px; line-height: 1.4;">
+                                        File: <strong style="color: #334155;">{{ $blog['image'] }}</strong>
+                                    </div>
+                                    <button 
+                                        type="button" 
+                                        id="btnDeleteBlogImage"
+                                        style="display: inline-flex; align-items: center; gap: 5px; padding: 6px 12px; font-size: 12px; font-weight: 600; color: #b91c1c; background: #fee2e2; border: 1px solid rgba(185, 28, 28, 0.25); border-radius: 6px; cursor: pointer; transition: all 0.15s ease;"
+                                        onmouseover="this.style.background='#fecaca'"
+                                        onmouseout="this.style.background='#fee2e2'"
+                                    >
+                                        <iconify-icon icon="lucide:trash-2" width="14" height="14"></iconify-icon>
+                                        <span>Delete Image</span>
+                                    </button>
+                                </div>
+                            @endif
+
+                            {{-- Live Preview for newly selected file --}}
+                            <div id="newBlogImagePreviewCard" style="display: none; background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 8px; padding: 10px; margin-bottom: 10px;">
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                                    <span style="font-size: 11px; font-weight: 700; text-transform: uppercase; color: #1d4ed8; letter-spacing: 0.5px;">New Image Selected</span>
+                                    <button type="button" id="btnCancelNewImage" style="background: none; border: none; color: #64748b; font-size: 11px; font-weight: 600; cursor: pointer; text-decoration: underline;">Cancel</button>
+                                </div>
+                                <div style="position: relative; max-width: 100%; border-radius: 6px; overflow: hidden; background: #0f172a; text-align: center; margin-bottom: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.08);">
+                                    <img id="newBlogImagePreviewImg" src="" alt="New preview" style="max-width: 100%; max-height: 180px; width: auto; height: auto; object-fit: contain; display: block; margin: 0 auto; border-radius: 4px;">
+                                </div>
+                                <div id="newBlogImageName" style="font-size: 11px; color: #1e40af; word-break: break-all;"></div>
+                            </div>
+
+                            {{-- File Upload Input --}}
                             <input
+                                id="blogImageFileInput"
                                 class="@error('image_file') is-invalid @enderror"
                                 name="image_file"
                                 type="file"
-                                accept="image/webp,image/png,image/jpeg"
+                                accept="image/webp,image/png,image/jpeg,image/jpg"
+                                style="width: 100%;"
                             >
-                            <span class="field-help">Upload a local blog image. The current image stays in place until you replace it.</span>
+                            <span class="field-help" style="display: block; margin-top: 4px; font-size: 11px; color: #64748b;">
+                                Upload a local blog image (WebP, PNG, JPG). Replaces existing image on save.
+                            </span>
                             @error('image_file')
                                 <span class="field-error">{{ $message }}</span>
                             @enderror
-                        </label>
-
-                        @if ($blog->image_url)
-                            <p class="current-logo-path">
-                                Current file: <strong>{{ $blog['image'] }}</strong>
-                            </p>
-                        @endif
+                        </div>
 
                         <label>
                             Category

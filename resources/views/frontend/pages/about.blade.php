@@ -1096,11 +1096,11 @@
 
           <h2 class="sq-heading sq-line">About Us</h2>
 
-          <p>At Sortiq Solutions Pvt. Ltd., innovation, excellence and customer success are at the heart of everything we do. We work closely with our clients to have an in-depth understanding of their business challenges and deliver tailored<a href="/"> IT solutions</a> that add significant value. With a strong foundation of providing IT services since 2016, our approach goes beyond technologyâ€”we believe in ethics, transparency and responsibility, ensuring our work positively impacts both businesses and the people they serve.
+          <p>At Sortiq Solutions Pvt. Ltd., innovation, excellence and customer success are at the heart of everything we do. We work closely with our clients to have an in-depth understanding of their business challenges and deliver tailored<a href="/"> IT solutions</a> that add significant value. With a strong foundation of providing IT services since 2016, our approach goes beyond technology we believe in ethics, transparency and responsibility, ensuring our work positively impacts both businesses and the people they serve.
 
           <br> Our approach goes beyond technology, we believe in ethics, transparency and responsibility ensuring our work positively impacts both businesses and the people they serve.
 
-By consistently delivering reliable, high-quality solutions, we focus on building long-term partnerships rather than one-time projects. We stay ahead of emerging technologies to help businesses confidently navigate digital transformation, improve operational efficiency, and secure scalability. Our team has vast industry experience in designing tailor-made, future-proof solutions that grow with our clientsâ€™ needs to foster sustainable development.</p>
+By consistently delivering reliable, high-quality solutions, we focus on building long-term partnerships rather than one-time projects. We stay ahead of emerging technologies to help businesses confidently navigate digital transformation, improve operational efficiency, and secure scalability. Our team has vast industry experience in designing tailor-made, future-proof solutions that grow with our clients needs to foster sustainable development.</p>
 
         </div>
 
