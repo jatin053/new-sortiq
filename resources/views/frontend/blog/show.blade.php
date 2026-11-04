@@ -42,7 +42,10 @@
         @endif
 
         @php
-          $singleCats = $blog->categories_list;
+          $singleCats = $blog->categories_list ?? [];
+          if (empty($singleCats) && !empty($blog->category)) {
+              $singleCats = is_array($blog->category) ? $blog->category : array_values(array_filter(array_map('trim', explode(',', (string) $blog->category))));
+          }
         @endphp
         @if (!empty($singleCats))
           <div class="blog-single-meta mb-3 flex items-center flex-wrap gap-2" style="margin-top: 0;">

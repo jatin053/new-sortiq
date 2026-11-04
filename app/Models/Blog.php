@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Support\LocalMedia;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 
 class Blog extends Model
@@ -72,6 +73,13 @@ class Blog extends Model
     public function getImageUrlAttribute(): ?string
     {
         return LocalMedia::url($this->image) ?: (str_starts_with((string) $this->image, 'http') ? $this->image : null);
+    }
+
+    protected function categoriesList(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->getCategoriesListAttribute()
+        );
     }
 
     public function getCategoriesListAttribute(): array

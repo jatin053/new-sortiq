@@ -10,8 +10,8 @@
             $slug = old('slug', $blog['slug']);
             $content = old('content', $blog['content']);
             $image = old('image', $blog['image']);
-            $categoryValue = old('category', $blog['category']);
-            $selectedCategories = old('categories', $blog->categories_list);
+            $categoryValue = old('category', $blog['category'] ?? ($blog->category ?? null));
+            $selectedCategories = old('categories', $blog->categories_list ?? []);
             if (empty($selectedCategories) && !empty($categoryValue)) {
                 $selectedCategories = array_values(array_filter(array_map('trim', explode(',', (string) $categoryValue))));
             }
@@ -1142,63 +1142,71 @@
                         </div>
 
                         {{-- Multi-Category Manager --}}
-                        <div class="multi-cat-container" id="multiCatContainer" style="position: relative; margin-bottom: 16px;">
-                            <label style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; font-size: 13px; font-weight: 600; color: #1e293b;">
-                                <span>Category <small style="font-weight: 400; color: #64748b;">(Select multiple)</small></span>
-                                <span id="multiCatSelectedCountBadge" style="font-size: 11px; font-weight: 600; color: #2563eb; background: #eff6ff; padding: 2px 8px; border-radius: 12px; border: 1px solid #bfdbfe;">
-                                    {{ count($selectedCategories) }} selected
+                        <div class="multi-cat-container" id="multiCatContainer">
+                            <div class="multi-cat-header">
+                                <span class="multi-cat-header-title">Category <small>(Multi-select)</small></span>
+                                <span id="multiCatSelectedCountBadge" class="multi-cat-header-badge">
+                                    {{ !empty($selectedCategories) ? count($selectedCategories) : 0 }} selected
                                 </span>
-                            </label>
+                            </div>
 
                             {{-- Hidden input for backward compatibility --}}
-                            <input type="hidden" name="category" id="multiCategoryHiddenInput" value="{{ implode(', ', $selectedCategories) }}">
+                            <input type="hidden" name="category" id="multiCategoryHiddenInput" value="{{ is_array($selectedCategories) ? implode(', ', $selectedCategories) : '' }}">
 
                             {{-- Dropdown Trigger Box --}}
-                            <div id="multiCatTrigger" tabindex="0" role="combobox" aria-expanded="false" aria-haspopup="listbox" style="display: flex; flex-wrap: wrap; align-items: center; gap: 6px; min-height: 42px; padding: 6px 36px 6px 10px; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 6px; cursor: pointer; position: relative; user-select: none; transition: border-color 0.15s ease, box-shadow 0.15s ease;">
-                                <div id="multiCatPillsContainer" style="display: flex; flex-wrap: wrap; gap: 5px; align-items: center; flex: 1;">
+                            <div id="multiCatTrigger" tabindex="0" role="combobox" aria-expanded="false" aria-haspopup="listbox">
+                                <div id="multiCatPillsContainer">
                                     @forelse ($selectedCategories as $cat)
-                                        <span class="multi-cat-pill" data-cat="{{ $cat }}" style="display: inline-flex; align-items: center; gap: 4px; background: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe; font-size: 12px; font-weight: 600; padding: 2px 8px; border-radius: 4px;">
+                                        <span class="multi-cat-pill" data-cat="{{ $cat }}">
                                             <span>{{ $cat }}</span>
-                                            <span class="multi-cat-remove-btn" data-cat="{{ $cat }}" style="display: inline-flex; align-items: center; justify-content: center; width: 14px; height: 14px; border-radius: 50%; color: #60a5fa; font-size: 14px; line-height: 1; cursor: pointer;" title="Remove">&times;</span>
+                                            <span class="multi-cat-remove-btn" data-cat="{{ $cat }}" title="Remove">&times;</span>
                                         </span>
                                     @empty
-                                        <span id="multiCatPlaceholder" style="color: #94a3b8; font-size: 13px;">Select categories...</span>
+                                        <span id="multiCatPlaceholder">Select categories...</span>
                                     @endforelse
                                 </div>
-                                <span style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); pointer-events: none; color: #64748b; display: inline-flex; align-items: center;">
-                                    <svg id="multiCatArrowIcon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="transition: transform 0.2s ease;">
+                                <span class="multi-cat-trigger-arrow">
+                                    <svg id="multiCatArrowIcon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                         <polyline points="6 9 12 15 18 9"></polyline>
                                     </svg>
                                 </span>
                             </div>
 
                             {{-- Dropdown Panel --}}
-                            <div id="multiCatDropdown" style="display: none; position: absolute; top: calc(100% + 4px); left: 0; right: 0; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.12), 0 8px 10px -6px rgba(0,0,0,0.08); z-index: 1050; padding: 10px; max-height: 290px; flex-direction: column;">
+                            <div id="multiCatDropdown">
                                 {{-- Search Input --}}
-                                <div style="position: relative; margin-bottom: 8px;">
-                                    <input type="text" id="multiCatSearchInput" placeholder="Search categories..." style="width: 100%; box-sizing: border-box; padding: 6px 10px 6px 28px; font-size: 12.5px; border: 1px solid #cbd5e1; border-radius: 5px; outline: none;">
-                                    <span style="position: absolute; left: 8px; top: 50%; transform: translateY(-50%); color: #94a3b8; pointer-events: none; display: flex;">
-                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-                                    </span>
+                                <div class="multi-cat-search-box">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                                    <input type="text" id="multiCatSearchInput" placeholder="Search categories..." autocomplete="off">
                                 </div>
 
                                 {{-- Quick Actions --}}
-                                <div style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 6px; margin-bottom: 6px; border-bottom: 1px solid #f1f5f9; font-size: 11.5px;">
-                                    <span style="color: #64748b;">Options:</span>
+                                <div class="multi-cat-options-bar">
+                                    <span>Options:</span>
                                     <div style="display: flex; gap: 8px;">
-                                        <button type="button" id="multiCatSelectAllBtn" style="background: none; border: none; padding: 0; color: #2563eb; font-size: 11.5px; font-weight: 600; cursor: pointer;">Select All</button>
+                                        <button type="button" id="multiCatSelectAllBtn">Select All</button>
                                         <span style="color: #cbd5e1;">|</span>
-                                        <button type="button" id="multiCatClearAllBtn" style="background: none; border: none; padding: 0; color: #ef4444; font-size: 11.5px; font-weight: 600; cursor: pointer;">Clear All</button>
+                                        <button type="button" id="multiCatClearAllBtn">Clear All</button>
                                     </div>
                                 </div>
 
                                 {{-- Scrollable Checkbox List --}}
-                                <div id="multiCatList" style="overflow-y: auto; max-height: 180px; display: flex; flex-direction: column; gap: 2px;">
-                                    @foreach ($categories as $category)
-                                        <label class="multi-cat-item-row" data-cat-name="{{ strtolower($category) }}" style="display: flex; align-items: center; gap: 9px; padding: 7px 8px; border-radius: 5px; cursor: pointer; user-select: none; transition: background 0.12s ease;">
-                                            <input type="checkbox" name="categories[]" value="{{ $category }}" class="multi-cat-checkbox" @checked(in_array($category, $selectedCategories, true)) style="width: 16px; height: 16px; accent-color: #2563eb; cursor: pointer; margin: 0;">
-                                            <span style="font-size: 13px; font-weight: 500; color: #1e293b; flex: 1;">{{ $category }}</span>
-                                        </label>
+                                <div class="multi-cat-list" id="multiCatList">
+                                    @foreach ($categories as $index => $category)
+                                        @php
+                                            $isChecked = in_array($category, $selectedCategories, true);
+                                        @endphp
+                                        <div class="multi-cat-row {{ $isChecked ? 'is-checked' : '' }}" data-cat-name="{{ strtolower($category) }}">
+                                            <input 
+                                                type="checkbox" 
+                                                id="cat-check-{{ $index }}" 
+                                                name="categories[]" 
+                                                value="{{ $category }}" 
+                                                class="multi-cat-checkbox"
+                                                @checked($isChecked)
+                                            >
+                                            <label for="cat-check-{{ $index }}" class="multi-cat-text-label">{{ $category }}</label>
+                                        </div>
                                     @endforeach
                                     <div id="multiCatNoMatch" style="display: none; padding: 12px; text-align: center; color: #94a3b8; font-size: 12px;">No matching categories found</div>
                                 </div>
@@ -1212,16 +1220,332 @@
                             @enderror
 
                             <style>
-                                .multi-cat-item-row:hover {
-                                    background-color: #f1f5f9;
+                                /* Multi-category Dropdown & Item Styling */
+                                .multi-cat-container {
+                                    position: relative !important;
+                                    margin-bottom: 16px !important;
+                                    width: 100% !important;
+                                    box-sizing: border-box !important;
                                 }
-                                .multi-cat-pill:hover {
-                                    background-color: #dbeafe !important;
+
+                                .multi-cat-header {
+                                    display: flex !important;
+                                    flex-direction: row !important;
+                                    justify-content: space-between !important;
+                                    align-items: center !important;
+                                    margin-bottom: 6px !important;
+                                    width: 100% !important;
                                 }
-                                #multiCatTrigger:focus {
+
+                                .multi-cat-header-title {
+                                    font-size: 12px !important;
+                                    font-weight: 700 !important;
+                                    color: var(--text, #1e293b) !important;
+                                    letter-spacing: 0.01em !important;
+                                }
+
+                                .multi-cat-header-title small {
+                                    font-weight: 400 !important;
+                                    color: #64748b !important;
+                                    font-size: 11px !important;
+                                }
+
+                                .multi-cat-header-badge {
+                                    font-size: 11px !important;
+                                    font-weight: 600 !important;
+                                    color: #2563eb !important;
+                                    background: #eff6ff !important;
+                                    padding: 1px 8px !important;
+                                    border-radius: 12px !important;
+                                    border: 1px solid #bfdbfe !important;
+                                    display: inline-block !important;
+                                    margin: 0 !important;
+                                }
+
+                                /* Trigger Box */
+                                #multiCatTrigger {
+                                    display: flex !important;
+                                    flex-direction: row !important;
+                                    flex-wrap: wrap !important;
+                                    align-items: center !important;
+                                    gap: 5px !important;
+                                    min-height: 40px !important;
+                                    padding: 6px 36px 6px 10px !important;
+                                    background: #ffffff !important;
+                                    border: 1px solid #cbd5e1 !important;
+                                    border-radius: 6px !important;
+                                    cursor: pointer !important;
+                                    position: relative !important;
+                                    box-sizing: border-box !important;
+                                    transition: all 0.15s ease !important;
+                                    width: 100% !important;
+                                    user-select: none !important;
+                                }
+
+                                #multiCatTrigger:hover {
+                                    border-color: #94a3b8 !important;
+                                }
+
+                                #multiCatTrigger:focus,
+                                #multiCatTrigger.is-open {
                                     border-color: #2563eb !important;
                                     box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15) !important;
-                                    outline: none;
+                                    outline: none !important;
+                                }
+
+                                #multiCatPillsContainer {
+                                    display: flex !important;
+                                    flex-direction: row !important;
+                                    flex-wrap: wrap !important;
+                                    gap: 5px !important;
+                                    align-items: center !important;
+                                    flex: 1 !important;
+                                    width: auto !important;
+                                }
+
+                                #multiCatPlaceholder {
+                                    color: #94a3b8 !important;
+                                    font-size: 13px !important;
+                                    display: inline-block !important;
+                                    margin: 0 !important;
+                                }
+
+                                .multi-cat-trigger-arrow {
+                                    position: absolute !important;
+                                    right: 12px !important;
+                                    top: 50% !important;
+                                    transform: translateY(-50%) !important;
+                                    pointer-events: none !important;
+                                    color: #64748b !important;
+                                    display: inline-flex !important;
+                                    align-items: center !important;
+                                    justify-content: center !important;
+                                }
+
+                                #multiCatArrowIcon {
+                                    transition: transform 0.2s ease !important;
+                                }
+
+                                /* Badges / Pills */
+                                .multi-cat-pill {
+                                    display: inline-flex !important;
+                                    flex-direction: row !important;
+                                    align-items: center !important;
+                                    gap: 4px !important;
+                                    background: #eff6ff !important;
+                                    color: #1d4ed8 !important;
+                                    border: 1px solid #bfdbfe !important;
+                                    font-size: 12px !important;
+                                    font-weight: 600 !important;
+                                    padding: 2px 7px !important;
+                                    border-radius: 4px !important;
+                                    line-height: 1.3 !important;
+                                    margin: 0 !important;
+                                }
+
+                                .multi-cat-pill:hover {
+                                    background: #dbeafe !important;
+                                }
+
+                                .multi-cat-pill span {
+                                    display: inline !important;
+                                    margin: 0 !important;
+                                    padding: 0 !important;
+                                }
+
+                                .multi-cat-pill .multi-cat-remove-btn {
+                                    display: inline-flex !important;
+                                    align-items: center !important;
+                                    justify-content: center !important;
+                                    width: 14px !important;
+                                    height: 14px !important;
+                                    border-radius: 50% !important;
+                                    color: #3b82f6 !important;
+                                    font-size: 13px !important;
+                                    line-height: 1 !important;
+                                    cursor: pointer !important;
+                                }
+
+                                .multi-cat-pill .multi-cat-remove-btn:hover {
+                                    background: #bfdbfe !important;
+                                    color: #1e3a8a !important;
+                                }
+
+                                /* Dropdown Panel */
+                                #multiCatDropdown {
+                                    display: none;
+                                    position: absolute !important;
+                                    top: calc(100% + 4px) !important;
+                                    left: 0 !important;
+                                    right: 0 !important;
+                                    background: #ffffff !important;
+                                    border: 1px solid #cbd5e1 !important;
+                                    border-radius: 8px !important;
+                                    box-shadow: 0 10px 25px -5px rgba(0,0,0,0.12), 0 8px 10px -6px rgba(0,0,0,0.08) !important;
+                                    z-index: 1050 !important;
+                                    padding: 10px !important;
+                                    box-sizing: border-box !important;
+                                    flex-direction: column !important;
+                                    width: 100% !important;
+                                }
+
+                                /* Search Box */
+                                .multi-cat-search-box {
+                                    position: relative !important;
+                                    margin-bottom: 8px !important;
+                                    width: 100% !important;
+                                    box-sizing: border-box !important;
+                                }
+
+                                .multi-cat-search-box svg {
+                                    position: absolute !important;
+                                    left: 9px !important;
+                                    top: 50% !important;
+                                    transform: translateY(-50%) !important;
+                                    color: #94a3b8 !important;
+                                    pointer-events: none !important;
+                                }
+
+                                #multiCatSearchInput {
+                                    width: 100% !important;
+                                    box-sizing: border-box !important;
+                                    padding: 6px 10px 6px 30px !important;
+                                    font-size: 12.5px !important;
+                                    border: 1px solid #cbd5e1 !important;
+                                    border-radius: 5px !important;
+                                    outline: none !important;
+                                    height: 32px !important;
+                                    background: #f8fafc !important;
+                                    color: #1e293b !important;
+                                    margin: 0 !important;
+                                }
+
+                                #multiCatSearchInput:focus {
+                                    background: #ffffff !important;
+                                    border-color: #2563eb !important;
+                                    box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.1) !important;
+                                }
+
+                                /* Options Bar */
+                                .multi-cat-options-bar {
+                                    display: flex !important;
+                                    flex-direction: row !important;
+                                    justify-content: space-between !important;
+                                    align-items: center !important;
+                                    padding: 0 2px 6px 2px !important;
+                                    margin-bottom: 6px !important;
+                                    border-bottom: 1px solid #f1f5f9 !important;
+                                    font-size: 11.5px !important;
+                                    color: #64748b !important;
+                                    width: 100% !important;
+                                    box-sizing: border-box !important;
+                                }
+
+                                .multi-cat-options-bar button {
+                                    background: none !important;
+                                    border: none !important;
+                                    padding: 0 !important;
+                                    font-size: 11.5px !important;
+                                    font-weight: 600 !important;
+                                    cursor: pointer !important;
+                                    text-decoration: none !important;
+                                }
+
+                                #multiCatSelectAllBtn {
+                                    color: #2563eb !important;
+                                }
+                                #multiCatSelectAllBtn:hover {
+                                    text-decoration: underline !important;
+                                }
+
+                                #multiCatClearAllBtn {
+                                    color: #ef4444 !important;
+                                }
+                                #multiCatClearAllBtn:hover {
+                                    text-decoration: underline !important;
+                                }
+
+                                /* Scrollable Category List */
+                                .multi-cat-list {
+                                    overflow-y: auto !important;
+                                    max-height: 190px !important;
+                                    display: flex !important;
+                                    flex-direction: column !important;
+                                    gap: 2px !important;
+                                    width: 100% !important;
+                                    box-sizing: border-box !important;
+                                    padding: 0 !important;
+                                    margin: 0 !important;
+                                }
+
+                                .multi-cat-list::-webkit-scrollbar {
+                                    width: 5px;
+                                }
+                                .multi-cat-list::-webkit-scrollbar-thumb {
+                                    background: #cbd5e1;
+                                    border-radius: 4px;
+                                }
+
+                                /* The Row: ALWAYS horizontal flex-direction row */
+                                .multi-cat-row {
+                                    display: flex !important;
+                                    flex-direction: row !important;
+                                    align-items: center !important;
+                                    justify-content: flex-start !important;
+                                    gap: 10px !important;
+                                    padding: 7px 9px !important;
+                                    border-radius: 5px !important;
+                                    cursor: pointer !important;
+                                    user-select: none !important;
+                                    transition: background-color 0.12s ease !important;
+                                    width: 100% !important;
+                                    box-sizing: border-box !important;
+                                    margin: 0 !important;
+                                }
+
+                                .multi-cat-row:hover {
+                                    background-color: #f1f5f9 !important;
+                                }
+
+                                .multi-cat-row.is-checked {
+                                    background-color: #eff6ff !important;
+                                }
+
+                                /* The Checkbox: horizontal, aligned */
+                                .multi-cat-row input[type="checkbox"],
+                                .multi-cat-row .multi-cat-checkbox {
+                                    width: 16px !important;
+                                    height: 16px !important;
+                                    min-width: 16px !important;
+                                    max-width: 16px !important;
+                                    accent-color: #2563eb !important;
+                                    cursor: pointer !important;
+                                    margin: 0 !important;
+                                    padding: 0 !important;
+                                    display: inline-block !important;
+                                    flex-shrink: 0 !important;
+                                    vertical-align: middle !important;
+                                }
+
+                                /* The Label Text: horizontal next to checkbox */
+                                .multi-cat-row label.multi-cat-text-label {
+                                    display: inline-block !important;
+                                    flex: 1 !important;
+                                    font-family: inherit !important;
+                                    font-size: 13px !important;
+                                    font-weight: 500 !important;
+                                    color: #1e293b !important;
+                                    cursor: pointer !important;
+                                    margin: 0 !important;
+                                    padding: 0 !important;
+                                    text-align: left !important;
+                                    line-height: 1.4 !important;
+                                    white-space: normal !important;
+                                }
+
+                                .multi-cat-row.is-checked label.multi-cat-text-label {
+                                    color: #1d4ed8 !important;
+                                    font-weight: 600 !important;
                                 }
                             </style>
 
@@ -1240,7 +1564,7 @@
                                     var selectAllBtn = document.getElementById('multiCatSelectAllBtn');
                                     var clearAllBtn = document.getElementById('multiCatClearAllBtn');
                                     var arrowIcon = document.getElementById('multiCatArrowIcon');
-                                    var rows = container.querySelectorAll('.multi-cat-item-row');
+                                    var rows = container.querySelectorAll('.multi-cat-row');
                                     var checkboxes = container.querySelectorAll('.multi-cat-checkbox');
                                     var noMatch = document.getElementById('multiCatNoMatch');
 
@@ -1251,9 +1575,8 @@
                                     function setOpen(open) {
                                         if (open) {
                                             dropdown.style.display = 'flex';
+                                            trigger.classList.add('is-open');
                                             trigger.setAttribute('aria-expanded', 'true');
-                                            trigger.style.borderColor = '#2563eb';
-                                            trigger.style.boxShadow = '0 0 0 3px rgba(37, 99, 235, 0.15)';
                                             if (arrowIcon) arrowIcon.style.transform = 'rotate(180deg)';
                                             if (searchInput) {
                                                 searchInput.value = '';
@@ -1262,9 +1585,8 @@
                                             }
                                         } else {
                                             dropdown.style.display = 'none';
+                                            trigger.classList.remove('is-open');
                                             trigger.setAttribute('aria-expanded', 'false');
-                                            trigger.style.borderColor = '#cbd5e1';
-                                            trigger.style.boxShadow = 'none';
                                             if (arrowIcon) arrowIcon.style.transform = 'rotate(0deg)';
                                         }
                                     }
@@ -1289,8 +1611,12 @@
                                     function updateState() {
                                         var selected = [];
                                         checkboxes.forEach(function(cb) {
+                                            var parentRow = cb.closest('.multi-cat-row');
                                             if (cb.checked) {
                                                 selected.push(cb.value);
+                                                if (parentRow) parentRow.classList.add('is-checked');
+                                            } else {
+                                                if (parentRow) parentRow.classList.remove('is-checked');
                                             }
                                         });
 
@@ -1306,8 +1632,6 @@
                                         if (selected.length === 0) {
                                             var placeholder = document.createElement('span');
                                             placeholder.id = 'multiCatPlaceholder';
-                                            placeholder.style.color = '#94a3b8';
-                                            placeholder.style.fontSize = '13px';
                                             placeholder.textContent = 'Select categories...';
                                             pillsContainer.appendChild(placeholder);
                                         } else {
@@ -1315,16 +1639,6 @@
                                                 var pill = document.createElement('span');
                                                 pill.className = 'multi-cat-pill';
                                                 pill.setAttribute('data-cat', cat);
-                                                pill.style.display = 'inline-flex';
-                                                pill.style.alignItems = 'center';
-                                                pill.style.gap = '4px';
-                                                pill.style.background = '#eff6ff';
-                                                pill.style.color = '#1d4ed8';
-                                                pill.style.border = '1px solid #bfdbfe';
-                                                pill.style.fontSize = '12px';
-                                                pill.style.fontWeight = '600';
-                                                pill.style.padding = '2px 8px';
-                                                pill.style.borderRadius = '4px';
 
                                                 var textSpan = document.createElement('span');
                                                 textSpan.textContent = cat;
@@ -1332,18 +1646,8 @@
                                                 var removeBtn = document.createElement('span');
                                                 removeBtn.className = 'multi-cat-remove-btn';
                                                 removeBtn.setAttribute('data-cat', cat);
-                                                removeBtn.style.display = 'inline-flex';
-                                                removeBtn.style.alignItems = 'center';
-                                                removeBtn.style.justifyContent = 'center';
-                                                removeBtn.style.width = '14px';
-                                                removeBtn.style.height = '14px';
-                                                removeBtn.style.borderRadius = '50%';
-                                                removeBtn.style.color = '#60a5fa';
-                                                removeBtn.style.fontSize = '14px';
-                                                removeBtn.style.lineHeight = '1';
-                                                removeBtn.style.cursor = 'pointer';
                                                 removeBtn.innerHTML = '&times;';
-                                                removeBtn.title = 'Remove';
+                                                removeBtn.title = 'Remove ' + cat;
 
                                                 pill.appendChild(textSpan);
                                                 pill.appendChild(removeBtn);
@@ -1352,6 +1656,20 @@
                                         }
                                     }
 
+                                    // Clicking row toggles checkbox
+                                    rows.forEach(function(row) {
+                                        row.addEventListener('click', function(e) {
+                                            if (e.target.tagName !== 'INPUT') {
+                                                var cb = row.querySelector('.multi-cat-checkbox');
+                                                if (cb) {
+                                                    cb.checked = !cb.checked;
+                                                    updateState();
+                                                }
+                                            }
+                                        });
+                                    });
+
+                                    // Trigger click
                                     trigger.addEventListener('click', function(e) {
                                         if (e.target.closest('.multi-cat-remove-btn')) {
                                             var catToRemove = e.target.closest('.multi-cat-remove-btn').getAttribute('data-cat');

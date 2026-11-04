@@ -39,7 +39,10 @@
 
             <div class="blog-card-content">
               @php
-                $cardCats = $blog->categories_list;
+                $cardCats = $blog->categories_list ?? [];
+                if (empty($cardCats) && !empty($blog->category)) {
+                    $cardCats = is_array($blog->category) ? $blog->category : array_values(array_filter(array_map('trim', explode(',', (string) $blog->category))));
+                }
               @endphp
               @if (!empty($cardCats))
                 <div class="blog-card-meta" style="display: flex; flex-wrap: wrap; gap: 4px; align-items: center;">

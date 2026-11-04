@@ -52,9 +52,25 @@
                         </td>
                         <td>
                             @php
-                                $tableCats = $blog->categories_list;
+                                $rawCat = $blog['category'] ?? ($blog->category ?? null);
+                                $tableCats = [];
+                                if (!empty($rawCat)) {
+                                    if (is_array($rawCat)) {
+                                        $tableCats = $rawCat;
+                                    } elseif (is_string($rawCat)) {
+                                        if (str_starts_with(trim($rawCat), '[') && str_ends_with(trim($rawCat), ']')) {
+                                            $decoded = json_decode($rawCat, true);
+                                            if (is_array($decoded)) {
+                                                $tableCats = array_values(array_filter(array_map('trim', $decoded)));
+                                            }
+                                        }
+                                        if (empty($tableCats)) {
+                                            $tableCats = array_values(array_filter(array_map('trim', explode(',', $rawCat))));
+                                        }
+                                    }
+                                }
                             @endphp
-                            @if(count($tableCats) > 0)
+                            @if(!empty($tableCats))
                                 <div style="display: flex; flex-wrap: wrap; gap: 4px;">
                                     @foreach($tableCats as $c)
                                         <a href="{{ route('admin.blogs.index', ['category' => $c]) }}" class="cat-link-badge">
@@ -62,9 +78,9 @@
                                         </a>
                                     @endforeach
                                 </div>
-                            @elseif($blog['category'])
-                                <a href="{{ route('admin.blogs.index', ['category' => $blog['category']]) }}" class="cat-link-badge">
-                                    {{ $blog['category'] }}
+                            @elseif(!empty($rawCat))
+                                <a href="{{ route('admin.blogs.index', ['category' => $rawCat]) }}" class="cat-link-badge">
+                                    {{ $rawCat }}
                                 </a>
                             @else
                                 <span class="muted-text">Uncategorized</span>
