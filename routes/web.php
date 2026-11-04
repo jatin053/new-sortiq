@@ -203,8 +203,9 @@ Route::get('/clients_logo/{slug}', [FrontendClientController::class, 'index']);
 Route::get('/best-it-company-in-chandigarh', [\App\Http\Controllers\Frontend\ItCompanyController::class, 'show'])->name('frontend.best-it-company-chandigarh');
 Route::get('/best-it-company-in-mohali', [\App\Http\Controllers\Frontend\ItCompanyController::class, 'mohali'])->name('frontend.best-it-company-mohali');
 Route::get('/slider-test', [FrontendHomeController::class, 'index']);
-Route::get('/certificate-authenticate', fn () => redirect()->away('https://erp.sortiqsolutions.com/certificate-verify'));
-Route::get('/certificate-verify', fn () => redirect()->away('https://erp.sortiqsolutions.com/certificate-verify'));
+Route::get('/certificate-authenticate', [\App\Http\Controllers\Frontend\CertificateController::class, 'show'])->name('frontend.certificate-authenticate');
+Route::get('/certificate-verify', fn () => redirect()->route('frontend.certificate-authenticate', [], 301));
+Route::post('/certificate-authenticate/check', [\App\Http\Controllers\Frontend\CertificateController::class, 'check'])->name('frontend.certificate-authenticate.check');
 
 // Admin Panel Routes
 Route::get('/admin', fn () => redirect()->to('/sortiqadmin'));

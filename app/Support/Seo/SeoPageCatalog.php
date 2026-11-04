@@ -129,6 +129,14 @@ class SeoPageCatalog
             ),
             self::page(
                 section: 'Company Pages',
+                label: 'Certificate Authenticate',
+                routeName: 'frontend.certificate-authenticate',
+                title: 'Certificate Authentication | Sortiq Solutions',
+                description: 'Verify Your Certificate Authenticity Instantly With Sortiq Solutions. Enter Your Certificate Details to Confirm Validity and Authenticity.',
+                keywords: 'certificate verification, verify certificate, sortiq certificate, certificate authenticity'
+            ),
+            self::page(
+                section: 'Company Pages',
                 label: 'FAQ',
                 routeName: 'frontend.faq',
                 title: 'FAQ | Sortiq Solutions Services & Support',

@@ -565,7 +565,7 @@
       <div class="w-full">
         <div class="hm-why-card">
           <div class="hm-why-icon"><img src="{{ asset('frontend-assets/media/home/why-us/custom-solutions-image.webp') }}" alt="Custom Solutions" loading="lazy" decoding="async"></div>
-          <h3>ConverDriven Development</h3>
+          <h3>Conversion-Driven Development</h3>
           <p>Our websites are designed to do more than just look good. We create user-focused, SEO-friendly content that turns visitors into paying clients.</p>
         </div>
       </div>

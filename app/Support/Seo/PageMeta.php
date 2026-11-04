@@ -208,6 +208,8 @@ class PageMeta
             'contact' => 'frontend.contact',
             'contact-us' => 'frontend.contact',
             'ads-landing-page' => 'frontend.ads-landing-page',
+            'certificate-authenticate' => 'frontend.certificate-authenticate',
+            'certificate-verify' => 'frontend.certificate-authenticate',
             'reviews' => 'frontend.reviews',
             'reviews-old' => 'frontend.reviews',
             'reviews-latest' => 'frontend.reviews',
