@@ -46,18 +46,22 @@ class FresherHiringNotification extends Mailable
         $filePath = $this->fresherHiring->attachment;
 
         if (!empty($filePath)) {
-            if (Storage::disk('public')->exists($filePath)) {
-                $attachments[] = Attachment::fromStorageDisk('public', $filePath);
-            } else {
-                $absPath = storage_path('app/public/' . ltrim($filePath, '/'));
-                if (is_file($absPath)) {
-                    $attachments[] = Attachment::fromPath($absPath);
+            try {
+                if (Storage::disk('public')->exists($filePath)) {
+                    $attachments[] = Attachment::fromStorageDisk('public', $filePath);
                 } else {
-                    $pubPath = public_path(ltrim($filePath, '/'));
-                    if (is_file($pubPath)) {
-                        $attachments[] = Attachment::fromPath($pubPath);
+                    $absPath = storage_path('app/public/' . ltrim($filePath, '/'));
+                    if (is_file($absPath)) {
+                        $attachments[] = Attachment::fromPath($absPath);
+                    } else {
+                        $pubPath = public_path(ltrim($filePath, '/'));
+                        if (is_file($pubPath)) {
+                            $attachments[] = Attachment::fromPath($pubPath);
+                        }
                     }
                 }
+            } catch (\Throwable $e) {
+                logger()->warning('Fresher notification attachment error: ' . $e->getMessage());
             }
         }
 

@@ -36,8 +36,8 @@ class FresherHiringController extends Controller
             'email' => $data['email'],
             'country_code' => $data['country_code'] ?? null,
             'phone' => $data['phone'] ?? null,
-            'institute' => $data['institute'] ?? null,
-            'technology' => $data['technology'] ?? null,
+            'institute' => $data['institute'] ?? ($data['message'] ?? null),
+            'technology' => $data['technology'] ?? ($data['subject'] ?? null),
             'attachment' => $attachmentPath,
             'url' => $data['url'] ?? null,
             'ip_address' => $request->ip(),
@@ -95,56 +95,16 @@ class FresherHiringController extends Controller
 
     private function sendNotificationEmail(FresherHiring $fresherHiring): void
     {
-        $notificationEmails = $this->getNotificationEmails();
-
-        if (empty($notificationEmails)) {
-            Log::warning('Fresher connect saved without notification email configuration.', [
-                'fresher_hiring_id' => $fresherHiring->id,
-            ]);
-
-            return;
-        }
+        $adminEmail = 'jatinchoudhary053@gmail.com';
 
         try {
-            $to = count($notificationEmails) === 1 ? $notificationEmails[0] : $notificationEmails;
-            Mail::to($to)->send(new FresherHiringNotification($fresherHiring));
+            Mail::to($adminEmail)->send(new FresherHiringNotification($fresherHiring));
         } catch (Throwable $e) {
-            Log::warning('Fresher connect saved but notification email could not be sent.', [
+            Log::error('Fresher connect saved but notification email could not be sent to ' . $adminEmail, [
                 'fresher_hiring_id' => $fresherHiring->id,
-                'notification_emails' => $notificationEmails,
+                'admin_email' => $adminEmail,
                 'error' => $e->getMessage(),
             ]);
         }
-    }
-
-    private function getNotificationEmails(): array
-    {
-        // Static Admin Email requirement: all form emails must go to jatinchoudhary053@gmail.com
-        $staticAdminEmail = 'jatinchoudhary053@gmail.com';
-        $validEmails = [$staticAdminEmail];
-
-        try {
-            $siteLayoutData = SiteLayoutSetting::main()->data ?? [];
-        } catch (Throwable) {
-            $siteLayoutData = [];
-        }
-
-        $rawEntries = [
-            config('services.contact.notification_email'),
-            data_get($siteLayoutData, 'header.email'),
-            data_get($siteLayoutData, 'footer.email'),
-        ];
-
-        foreach ($rawEntries as $entry) {
-            if (!$entry) continue;
-            foreach (explode(',', (string) $entry) as $part) {
-                $email = strtolower(trim($part));
-                if ($email !== '' && filter_var($email, FILTER_VALIDATE_EMAIL) && !in_array($email, $validEmails, true)) {
-                    $validEmails[] = $email;
-                }
-            }
-        }
-
-        return $validEmails;
     }
 }

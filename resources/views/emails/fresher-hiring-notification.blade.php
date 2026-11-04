@@ -50,22 +50,6 @@
                             <!-- Highlighted Source URL Box (Always Visible) -->
                             <div style="background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%); border: 1px solid #bbf7d0; border-left: 4px solid #10b981; border-radius: 8px; padding: 14px 18px; margin-bottom: 22px;">
                                 <div style="font-size: 11px; font-weight: 700; text-transform: uppercase; color: #065f46; letter-spacing: 0.5px; margin-bottom: 4px;">
-                                    Submitted From Page URL
-                                </div>
-                                <div style="font-size: 14px; font-weight: 600; word-break: break-all;">
-                                    @if($fresherHiring->url)
-                                        <a href="{{ $fresherHiring->url }}" target="_blank" rel="noopener noreferrer" style="color: #047857; text-decoration: underline;">
-                                            {{ $fresherHiring->url }}
-                                        </a>
-                                    @else
-                                        <span style="color: #64748b; font-style: italic;">Fresher Hiring Modal (Global Website)</span>
-                                    @endif
-                                </div>
-                            </div>
-
-                            <!-- Highlighted Source URL Box (Always Visible) -->
-                            <div style="background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%); border: 1px solid #bbf7d0; border-left: 4px solid #10b981; border-radius: 8px; padding: 14px 18px; margin-bottom: 22px;">
-                                <div style="font-size: 11px; font-weight: 700; text-transform: uppercase; color: #065f46; letter-spacing: 0.5px; margin-bottom: 4px;">
                                     📍 Submitted From Page URL
                                 </div>
                                 <div style="font-size: 14px; font-weight: 600; word-break: break-all;">
@@ -108,7 +92,7 @@
 
                                     @if($fresherHiring->technology)
                                     <tr>
-                                        <td style="padding: 7px 0; color: #64748b; font-weight: 500;">Technology / Domain:</td>
+                                        <td style="padding: 7px 0; color: #64748b; font-weight: 500;">Subject / Technology:</td>
                                         <td style="padding: 7px 0; color: #059669; font-weight: 700;">
                                             <span style="display: inline-block; padding: 2px 10px; background-color: #ecfdf5; border: 1px solid rgba(16, 185, 129, 0.25); border-radius: 4px;">
                                                 {{ $fresherHiring->technology }}
@@ -119,7 +103,7 @@
 
                                     @if($fresherHiring->institute)
                                     <tr>
-                                        <td style="padding: 7px 0; color: #64748b; font-weight: 500;">College / Institute:</td>
+                                        <td style="padding: 7px 0; color: #64748b; font-weight: 500;">Message / Details:</td>
                                         <td style="padding: 7px 0; color: #0f172a; font-weight: 600;">{{ $fresherHiring->institute }}</td>
                                     </tr>
                                     @endif
