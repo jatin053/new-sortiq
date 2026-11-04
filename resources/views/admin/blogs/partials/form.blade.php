@@ -136,6 +136,8 @@
                             <option value="h2">Heading 2 (H2)</option>
                             <option value="h3">Heading 3 (H3)</option>
                             <option value="h4">Heading 4 (H4)</option>
+                            <option value="h5">Heading 5 (H5)</option>
+                            <option value="h6">Heading 6 (H6)</option>
                             <option value="blockquote">Quote Block</option>
                         </select>
 
@@ -276,9 +278,17 @@
                         margin-top: 0;
                         margin-bottom: 1.15em;
                     }
+                    .blog-visual-editor h1 {
+                        font-size: 28px;
+                        font-weight: 800;
+                        margin-top: 1.8em;
+                        margin-bottom: 0.6em;
+                        color: #0f172a;
+                        line-height: 1.3;
+                    }
                     .blog-visual-editor h2 {
                         font-size: 24px;
-                        font-weight: 700;
+                        font-weight: 750;
                         margin-top: 1.6em;
                         margin-bottom: 0.6em;
                         color: #0f172a;
@@ -294,10 +304,26 @@
                     }
                     .blog-visual-editor h4 {
                         font-size: 17px;
-                        font-weight: 600;
+                        font-weight: 650;
                         margin-top: 1.2em;
                         margin-bottom: 0.4em;
                         color: #334155;
+                    }
+                    .blog-visual-editor h5 {
+                        font-size: 15px;
+                        font-weight: 600;
+                        margin-top: 1.1em;
+                        margin-bottom: 0.4em;
+                        color: #475569;
+                    }
+                    .blog-visual-editor h6 {
+                        font-size: 13.5px;
+                        font-weight: 600;
+                        text-transform: uppercase;
+                        letter-spacing: 0.04em;
+                        margin-top: 1em;
+                        margin-bottom: 0.35em;
+                        color: #64748b;
                     }
                     .blog-visual-editor ul,
                     .blog-visual-editor ol {
