@@ -278,47 +278,53 @@
                         margin-top: 0;
                         margin-bottom: 1.15em;
                     }
-                    .blog-visual-editor h1 {
-                        font-size: 28px;
-                        font-weight: 800;
+                    .blog-visual-editor h1,
+                    .blog-visual-editor h1 * {
+                        font-size: 28px !important;
+                        font-weight: 800 !important;
                         margin-top: 1.8em;
                         margin-bottom: 0.6em;
                         color: #0f172a;
                         line-height: 1.3;
                     }
-                    .blog-visual-editor h2 {
-                        font-size: 24px;
-                        font-weight: 750;
+                    .blog-visual-editor h2,
+                    .blog-visual-editor h2 * {
+                        font-size: 24px !important;
+                        font-weight: 750 !important;
                         margin-top: 1.6em;
                         margin-bottom: 0.6em;
                         color: #0f172a;
                         line-height: 1.35;
                     }
-                    .blog-visual-editor h3 {
-                        font-size: 20px;
-                        font-weight: 700;
+                    .blog-visual-editor h3,
+                    .blog-visual-editor h3 * {
+                        font-size: 20px !important;
+                        font-weight: 700 !important;
                         margin-top: 1.4em;
                         margin-bottom: 0.5em;
                         color: #1e293b;
                         line-height: 1.4;
                     }
-                    .blog-visual-editor h4 {
-                        font-size: 17px;
-                        font-weight: 650;
+                    .blog-visual-editor h4,
+                    .blog-visual-editor h4 * {
+                        font-size: 17px !important;
+                        font-weight: 650 !important;
                         margin-top: 1.2em;
                         margin-bottom: 0.4em;
                         color: #334155;
                     }
-                    .blog-visual-editor h5 {
-                        font-size: 15px;
-                        font-weight: 600;
+                    .blog-visual-editor h5,
+                    .blog-visual-editor h5 * {
+                        font-size: 15px !important;
+                        font-weight: 600 !important;
                         margin-top: 1.1em;
                         margin-bottom: 0.4em;
                         color: #475569;
                     }
-                    .blog-visual-editor h6 {
-                        font-size: 13.5px;
-                        font-weight: 600;
+                    .blog-visual-editor h6,
+                    .blog-visual-editor h6 * {
+                        font-size: 13.5px !important;
+                        font-weight: 600 !important;
                         text-transform: uppercase;
                         letter-spacing: 0.04em;
                         margin-top: 1em;
@@ -554,13 +560,24 @@
                         });
                     });
 
-                    // Format dropdown (Paragraph, H2, H3, H4, blockquote)
+                    // Format dropdown (Paragraph, H1, H2, H3, H4, H5, H6, blockquote)
                     var formatSelect = document.getElementById('editorFormatSelect');
                     if (formatSelect) {
                         formatSelect.addEventListener('change', function() {
                             var tag = this.value;
                             visual.focus();
                             document.execCommand('formatBlock', false, tag);
+                            var sel = window.getSelection();
+                            if (sel && sel.anchorNode) {
+                                var parentEl = sel.anchorNode.nodeType === 1 ? sel.anchorNode : sel.anchorNode.parentElement;
+                                var block = parentEl ? parentEl.closest('h1, h2, h3, h4, h5, h6, p, blockquote') : null;
+                                if (block) {
+                                    block.querySelectorAll('span, font, strong, b').forEach(function(child) {
+                                        child.style.fontSize = '';
+                                        child.style.fontFamily = '';
+                                    });
+                                }
+                            }
                             syncToRaw();
                         });
                     }

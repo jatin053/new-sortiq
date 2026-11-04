@@ -4,7 +4,7 @@
 @section('body_attributes') data-route="/blog" @endsection
 
 @push('head')
-  <link rel="stylesheet" href="{{ asset('frontend-assets/css/blogs.css') }}">
+  <link rel="stylesheet" href="{{ asset('frontend-assets/css/blogs.css') }}?v={{ file_exists(public_path('frontend-assets/css/blogs.css')) ? filemtime(public_path('frontend-assets/css/blogs.css')) : time() }}">
 @endpush
 
 @section('content')
