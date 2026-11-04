@@ -1,0 +1,30 @@
+# Sortiq Solutions Pvt. Ltd.
+
+> Leading Web Design, Web Development, Mobile Apps & Digital Marketing Agency based in Mohali, Punjab, India.
+
+## About Us
+Sortiq Solutions Pvt. Ltd. is an ISO-certified IT solutions and digital transformation company and certified Wix Partner. We craft cutting-edge web applications, bespoke eCommerce platforms, native and cross-platform mobile apps, and data-driven digital marketing strategies for startups, SMEs, and global enterprises.
+
+- **Website**: https://sortiqsolutions.com
+- **Headquarters**: E-51, Second Floor, Phase - 8, Industrial Area, S.A.S. Nagar, Mohali, Punjab, India - 160071
+- **Phone**: +91 78144 04047
+- **Email**: info@sortiqsolutions.com
+- **Careers**: careers@sortiqsolutions.com
+
+## Core Services
+- **Web Development**: Full-stack solutions using Laravel, PHP, React.js, Next.js, Node.js, MERN stack, Python, and WordPress.
+- **Mobile App Development**: Native iOS, Android, Flutter, and React Native mobile applications.
+- **Website Designing**: Modern UI/UX design, Figma prototyping, responsive web design, and branding.
+- **Wix & CMS Solutions**: Certified Wix Partner, Wix Studio development, Shopify, and custom CMS platforms.
+- **Digital Marketing**: Search Engine Optimization (SEO), Pay-Per-Click (PPC), Social Media Marketing (SMM), and content strategy.
+- **Generative AI & Emerging Tech**: AI integration, chatbot automation, and workflow modernization.
+
+## Key Pages
+- [Home](https://sortiqsolutions.com/)
+- [About Us / Why Us](https://sortiqsolutions.com/why-us/)
+- [Services & Expertise](https://sortiqsolutions.com/expertise/)
+- [Portfolio](https://sortiqsolutions.com/portfolios/)
+- [Clients & Partners](https://sortiqsolutions.com/clients/)
+- [Careers](https://sortiqsolutions.com/careers/)
+- [Latest Insights & Blog](https://sortiqsolutions.com/blog/)
+- [Contact Us](https://sortiqsolutions.com/contact-us/)

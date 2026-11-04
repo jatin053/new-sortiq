@@ -1,0 +1,25 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Block sensitive files
+    RewriteRule ^\.env - [F,L,NC]
+    RewriteRule ^composer\.(json|lock) - [F,L,NC]
+    RewriteRule ^package(-lock)?\.json - [F,L,NC]
+    RewriteRule ^artisan - [F,L,NC]
+
+    # Serve static assets from public/ directory
+    RewriteRule ^(frontend-assets/.*)$ public/$1 [L]
+    RewriteRule ^(css/.*)$ public/$1 [L]
+    RewriteRule ^(js/.*)$ public/$1 [L]
+    RewriteRule ^(build/.*)$ public/$1 [L]
+    RewriteRule ^(storage/.*)$ public/$1 [L]
+    RewriteRule ^(uploads/.*)$ public/$1 [L]
+    RewriteRule ^(favicon\.ico)$ public/$1 [L]
+    RewriteRule ^(robots\.txt)$ public/$1 [L]
+    RewriteRule ^(sitemap\.xsl)$ public/$1 [L]
+
+    # Send all other requests to Front Controller (index.php)
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^ index.php [L]
+</IfModule>

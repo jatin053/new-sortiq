@@ -1,0 +1,128 @@
+<?php
+
+namespace App\Models;
+
+use App\Support\LocalMedia;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
+
+class Blog extends Model
+{
+    public const CATEGORIES = [
+        'Company',
+        'Web Design',
+        'Development',
+        'Digital Marketing',
+        'Technology',
+        'News',
+    ];
+
+    protected $fillable = [
+        'title',
+        'slug',
+        'image',
+        'category',
+        'tags',
+        'excerpt',
+        'content',
+        'published_at',
+        'status',
+        'views',
+        'meta_title',
+        'meta_description',
+        'meta_keywords',
+    ];
+
+    protected function casts(): array
+    {
+        return [
+            'published_at' => 'date',
+            'views' => 'integer',
+            'tags' => 'array',
+        ];
+    }
+
+    public function getRouteKeyName(): string
+    {
+        return 'slug';
+    }
+
+    public function resolveRouteBinding($value, $field = null)
+    {
+        return $this->where($field ?? $this->getRouteKeyName(), $value)
+            ->when(is_numeric($value), fn (Builder $query) => $query->orWhere('id', (int) $value))
+            ->firstOrFail();
+    }
+
+    public function scopePublished(Builder $query): Builder
+    {
+        $query->where('status', 'published');
+
+        return $query;
+    }
+
+    public function scopeOrdered(Builder $query): Builder
+    {
+        $query->orderBy('published_at', 'desc');
+        $query->orderBy('id', 'desc');
+
+        return $query;
+    }
+
+    public function getImageUrlAttribute(): ?string
+    {
+        return LocalMedia::url($this->image) ?: (str_starts_with((string) $this->image, 'http') ? $this->image : null);
+    }
+
+    public static function cleanupDuplicateSlugs(): void
+    {
+        try {
+            $dupBlogs = static::query()->where('slug', 'like', '%-dup-%')->get();
+            foreach ($dupBlogs as $blog) {
+                $cleanSlug = preg_replace('/-dup-\d+$/', '', (string) $blog->slug);
+                if (empty($cleanSlug)) {
+                    continue;
+                }
+
+                $conflict = static::query()->where('slug', $cleanSlug)->where('id', '!=', $blog->id)->first();
+                if ($conflict) {
+                    $cleanTitleSlug = \Illuminate\Support\Str::slug($blog->title);
+                    $conflictTitleSlug = \Illuminate\Support\Str::slug($conflict->title);
+
+                    if ($cleanTitleSlug === $cleanSlug && $conflictTitleSlug !== $cleanSlug) {
+                        $targetConflict = $conflictTitleSlug ?: ('blog-' . $conflict->id);
+                        if (static::query()->where('slug', $targetConflict)->where('id', '!=', $conflict->id)->exists()) {
+                            $targetConflict = $targetConflict . '-' . $conflict->id;
+                        }
+                        $conflict->update(['slug' => $targetConflict]);
+                        $blog->update(['slug' => $cleanSlug]);
+                    } else {
+                        $target = $cleanTitleSlug ?: ('blog-' . $blog->id);
+                        if (static::query()->where('slug', $target)->where('id', '!=', $blog->id)->exists()) {
+                            $target = $target . '-' . $blog->id;
+                        }
+                        $blog->update(['slug' => $target]);
+                    }
+                } else {
+                    $blog->update(['slug' => $cleanSlug]);
+                }
+            }
+        } catch (\Throwable $e) {
+            // Silently avoid interrupting if connection is pending
+        }
+    }
+
+    protected static function booted(): void
+    {
+        static::cleanupDuplicateSlugs();
+    }
+
+    public function getPublishedLabelAttribute(): string
+    {
+        if ($this->published_at) {
+            return $this->published_at->format('Y/m/d \a\t g:i a');
+        }
+
+        return 'Not published';
+    }
+}
