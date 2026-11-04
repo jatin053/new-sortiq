@@ -361,7 +361,7 @@
   {{-- Top Floating Logo Header --}}
   <div class="site-header">
     <a href="{{ url('/') }}" aria-label="Sortiq Solutions">
-      <img src="{{ asset('frontend-assets/media/final-logo.webp') }}" alt="Sortiq Solutions">
+      <img src="{{ asset('frontend-assets/media/pages/ads-landing/ss-logo.png') }}" alt="Sortiq Solutions">
     </a>
   </div>
 
