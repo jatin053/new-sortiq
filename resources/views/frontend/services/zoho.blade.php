@@ -1,7 +1,7 @@
 @extends('layouts.frontend')
 
 @section('title', 'Zoho CRM Services - Sortiq Solutions')
-@section('body_attributes') data-route="/zoho-crm-services" @endsection
+@section('body_attributes') data-route="/zoho" @endsection
 
 @push('head')
 @include('components.service-page-styles')

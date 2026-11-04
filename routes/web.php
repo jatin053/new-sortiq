@@ -127,10 +127,10 @@ Route::view('/hubspot-crm-services', 'frontend.services.hubspot')->name('fronten
 Route::view('/services/hubspot-crm', 'frontend.services.hubspot');
 Route::view('/services/hubspot', 'frontend.services.hubspot');
 
-Route::view('/zoho-crm-services', 'frontend.services.zoho')->name('frontend.services.zoho');
-Route::view('/zoho', 'frontend.services.zoho');
-Route::view('/services/zoho-crm', 'frontend.services.zoho');
-Route::view('/services/zoho', 'frontend.services.zoho');
+Route::view('/zoho', 'frontend.services.zoho')->name('frontend.services.zoho');
+Route::redirect('/zoho-crm-services', '/zoho', 301);
+Route::redirect('/services/zoho-crm', '/zoho', 301);
+Route::redirect('/services/zoho', '/zoho', 301);
 
 Route::view('/php-development-company', 'frontend.services.php')->name('frontend.services.php');
 Route::view('/services/php-development', 'frontend.services.php');

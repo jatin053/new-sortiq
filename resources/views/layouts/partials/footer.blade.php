@@ -87,7 +87,7 @@
           <a class="sq-footer-link" href="{{ url('/website-maintenance-services') }}"><span class="sq-footer-arrow"><iconify-icon icon="lucide:chevron-right" width="12" height="12"></iconify-icon></span><span>Website Maintenance</span></a>
           <a class="sq-footer-link" href="{{ url('/cyber-security-development') }}"><span class="sq-footer-arrow"><iconify-icon icon="lucide:chevron-right" width="12" height="12"></iconify-icon></span><span>Cyber Security Development</span></a>
           <a class="sq-footer-link" href="{{ url('/hubspot-crm-services') }}"><span class="sq-footer-arrow"><iconify-icon icon="lucide:chevron-right" width="12" height="12"></iconify-icon></span><span>HubSpot CRM Services</span></a>
-          <a class="sq-footer-link" href="{{ url('/zoho-crm-services') }}"><span class="sq-footer-arrow"><iconify-icon icon="lucide:chevron-right" width="12" height="12"></iconify-icon></span><span>Zoho CRM Services</span></a>
+          <a class="sq-footer-link" href="{{ url('/zoho') }}"><span class="sq-footer-arrow"><iconify-icon icon="lucide:chevron-right" width="12" height="12"></iconify-icon></span><span>Zoho CRM Services</span></a>
         </div>
       </div>
 
