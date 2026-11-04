@@ -144,7 +144,20 @@ class BlogController extends Controller
 
         $setting = SiteLayoutSetting::main();
         $settings = $setting->data ?? [];
-        $settings['admin_categories']['blogs'][] = $name;
+
+        if (isset($settings['deleted_categories']['blogs'])) {
+            $settings['deleted_categories']['blogs'] = collect($settings['deleted_categories']['blogs'])
+                ->reject(fn ($cat) => strcasecmp($cat, $name) === 0)
+                ->values()
+                ->all();
+        }
+
+        $custom = $settings['admin_categories']['blogs'] ?? [];
+        if (!collect($custom)->contains(fn ($cat) => strcasecmp($cat, $name) === 0)) {
+            $custom[] = $name;
+        }
+        $settings['admin_categories']['blogs'] = array_values(array_unique($custom));
+
         $settings['admin_categories_meta']['blogs'][$name] = [
             'name' => $name,
             'slug' => $slug,
@@ -173,13 +186,29 @@ class BlogController extends Controller
         $settings = $setting->data ?? [];
         $customCategories = $settings['admin_categories']['blogs'] ?? [];
 
-        // Check if updating custom category or built-in
-        $isCustom = collect($customCategories)->contains(fn ($cat) => strcasecmp($cat, $originalName) === 0);
-
-        if ($isCustom) {
-            $updatedCustom = collect($customCategories)->map(fn ($cat) => strcasecmp($cat, $originalName) === 0 ? $newName : $cat)->values()->all();
-            $settings['admin_categories']['blogs'] = $updatedCustom;
+        // Check if updating built-in category
+        $isBuiltIn = collect(Blog::CATEGORIES)->contains(fn ($cat) => strcasecmp($cat, $originalName) === 0);
+        if ($isBuiltIn && strcasecmp($originalName, $newName) !== 0) {
+            $deleted = $settings['deleted_categories']['blogs'] ?? [];
+            if (!collect($deleted)->contains(fn ($cat) => strcasecmp($cat, $originalName) === 0)) {
+                $deleted[] = $originalName;
+            }
+            $settings['deleted_categories']['blogs'] = array_values(array_unique($deleted));
         }
+
+        if (isset($settings['deleted_categories']['blogs'])) {
+            $settings['deleted_categories']['blogs'] = collect($settings['deleted_categories']['blogs'])
+                ->reject(fn ($cat) => strcasecmp($cat, $newName) === 0)
+                ->values()
+                ->all();
+        }
+
+        $updatedCustom = collect($customCategories)
+            ->reject(fn ($cat) => strcasecmp($cat, $originalName) === 0)
+            ->values()
+            ->all();
+        $updatedCustom[] = $newName;
+        $settings['admin_categories']['blogs'] = array_values(array_unique($updatedCustom));
 
         if (!isset($settings['admin_categories_meta']['blogs'])) {
             $settings['admin_categories_meta']['blogs'] = [];
@@ -197,7 +226,10 @@ class BlogController extends Controller
         // Update existing blogs with old category name
         if ($originalName !== $newName) {
             $blogsWithCat = Blog::query()->where(function ($q) use ($originalName) {
-                $q->where('category', $originalName)->orWhere('category', 'like', "%{$originalName}%");
+                $q->where('category', $originalName)
+                    ->orWhere('category', 'like', "%, {$originalName}%")
+                    ->orWhere('category', 'like', "%{$originalName},%")
+                    ->orWhere('category', 'like', "%{$originalName}%");
             })->get();
 
             foreach ($blogsWithCat as $b) {
@@ -239,11 +271,21 @@ class BlogController extends Controller
             unset($settings['admin_categories_meta']['blogs'][$name]);
         }
 
+        // Always track deleted categories so built-in Blog::CATEGORIES are filtered out as well
+        $deleted = $settings['deleted_categories']['blogs'] ?? [];
+        if (!collect($deleted)->contains(fn ($cat) => strcasecmp($cat, $name) === 0)) {
+            $deleted[] = $name;
+        }
+        $settings['deleted_categories']['blogs'] = array_values(array_unique($deleted));
+
         $setting->update(['data' => $settings]);
 
         // Reset posts category if deleted
         $blogsWithCat = Blog::query()->where(function ($q) use ($name) {
-            $q->where('category', $name)->orWhere('category', 'like', "%{$name}%");
+            $q->where('category', $name)
+                ->orWhere('category', 'like', "%, {$name}%")
+                ->orWhere('category', 'like', "%{$name},%")
+                ->orWhere('category', 'like', "%{$name}%");
         })->get();
 
         foreach ($blogsWithCat as $b) {
@@ -597,11 +639,14 @@ class BlogController extends Controller
 
     private function availableCategories(): array
     {
-        $custom = SiteLayoutSetting::main()->data['admin_categories']['blogs'] ?? [];
+        $settings = SiteLayoutSetting::main()->data ?? [];
+        $custom = $settings['admin_categories']['blogs'] ?? [];
+        $deleted = $settings['deleted_categories']['blogs'] ?? [];
 
         return collect([...Blog::CATEGORIES, ...$custom])
             ->filter(fn ($category) => is_string($category) && trim($category) !== '')
             ->map(fn (string $category) => trim($category))
+            ->reject(fn (string $category) => in_array(mb_strtolower($category), array_map('mb_strtolower', $deleted), true))
             ->unique(fn (string $category) => mb_strtolower($category))
             ->values()
             ->all();
@@ -622,14 +667,13 @@ class BlogController extends Controller
                     ->orWhere('category', 'like', "%{$name},%")
                     ->orWhere('category', 'like', "%{$name}%");
             })->count();
-            $isCustom = in_array($name, SiteLayoutSetting::main()->data['admin_categories']['blogs'] ?? [], true);
 
             return [
                 'name' => $name,
                 'slug' => $slug,
                 'description' => $description !== '' ? $description : '—',
                 'count' => $count,
-                'is_custom' => $isCustom,
+                'is_custom' => true,
             ];
         })->all();
     }

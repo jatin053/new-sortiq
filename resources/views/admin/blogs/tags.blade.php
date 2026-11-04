@@ -86,15 +86,13 @@
                                     </a>
                                     <div class="row-actions wp-row-actions">
                                         <a href="javascript:void(0)" onclick="toggleQuickEditTag({{ $index }})" class="action-quick-edit">Quick Edit</a>
-                                        @if(!empty($tag['is_custom']))
-                                            <span>|</span>
-                                            <form action="{{ route('admin.blogs.tags.destroy') }}" method="post" style="display: inline;" onsubmit="return confirm('Are you sure you want to delete this tag?');">
-                                                @csrf
-                                                @method('DELETE')
-                                                <input type="hidden" name="name" value="{{ $tag['name'] }}">
-                                                <button type="submit" class="action-delete-btn">Delete</button>
-                                            </form>
-                                        @endif
+                                        <span>|</span>
+                                        <form action="{{ route('admin.blogs.tags.destroy') }}" method="post" style="display: inline;" onsubmit="return confirm('Are you sure you want to delete this tag?');">
+                                            @csrf
+                                            @method('DELETE')
+                                            <input type="hidden" name="name" value="{{ $tag['name'] }}">
+                                            <button type="submit" class="action-delete-btn">Delete</button>
+                                        </form>
                                         <span>|</span>
                                         <a href="{{ route('admin.blogs.index', ['tag' => $tag['name']]) }}">View</a>
                                     </div>

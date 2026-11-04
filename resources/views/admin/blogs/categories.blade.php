@@ -87,15 +87,13 @@
                                     </a>
                                     <div class="row-actions wp-row-actions">
                                         <a href="javascript:void(0)" onclick="toggleQuickEdit({{ $index }})" class="action-quick-edit">Quick Edit</a>
-                                        @if(!empty($cat['is_custom']))
-                                            <span>|</span>
-                                            <form action="{{ route('admin.blogs.categories.destroy') }}" method="post" style="display: inline;" onsubmit="return confirm('Are you sure you want to delete this category?');">
-                                                @csrf
-                                                @method('DELETE')
-                                                <input type="hidden" name="name" value="{{ $cat['name'] }}">
-                                                <button type="submit" class="action-delete-btn">Delete</button>
-                                            </form>
-                                        @endif
+                                        <span>|</span>
+                                        <form action="{{ route('admin.blogs.categories.destroy') }}" method="post" style="display: inline;" onsubmit="return confirm('Are you sure you want to delete this category?');">
+                                            @csrf
+                                            @method('DELETE')
+                                            <input type="hidden" name="name" value="{{ $cat['name'] }}">
+                                            <button type="submit" class="action-delete-btn">Delete</button>
+                                        </form>
                                         <span>|</span>
                                         <a href="{{ route('admin.blogs.index', ['category' => $cat['name']]) }}">View</a>
                                     </div>
