@@ -6,7 +6,6 @@
     <div style="padding: 10px 0;">
         <div class="wp-pages-header">
             <h1 class="wp-heading-inline">Pages</h1>
-            <a href="{{ route('admin.site-pages.create') }}" class="page-title-action">Add New Page</a>
         </div>
 
         @if (session('status'))
