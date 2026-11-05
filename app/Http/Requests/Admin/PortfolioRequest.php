@@ -16,7 +16,6 @@ class PortfolioRequest extends FormRequest
 
     protected function prepareForValidation(): void
     {
-        $categorySlug = (string) $this->category_slug;
         $allCategories = Portfolio::CATEGORY_OPTIONS;
         try {
             $custom = \App\Models\SiteLayoutSetting::main()->data['admin_categories']['portfolios'] ?? [];
@@ -27,26 +26,60 @@ class PortfolioRequest extends FormRequest
             }
         } catch (\Throwable $e) {}
 
-        $categoryName = $allCategories[$categorySlug] ?? $this->category_name ?? Str::headline($categorySlug);
+        // Multi-category handling
+        $rawCategories = $this->input('categories');
+        $rawCategorySlug = $this->input('category_slug');
+        $rawCategoryName = $this->input('category_name');
+
+        $categoriesList = [];
+        if (is_array($rawCategories)) {
+            $categoriesList = array_values(array_filter(array_map('trim', $rawCategories)));
+        } elseif (is_string($rawCategoryName) && trim($rawCategoryName) !== '') {
+            $categoriesList = array_values(array_filter(array_map('trim', explode(',', $rawCategoryName))));
+        } elseif (is_string($rawCategorySlug) && trim($rawCategorySlug) !== '') {
+            $matchedName = $allCategories[$rawCategorySlug] ?? Str::headline($rawCategorySlug);
+            $categoriesList = [$matchedName];
+        }
+
+        $categoriesList = array_values(array_unique($categoriesList));
+        $primaryCategoryName = $categoriesList[0] ?? ($allCategories[$rawCategorySlug] ?? 'Graphic Designing');
+        $primaryCategorySlug = Str::slug($primaryCategoryName);
 
         $slug = $this->slug ? Str::slug($this->slug) : Str::slug($this->title);
-        $tags = collect(explode(',', (string) $this->input('tags_text')))
+
+        // Tags handling: support tags[] array or tags_text comma-separated
+        $rawTags = $this->input('tags');
+        $rawTagsText = $this->input('tags_text');
+
+        $tagsList = [];
+        if (is_array($rawTags)) {
+            $tagsList = array_merge($tagsList, $rawTags);
+        }
+        if (is_string($rawTagsText) && trim($rawTagsText) !== '') {
+            $tagsList = array_merge($tagsList, explode(',', $rawTagsText));
+        }
+
+        $tags = collect($tagsList)
             ->map(fn (string $tag) => trim($tag))
             ->filter()
             ->unique(fn (string $tag) => mb_strtolower($tag))
-            ->take(12)
+            ->take(25)
             ->values()
             ->all();
 
+        $categoryNameString = !empty($categoriesList) ? implode(', ', $categoriesList) : $primaryCategoryName;
+
         $this->merge([
             'slug' => $slug,
-            'category_slug' => $categorySlug,
-            'category_name' => $categoryName ? trim($categoryName) : null,
+            'category_slug' => $primaryCategorySlug,
+            'category_name' => $categoryNameString,
+            'categories' => $categoriesList,
             'summary' => $this->summary ? trim($this->summary) : null,
             'content' => $this->content ? trim($this->content) : null,
             'image' => $this->image ? trim($this->image) : null,
             'website_url' => $this->website_url ? trim($this->website_url) : null,
             'tags' => $tags,
+            'tags_text' => implode(', ', $tags),
         ]);
     }
 
@@ -72,10 +105,12 @@ class PortfolioRequest extends FormRequest
             ],
 
             'category_slug' => 'required|string|max:120',
-            'category_name' => 'required|string|max:120',
-            'tags' => 'nullable|array|max:12',
-            'tags.*' => 'string|max:50',
-            'tags_text' => 'nullable|string|max:700',
+            'category_name' => 'required|string|max:500',
+            'categories' => 'nullable|array',
+            'categories.*' => 'string|max:100',
+            'tags' => 'nullable|array|max:25',
+            'tags.*' => 'string|max:60',
+            'tags_text' => 'nullable|string|max:1000',
 
             'image' => 'required_without:image_file|string|max:255',
             'image_file' => 'nullable|file|mimes:webp,png,jpg,jpeg|max:4096',

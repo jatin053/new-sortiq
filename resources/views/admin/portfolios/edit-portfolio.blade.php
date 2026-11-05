@@ -75,6 +75,7 @@
             'method' => 'PUT',
             'portfolio' => $portfolio,
             'categories' => $categories,
+            'availableTags' => $availableTags ?? [],
             'permalink' => $permalink,
             'submitLabel' => 'Update',
         ])

@@ -73,6 +73,10 @@ class PortfolioController extends Controller
                     'title' => $portfolio->title,
                     'image_url' => $portfolio->image_url,
                     'category_slug' => $portfolio->category_slug,
+                    'category_slugs' => array_values(array_unique(array_filter([
+                        $portfolio->category_slug,
+                        ...\Illuminate\Support\Arr::map($portfolio->categories_list, fn ($c) => \Illuminate\Support\Str::slug($c)),
+                    ]))),
                     'category_name' => Portfolio::CATEGORY_OPTIONS[$portfolio->category_slug] ?? $portfolio->category_name,
                 ])
                 ->filter(fn (array $portfolio) => filled($portfolio['category_slug']))
@@ -117,14 +121,14 @@ class PortfolioController extends Controller
     private function visiblePortfolioItems(Collection $portfolioItems, string $activeCategory): Collection
     {
         return $portfolioItems
-            ->filter(fn (array $portfolio) => $portfolio['category_slug'] === $activeCategory)
+            ->filter(fn (array $portfolio) => in_array($activeCategory, $portfolio['category_slugs'] ?? [$portfolio['category_slug']], true))
             ->values();
     }
 
     private function visiblePortfolioTotalPages(Collection $portfolioItems, string $activeCategory): int
     {
         $portfolioCount = $portfolioItems
-            ->filter(fn (array $portfolio) => $portfolio['category_slug'] === $activeCategory)
+            ->filter(fn (array $portfolio) => in_array($activeCategory, $portfolio['category_slugs'] ?? [$portfolio['category_slug']], true))
             ->count();
 
         return (int) ceil($portfolioCount / self::PORTFOLIOS_PER_PAGE);

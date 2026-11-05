@@ -66,15 +66,7 @@
                             $hasCustomTitle = !empty($page['current_meta']['title']);
                             $hasCustomDesc = !empty($page['current_meta']['description']);
                             $hasCustomImage = !empty($page['current_meta']['image']);
-                            $isCustomPage = str_starts_with($page['route_name'], 'frontend.custom-') || !in_array($page['route_name'], [
-                                'frontend.home', 'frontend.about', 'frontend.why-us', 'frontend.expertise', 'frontend.cases',
-                                'frontend.careers', 'frontend.internship', 'frontend.faq', 'frontend.support', 'frontend.terms',
-                                'frontend.contact', 'frontend.blog.index', 'frontend.portfolio', 'frontend.reviews', 'frontend.clients',
-                                'frontend.videos', 'frontend.services.web', 'frontend.services.design',
-                                'frontend.services.laravel', 'frontend.services.wordpress', 'frontend.services.ecommerce',
-                                'frontend.services.marketing', 'frontend.services.seo', 'frontend.services.react',
-                                'frontend.services.node', 'frontend.services.vue'
-                            ]);
+                            $isCustomPage = str_starts_with($page['route_name'], 'frontend.custom-') || ($page['section'] ?? '') === 'Custom Pages';
                         @endphp
                         <tr>
                             <td>

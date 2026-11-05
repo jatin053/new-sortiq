@@ -26,15 +26,7 @@ class InternshipController extends Controller
             $dbReviews = collect();
         }
 
-        try {
-            $pageMeta = Page::query()
-                ->where('route_name', 'frontend.best-it-internship')
-                ->orWhere('url_path', '/best-it-internship-company-mohali-chandigarh')
-                ->first();
-        } catch (Throwable $e) {
-            report($e);
-            $pageMeta = null;
-        }
+        $pageMeta = \App\Support\Seo\PageMeta::forRoute('frontend.best-it-internship', '/best-it-internship-company-mohali-chandigarh');
 
         $processCards = [
             [

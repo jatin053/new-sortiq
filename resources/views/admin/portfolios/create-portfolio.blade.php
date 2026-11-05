@@ -43,6 +43,7 @@
             'method' => 'POST',
             'portfolio' => $portfolio,
             'categories' => $categories,
+            'availableTags' => $availableTags ?? [],
             'permalink' => $permalink,
             'submitLabel' => 'Publish',
         ])

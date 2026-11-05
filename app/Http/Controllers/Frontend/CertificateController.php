@@ -18,15 +18,7 @@ class CertificateController extends Controller
      */
     public function show(): View
     {
-        try {
-            $pageMeta = Page::query()
-                ->where('route_name', 'frontend.certificate-authenticate')
-                ->orWhere('url_path', '/certificate-authenticate')
-                ->first();
-        } catch (Throwable $e) {
-            report($e);
-            $pageMeta = null;
-        }
+        $pageMeta = \App\Support\Seo\PageMeta::forRoute('frontend.certificate-authenticate', '/certificate-authenticate');
 
         return view('frontend.pages.certificate-authenticate', [
             'pageMeta' => $pageMeta,

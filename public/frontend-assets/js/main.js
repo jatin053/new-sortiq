@@ -887,7 +887,12 @@ const initPortfoliosPage = () => {
     });
   };
 
-  const filteredItems = () => items.filter((item) => String(item.category_slug || "").trim() === activeCategory);
+  const filteredItems = () => items.filter((item) => {
+    if (Array.isArray(item.category_slugs) && item.category_slugs.includes(activeCategory)) {
+      return true;
+    }
+    return String(item.category_slug || "").trim() === activeCategory;
+  });
 
   const updateFilterButtons = () => {
     filterButtons.forEach((button) => {

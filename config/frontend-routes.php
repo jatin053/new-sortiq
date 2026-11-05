@@ -15,6 +15,8 @@ return [
         'internship' => 'frontend.pages.internship',
         'terms' => 'frontend.pages.terms',
         'privacy-policy' => 'frontend.pages.privacy-policy',
+        'certificate-authenticate' => 'frontend.pages.certificate-authenticate',
+        'best-it-internship-company-mohali-chandigarh' => 'frontend.pages.best-it-internship',
         'faq' => 'frontend.pages.faq',
         'support' => 'frontend.pages.support',
     ],

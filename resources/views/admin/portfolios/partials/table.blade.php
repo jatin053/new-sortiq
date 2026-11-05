@@ -55,9 +55,20 @@
                             </div>
                         </td>
                         <td>
-                            <a href="{{ route('admin.portfolios.index', ['category' => $portfolio['category_slug']]) }}" class="cat-link-badge">
-                                {{ $portfolio['category_name'] }}
-                            </a>
+                            @php
+                                $portCats = !empty($portfolio->categories_list) ? $portfolio->categories_list : array_values(array_filter(array_map('trim', explode(',', (string) ($portfolio['category_name'] ?? '')))));
+                            @endphp
+                            @if(!empty($portCats))
+                                <div style="display: flex; flex-wrap: wrap; gap: 4px;">
+                                    @foreach($portCats as $c)
+                                        <a href="{{ route('admin.portfolios.index', ['category' => \Illuminate\Support\Str::slug($c)]) }}" class="cat-link-badge">
+                                            {{ $c }}
+                                        </a>
+                                    @endforeach
+                                </div>
+                            @else
+                                <span class="muted-text">—</span>
+                            @endif
                         </td>
                         <td style="text-align: center;">
                             <span class="wp-seo-indicator dot-green" title="SEO: Good"></span>

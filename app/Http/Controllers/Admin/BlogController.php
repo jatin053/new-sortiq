@@ -459,6 +459,7 @@ class BlogController extends Controller
         return view('admin.blogs.create-blog', [
             'blog' => $blog,
             'categories' => $this->availableCategories(),
+            'availableTags' => $this->availableTags(),
             'permalink' => $this->permalink($blog),
         ]);
     }
@@ -484,6 +485,7 @@ class BlogController extends Controller
         return view('admin.blogs.edit-blog', [
             'blog' => $blog,
             'categories' => $this->availableCategories(),
+            'availableTags' => $this->availableTags(),
             'permalink' => $this->permalink($blog),
         ]);
     }
@@ -721,6 +723,33 @@ class BlogController extends Controller
 
         if (!empty($data['excerpt'])) {
             $data['excerpt'] = Str::limit($data['excerpt'], 250, '');
+        }
+
+        // Auto-register any new tags into SiteLayoutSetting admin_tags so they are saved system-wide
+        if (!empty($data['tags']) && is_array($data['tags'])) {
+            try {
+                $setting = SiteLayoutSetting::main();
+                $settings = $setting->data ?? [];
+                $customTags = $settings['admin_tags']['blogs'] ?? [];
+                $hasNewTag = false;
+
+                foreach ($data['tags'] as $tag) {
+                    $trimmed = trim((string) $tag);
+                    if ($trimmed === '') continue;
+                    $alreadyExists = collect($customTags)->contains(fn ($t) => strcasecmp($t, $trimmed) === 0);
+                    if (!$alreadyExists) {
+                        $customTags[] = $trimmed;
+                        $hasNewTag = true;
+                    }
+                }
+
+                if ($hasNewTag) {
+                    $settings['admin_tags']['blogs'] = array_values(array_unique($customTags));
+                    $setting->update(['data' => $settings]);
+                }
+            } catch (\Throwable $e) {
+                // Ignore failure if settings table is unavailable
+            }
         }
 
         $deleteImage = $request->boolean('delete_image') || $request->input('delete_image') === '1' || $request->input('delete_image') === 1;

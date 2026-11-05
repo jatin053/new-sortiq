@@ -53,10 +53,32 @@ class BlogRequest extends FormRequest
         $categoriesList = array_values(array_unique($categoriesList));
         $categoryString = !empty($categoriesList) ? implode(', ', $categoriesList) : null;
 
+        // Process tags input (array or comma-separated text)
+        $rawTags = $this->input('tags');
+        $rawTagsText = $this->input('tags_text');
+
+        $tagsList = [];
+        if (is_array($rawTags)) {
+            $tagsList = array_merge($tagsList, $rawTags);
+        }
+        if (is_string($rawTagsText) && trim($rawTagsText) !== '') {
+            $tagsList = array_merge($tagsList, explode(',', $rawTagsText));
+        }
+
+        $tagsList = collect($tagsList)
+            ->map(fn ($t) => trim((string) $t))
+            ->filter(fn ($t) => $t !== '')
+            ->unique(fn ($t) => mb_strtolower($t))
+            ->take(25)
+            ->values()
+            ->all();
+
         $this->merge([
             'slug' => $slug,
             'category' => $categoryString,
             'categories' => $categoriesList,
+            'tags' => $tagsList,
+            'tags_text' => implode(', ', $tagsList),
         ]);
     }
 
@@ -87,6 +109,9 @@ class BlogRequest extends FormRequest
             'category' => ['nullable', 'string', 'max:500'],
             'categories' => ['nullable', 'array'],
             'categories.*' => ['string', 'max:100'],
+            'tags' => ['nullable', 'array', 'max:25'],
+            'tags.*' => ['string', 'max:80'],
+            'tags_text' => ['nullable', 'string', 'max:1000'],
             'excerpt' => ['nullable', 'string'],
             'content' => ['required', 'string', 'min:5'],
             'published_at' => ['required', 'date'],

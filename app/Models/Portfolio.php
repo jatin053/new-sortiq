@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Support\LocalMedia;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
@@ -110,6 +111,34 @@ class Portfolio extends Model
         }
 
         return 'Not published';
+    }
+
+    protected function categoriesList(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->getCategoriesListAttribute()
+        );
+    }
+
+    public function getCategoriesListAttribute(): array
+    {
+        if (empty($this->category_name)) {
+            return [];
+        }
+
+        if (str_starts_with(trim($this->category_name), '[') && str_ends_with(trim($this->category_name), ']')) {
+            $decoded = json_decode($this->category_name, true);
+            if (is_array($decoded)) {
+                return array_values(array_filter(array_map('trim', $decoded)));
+            }
+        }
+
+        return array_values(array_filter(array_map('trim', explode(',', (string) $this->category_name))));
+    }
+
+    public function hasCategory(string $categoryName): bool
+    {
+        return in_array(mb_strtolower(trim($categoryName)), array_map('mb_strtolower', $this->categories_list), true);
     }
 
     private function isMissingLocalUploadPath(string $image): bool

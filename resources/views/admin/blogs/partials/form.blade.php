@@ -20,6 +20,39 @@
             }
             $publishedAt = old('published_at', $blog->published_at?->format('Y-m-d'));
             $excerpt = old('excerpt', $blog['excerpt']);
+
+            $tagsValue = old('tags_text', implode(', ', $blog->tags ?? []));
+            $selectedTags = old('tags', $blog->tags ?? []);
+            if (empty($selectedTags) && !empty($tagsValue)) {
+                $selectedTags = array_values(array_filter(array_map('trim', explode(',', (string) $tagsValue))));
+            }
+            if (!is_array($selectedTags)) {
+                $selectedTags = (array) $selectedTags;
+            }
+            $selectedTags = array_values(array_unique(array_filter(array_map('trim', $selectedTags))));
+
+            $allAvailableTags = $availableTags ?? [];
+            if (empty($allAvailableTags)) {
+                try {
+                    $existing = \App\Models\Blog::query()->get()->flatMap(fn ($b) => $b->tags ?? [])->all();
+                    $custom = \App\Models\SiteLayoutSetting::main()->data['admin_tags']['blogs'] ?? [];
+                    $allAvailableTags = collect([...$existing, ...$custom])
+                        ->filter(fn ($t) => is_string($t) && trim($t) !== '')
+                        ->map(fn ($t) => trim($t))
+                        ->unique(fn ($t) => mb_strtolower($t))
+                        ->values()
+                        ->all();
+                } catch (\Throwable $e) {
+                    $allAvailableTags = [];
+                }
+            }
+            // Merge selected tags into available list so they are never missing from UI
+            $allAvailableTags = collect([...$allAvailableTags, ...$selectedTags])
+                ->filter(fn ($t) => is_string($t) && trim($t) !== '')
+                ->map(fn ($t) => trim($t))
+                ->unique(fn ($t) => mb_strtolower($t))
+                ->values()
+                ->all();
         @endphp
 
         <div class="review-edit-grid blog-edit-grid">
@@ -1796,12 +1829,805 @@
                             </script>
                         </div>
 
-                        <label>
-                            Tags
-                            <input name="tags_text" type="text" value="{{ old('tags_text', implode(', ', $blog->tags ?? [])) }}" placeholder="Example: SEO, Laravel, Web Design">
-                            <span class="field-help">Separate tags with commas. You can add up to 12 tags.</span>
-                            @error('tags_text')<span class="field-error">{{ $message }}</span>@enderror
-                        </label>
+                        {{-- Interactive Tags Manager & Dropdown --}}
+                        <div class="blog-tags-container" id="blogTagsContainer">
+                            <div class="blog-tags-header">
+                                <span class="blog-tags-header-title">Tags</span>
+                                <span id="blogTagsSelectedCountBadge" class="blog-tags-header-badge">
+                                    {{ count($selectedTags) }} selected
+                                </span>
+                            </div>
+
+                            {{-- Hidden input for backward compatibility with tags_text --}}
+                            <input type="hidden" name="tags_text" id="blogTagsHiddenText" value="{{ implode(', ', $selectedTags) }}">
+
+                            {{-- Trigger & Active Tags Box --}}
+                            <div id="blogTagsTrigger" tabindex="0" role="combobox" aria-expanded="false" aria-haspopup="listbox">
+                                <div id="blogTagsPillsContainer">
+                                    @foreach ($selectedTags as $tag)
+                                        <span class="blog-tag-pill" data-tag="{{ $tag }}">
+                                            <span>{{ $tag }}</span>
+                                            <span class="blog-tag-remove-btn" data-tag="{{ $tag }}" title="Remove">&times;</span>
+                                            <input type="hidden" name="tags[]" value="{{ $tag }}">
+                                        </span>
+                                    @endforeach
+                                    <input 
+                                        type="text" 
+                                        id="blogTagsInlineInput" 
+                                        class="blog-tags-inline-input" 
+                                        placeholder="{{ empty($selectedTags) ? 'Add or select tag...' : '+ Add tag...' }}" 
+                                        autocomplete="off"
+                                    >
+                                </div>
+                                <span class="blog-tags-trigger-arrow" id="blogTagsArrowBtn" title="Toggle tag dropdown">
+                                    <svg id="blogTagsArrowIcon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <polyline points="6 9 12 15 18 9"></polyline>
+                                    </svg>
+                                </span>
+                            </div>
+
+                            {{-- Dropdown Panel --}}
+                            <div id="blogTagsDropdown" style="display: none;">
+                                {{-- Quick Create New Tag Option (Shown dynamically ONLY when user types a new tag) --}}
+                                <div id="blogTagCreateOption" class="blog-tag-create-row" style="display: none;">
+                                    <div style="display: flex; align-items: center; gap: 6px; color: #047857; font-weight: 600; font-size: 12px; min-width: 0; overflow: hidden;">
+                                        <span style="font-size: 14px; font-weight: 700; line-height: 1;">+</span>
+                                        <span style="white-space: nowrap;">Add "</span>
+                                        <span id="blogTagCreateName" style="font-weight: 700; text-decoration: underline; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;"></span>
+                                        <span style="white-space: nowrap;">"</span>
+                                    </div>
+                                    <span style="font-size: 10.5px; color: #059669; font-weight: 700; background: #ecfdf5; padding: 2px 6px; border-radius: 4px; border: 1px solid #a7f3d0; white-space: nowrap; flex-shrink: 0;">Enter ↵</span>
+                                </div>
+
+                                {{-- Options Bar --}}
+                                <div class="blog-tags-options-bar">
+                                    <span style="font-weight: 600; color: #475569; font-size: 11.5px;">Choose from tags:</span>
+                                    <div style="display: flex; gap: 8px; align-items: center;">
+                                        <button type="button" id="blogTagsClearAllBtn">Clear All</button>
+                                    </div>
+                                </div>
+
+                                {{-- Scrollable Tags List --}}
+                                <div class="blog-tags-list" id="blogTagsList">
+                                    @forelse ($allAvailableTags as $index => $availTag)
+                                        @php
+                                            $isSelected = in_array($availTag, $selectedTags, true);
+                                        @endphp
+                                        <div class="blog-tag-row {{ $isSelected ? 'is-selected' : '' }}" data-tag-name="{{ strtolower($availTag) }}" data-tag-value="{{ $availTag }}">
+                                            <div class="blog-tag-checkbox-box">
+                                                <svg class="blog-tag-check-icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                                    <polyline points="20 6 9 17 4 12"></polyline>
+                                                </svg>
+                                            </div>
+                                            <span class="blog-tag-row-label">{{ $availTag }}</span>
+                                        </div>
+                                    @empty
+                                        <div class="blog-tags-empty-state" id="blogTagsEmptyDefault">
+                                            Type a tag name above and press <strong>Enter</strong> to create.
+                                        </div>
+                                    @endforelse
+                                    <div id="blogTagsNoMatch" style="display: none; padding: 10px; text-align: center; color: #94a3b8; font-size: 12px;">
+                                        No existing tag matches. Press <strong>Enter</strong> to create!
+                                    </div>
+                                </div>
+
+                                {{-- Dropdown Footer --}}
+                                <div class="blog-tags-dropdown-footer">
+                                    <a href="{{ route('admin.blogs.tags') }}" target="_blank" rel="noopener noreferrer" class="blog-tags-manage-link" title="Open Tags Manager in new tab">
+                                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                                        Manage all tags
+                                    </a>
+                                </div>
+                            </div>
+
+                            @error('tags')
+                                <span class="field-error" style="display: block; margin-top: 4px;">{{ $message }}</span>
+                            @enderror
+                            @error('tags_text')
+                                <span class="field-error" style="display: block; margin-top: 4px;">{{ $message }}</span>
+                            @enderror
+
+                            <style>
+                                /* Tags Component Styling */
+                                .blog-tags-container {
+                                    position: relative !important;
+                                    margin-bottom: 16px !important;
+                                    width: 100% !important;
+                                    box-sizing: border-box !important;
+                                }
+
+                                .blog-tags-header {
+                                    display: flex !important;
+                                    flex-direction: row !important;
+                                    justify-content: space-between !important;
+                                    align-items: center !important;
+                                    margin-bottom: 6px !important;
+                                    width: 100% !important;
+                                }
+
+                                .blog-tags-header-title {
+                                    font-size: 12px !important;
+                                    font-weight: 700 !important;
+                                    color: var(--text, #1e293b) !important;
+                                    letter-spacing: 0.01em !important;
+                                }
+
+                                .blog-tags-header-badge {
+                                    font-size: 11px !important;
+                                    font-weight: 600 !important;
+                                    color: #2563eb !important;
+                                    background: #eff6ff !important;
+                                    padding: 1px 8px !important;
+                                    border-radius: 12px !important;
+                                    border: 1px solid #bfdbfe !important;
+                                    display: inline-block !important;
+                                    margin: 0 !important;
+                                }
+
+                                /* Trigger Box - exactly matches Category selector */
+                                #blogTagsTrigger {
+                                    display: flex !important;
+                                    flex-direction: row !important;
+                                    flex-wrap: wrap !important;
+                                    align-items: center !important;
+                                    gap: 5px !important;
+                                    min-height: 40px !important;
+                                    padding: 4px 34px 4px 8px !important;
+                                    background: #ffffff !important;
+                                    border: 1px solid #cbd5e1 !important;
+                                    border-radius: 6px !important;
+                                    cursor: text !important;
+                                    position: relative !important;
+                                    box-sizing: border-box !important;
+                                    transition: all 0.15s ease !important;
+                                    width: 100% !important;
+                                }
+
+                                #blogTagsTrigger:hover {
+                                    border-color: #94a3b8 !important;
+                                }
+
+                                #blogTagsTrigger:focus-within,
+                                #blogTagsTrigger.is-open {
+                                    border-color: #2563eb !important;
+                                    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15) !important;
+                                    outline: none !important;
+                                }
+
+                                #blogTagsPillsContainer {
+                                    display: flex !important;
+                                    flex-direction: row !important;
+                                    flex-wrap: wrap !important;
+                                    gap: 4px !important;
+                                    align-items: center !important;
+                                    flex: 1 !important;
+                                    width: auto !important;
+                                }
+
+                                /* Pill Badge */
+                                .blog-tag-pill {
+                                    display: inline-flex !important;
+                                    flex-direction: row !important;
+                                    align-items: center !important;
+                                    gap: 4px !important;
+                                    background: #eff6ff !important;
+                                    color: #1d4ed8 !important;
+                                    border: 1px solid #bfdbfe !important;
+                                    font-size: 12px !important;
+                                    font-weight: 600 !important;
+                                    padding: 2px 7px !important;
+                                    border-radius: 4px !important;
+                                    line-height: 1.3 !important;
+                                    margin: 0 !important;
+                                }
+
+                                .blog-tag-pill:hover {
+                                    background: #dbeafe !important;
+                                }
+
+                                .blog-tag-pill .blog-tag-remove-btn {
+                                    display: inline-flex !important;
+                                    align-items: center !important;
+                                    justify-content: center !important;
+                                    width: 14px !important;
+                                    height: 14px !important;
+                                    border-radius: 50% !important;
+                                    color: #3b82f6 !important;
+                                    font-size: 13px !important;
+                                    line-height: 1 !important;
+                                    cursor: pointer !important;
+                                }
+
+                                .blog-tag-pill .blog-tag-remove-btn:hover {
+                                    background: #bfdbfe !important;
+                                    color: #1e3a8a !important;
+                                }
+
+                                /* Inline Input - Aggressive CSS Reset to kill any inner border */
+                                .review-edit-grid input#blogTagsInlineInput,
+                                .blog-edit-grid input#blogTagsInlineInput,
+                                #blogTagsContainer input#blogTagsInlineInput,
+                                #blogTagsTrigger input#blogTagsInlineInput,
+                                input#blogTagsInlineInput {
+                                    border: 0 !important;
+                                    border-width: 0 !important;
+                                    border-style: none !important;
+                                    outline: none !important;
+                                    box-shadow: none !important;
+                                    background: transparent !important;
+                                    background-color: transparent !important;
+                                    font-family: inherit !important;
+                                    font-size: 12.5px !important;
+                                    color: #1e293b !important;
+                                    padding: 0 4px !important;
+                                    margin: 0 !important;
+                                    height: 28px !important;
+                                    min-height: 28px !important;
+                                    line-height: 28px !important;
+                                    flex: 1 1 110px !important;
+                                    min-width: 90px !important;
+                                    max-width: 100% !important;
+                                    -webkit-appearance: none !important;
+                                }
+
+                                .review-edit-grid input#blogTagsInlineInput:focus,
+                                .blog-edit-grid input#blogTagsInlineInput:focus,
+                                #blogTagsContainer input#blogTagsInlineInput:focus,
+                                #blogTagsTrigger input#blogTagsInlineInput:focus,
+                                input#blogTagsInlineInput:focus {
+                                    border: 0 !important;
+                                    outline: none !important;
+                                    box-shadow: none !important;
+                                    background: transparent !important;
+                                }
+
+                                #blogTagsInlineInput::placeholder {
+                                    color: #94a3b8 !important;
+                                }
+
+                                .blog-tags-trigger-arrow {
+                                    position: absolute !important;
+                                    right: 8px !important;
+                                    top: 50% !important;
+                                    transform: translateY(-50%) !important;
+                                    color: #64748b !important;
+                                    display: inline-flex !important;
+                                    align-items: center !important;
+                                    justify-content: center !important;
+                                    cursor: pointer !important;
+                                    padding: 4px !important;
+                                    border-radius: 4px !important;
+                                }
+
+                                .blog-tags-trigger-arrow:hover {
+                                    color: #1e293b !important;
+                                }
+
+                                #blogTagsArrowIcon {
+                                    transition: transform 0.2s ease !important;
+                                }
+
+                                /* Dropdown Panel */
+                                #blogTagsDropdown {
+                                    position: absolute !important;
+                                    top: calc(100% + 4px) !important;
+                                    left: 0 !important;
+                                    right: 0 !important;
+                                    background: #ffffff !important;
+                                    border: 1px solid #cbd5e1 !important;
+                                    border-radius: 8px !important;
+                                    box-shadow: 0 10px 25px -5px rgba(0,0,0,0.12), 0 8px 10px -6px rgba(0,0,0,0.08) !important;
+                                    z-index: 1050 !important;
+                                    padding: 8px !important;
+                                    box-sizing: border-box !important;
+                                    flex-direction: column !important;
+                                    width: 100% !important;
+                                }
+
+                                /* Create New Tag Row - ONLY visible when user has typed text */
+                                .blog-tag-create-row {
+                                    display: none;
+                                    justify-content: space-between !important;
+                                    align-items: center !important;
+                                    background: #f0fdf4 !important;
+                                    border: 1px dashed #34d399 !important;
+                                    border-radius: 6px !important;
+                                    padding: 6px 9px !important;
+                                    margin-bottom: 6px !important;
+                                    cursor: pointer !important;
+                                    transition: background 0.12s ease !important;
+                                }
+
+                                .blog-tag-create-row.is-visible {
+                                    display: flex !important;
+                                }
+
+                                .blog-tag-create-row:hover {
+                                    background: #dcfce7 !important;
+                                    border-color: #10b981 !important;
+                                }
+
+                                /* Options Bar */
+                                .blog-tags-options-bar {
+                                    display: flex !important;
+                                    flex-direction: row !important;
+                                    justify-content: space-between !important;
+                                    align-items: center !important;
+                                    padding: 0 2px 5px 2px !important;
+                                    margin-bottom: 5px !important;
+                                    border-bottom: 1px solid #f1f5f9 !important;
+                                    font-size: 11.5px !important;
+                                    color: #64748b !important;
+                                    width: 100% !important;
+                                    box-sizing: border-box !important;
+                                }
+
+                                .blog-tags-options-bar button {
+                                    background: none !important;
+                                    border: none !important;
+                                    padding: 0 !important;
+                                    font-size: 11.5px !important;
+                                    font-weight: 600 !important;
+                                    cursor: pointer !important;
+                                    color: #ef4444 !important;
+                                }
+
+                                .blog-tags-options-bar button:hover {
+                                    text-decoration: underline !important;
+                                }
+
+                                /* Scrollable Tag List */
+                                .blog-tags-list {
+                                    overflow-y: auto !important;
+                                    max-height: 180px !important;
+                                    display: flex !important;
+                                    flex-direction: column !important;
+                                    gap: 2px !important;
+                                    width: 100% !important;
+                                    box-sizing: border-box !important;
+                                    padding: 0 !important;
+                                    margin: 0 !important;
+                                }
+
+                                .blog-tags-list::-webkit-scrollbar {
+                                    width: 5px;
+                                }
+                                .blog-tags-list::-webkit-scrollbar-thumb {
+                                    background: #cbd5e1;
+                                    border-radius: 4px;
+                                }
+
+                                /* Tag Row */
+                                .blog-tag-row {
+                                    display: flex !important;
+                                    flex-direction: row !important;
+                                    align-items: center !important;
+                                    justify-content: flex-start !important;
+                                    gap: 8px !important;
+                                    padding: 6px 8px !important;
+                                    border-radius: 5px !important;
+                                    cursor: pointer !important;
+                                    user-select: none !important;
+                                    transition: background-color 0.12s ease !important;
+                                    width: 100% !important;
+                                    box-sizing: border-box !important;
+                                }
+
+                                .blog-tag-row:hover {
+                                    background-color: #f1f5f9 !important;
+                                }
+
+                                .blog-tag-row.is-selected {
+                                    background-color: #eff6ff !important;
+                                }
+
+                                .blog-tag-checkbox-box {
+                                    width: 16px !important;
+                                    height: 16px !important;
+                                    min-width: 16px !important;
+                                    max-width: 16px !important;
+                                    border: 1.5px solid #cbd5e1 !important;
+                                    border-radius: 3px !important;
+                                    display: flex !important;
+                                    align-items: center !important;
+                                    justify-content: center !important;
+                                    background: #ffffff !important;
+                                    box-sizing: border-box !important;
+                                    transition: all 0.12s ease !important;
+                                }
+
+                                .blog-tag-row.is-selected .blog-tag-checkbox-box {
+                                    background: #2563eb !important;
+                                    border-color: #2563eb !important;
+                                }
+
+                                .blog-tag-check-icon {
+                                    display: none !important;
+                                    stroke: #ffffff !important;
+                                }
+
+                                .blog-tag-row.is-selected .blog-tag-check-icon {
+                                    display: block !important;
+                                }
+
+                                .blog-tag-row-label {
+                                    font-size: 13px !important;
+                                    color: #1e293b !important;
+                                    font-weight: 500 !important;
+                                    flex: 1 !important;
+                                }
+
+                                .blog-tag-row.is-selected .blog-tag-row-label {
+                                    color: #1d4ed8 !important;
+                                    font-weight: 600 !important;
+                                }
+
+                                .blog-tags-empty-state {
+                                    padding: 12px;
+                                    text-align: center;
+                                    color: #64748b;
+                                    font-size: 12px;
+                                    line-height: 1.4;
+                                }
+
+                                .blog-tags-dropdown-footer {
+                                    border-top: 1px solid #f1f5f9 !important;
+                                    padding-top: 6px !important;
+                                    margin-top: 5px !important;
+                                    text-align: right !important;
+                                    width: 100% !important;
+                                    box-sizing: border-box !important;
+                                }
+
+                                .blog-tags-manage-link {
+                                    font-size: 11.5px !important;
+                                    color: #2563eb !important;
+                                    font-weight: 600 !important;
+                                    text-decoration: none !important;
+                                    display: inline-flex !important;
+                                    align-items: center !important;
+                                    gap: 4px !important;
+                                }
+
+                                .blog-tags-manage-link:hover {
+                                    text-decoration: underline !important;
+                                    color: #1d4ed8 !important;
+                                }
+                            </style>
+
+                            <script>
+                            (function initBlogTagsSelector() {
+                                function setupTags() {
+                                    var container = document.getElementById('blogTagsContainer');
+                                    if (!container) return;
+
+                                    var trigger = document.getElementById('blogTagsTrigger');
+                                    var dropdown = document.getElementById('blogTagsDropdown');
+                                    var inlineInput = document.getElementById('blogTagsInlineInput');
+                                    var pillsContainer = document.getElementById('blogTagsPillsContainer');
+                                    var countBadge = document.getElementById('blogTagsSelectedCountBadge');
+                                    var hiddenText = document.getElementById('blogTagsHiddenText');
+                                    var clearAllBtn = document.getElementById('blogTagsClearAllBtn');
+                                    var arrowBtn = document.getElementById('blogTagsArrowBtn');
+                                    var arrowIcon = document.getElementById('blogTagsArrowIcon');
+                                    var createOption = document.getElementById('blogTagCreateOption');
+                                    var createNameSpan = document.getElementById('blogTagCreateName');
+                                    var tagsList = document.getElementById('blogTagsList');
+                                    var noMatch = document.getElementById('blogTagsNoMatch');
+
+                                    function isOpen() {
+                                        return dropdown.style.display === 'flex';
+                                    }
+
+                                    function setOpen(open) {
+                                        if (open) {
+                                            dropdown.style.display = 'flex';
+                                            trigger.classList.add('is-open');
+                                            trigger.setAttribute('aria-expanded', 'true');
+                                            if (arrowIcon) arrowIcon.style.transform = 'rotate(180deg)';
+                                            filterList(inlineInput.value);
+                                        } else {
+                                            dropdown.style.display = 'none';
+                                            trigger.classList.remove('is-open');
+                                            trigger.setAttribute('aria-expanded', 'false');
+                                            if (arrowIcon) arrowIcon.style.transform = 'rotate(0deg)';
+                                            if (createOption) createOption.classList.remove('is-visible');
+                                        }
+                                    }
+
+                                    function getSelectedTags() {
+                                        var pills = pillsContainer.querySelectorAll('.blog-tag-pill');
+                                        var tags = [];
+                                        pills.forEach(function(pill) {
+                                            var val = pill.getAttribute('data-tag');
+                                            if (val && tags.indexOf(val) === -1) {
+                                                tags.push(val);
+                                            }
+                                        });
+                                        return tags;
+                                    }
+
+                                    function updateState() {
+                                        var selected = getSelectedTags();
+
+                                        if (countBadge) {
+                                            countBadge.textContent = selected.length + ' selected';
+                                        }
+
+                                        if (hiddenText) {
+                                            hiddenText.value = selected.join(', ');
+                                        }
+
+                                        if (inlineInput) {
+                                            inlineInput.placeholder = selected.length === 0 
+                                                ? 'Add or select tag...' 
+                                                : '+ Add tag...';
+                                        }
+
+                                        // Sync row states in dropdown
+                                        var rows = tagsList.querySelectorAll('.blog-tag-row');
+                                        rows.forEach(function(row) {
+                                            var rowVal = row.getAttribute('data-tag-value') || '';
+                                            var isSel = selected.some(function(t) {
+                                                return t.toLowerCase() === rowVal.toLowerCase();
+                                            });
+                                            if (isSel) {
+                                                row.classList.add('is-selected');
+                                            } else {
+                                                row.classList.remove('is-selected');
+                                            }
+                                        });
+                                    }
+
+                                    function addTag(tagName) {
+                                        var clean = (tagName || '').replace(/,/g, '').trim();
+                                        if (!clean) return;
+
+                                        var current = getSelectedTags();
+                                        var alreadyHas = current.some(function(t) {
+                                            return t.toLowerCase() === clean.toLowerCase();
+                                        });
+
+                                        if (!alreadyHas) {
+                                            var pill = document.createElement('span');
+                                            pill.className = 'blog-tag-pill';
+                                            pill.setAttribute('data-tag', clean);
+
+                                            var textSpan = document.createElement('span');
+                                            textSpan.textContent = clean;
+
+                                            var removeBtn = document.createElement('span');
+                                            removeBtn.className = 'blog-tag-remove-btn';
+                                            removeBtn.setAttribute('data-tag', clean);
+                                            removeBtn.innerHTML = '&times;';
+                                            removeBtn.title = 'Remove ' + clean;
+
+                                            var hiddenArrInput = document.createElement('input');
+                                            hiddenArrInput.type = 'hidden';
+                                            hiddenArrInput.name = 'tags[]';
+                                            hiddenArrInput.value = clean;
+
+                                            pill.appendChild(textSpan);
+                                            pill.appendChild(removeBtn);
+                                            pill.appendChild(hiddenArrInput);
+
+                                            pillsContainer.insertBefore(pill, inlineInput);
+
+                                            // If not in the dropdown list, add it
+                                            var existingRow = tagsList.querySelector('.blog-tag-row[data-tag-name="' + clean.toLowerCase() + '"]');
+                                            if (!existingRow) {
+                                                var newRow = document.createElement('div');
+                                                newRow.className = 'blog-tag-row is-selected';
+                                                newRow.setAttribute('data-tag-name', clean.toLowerCase());
+                                                newRow.setAttribute('data-tag-value', clean);
+                                                newRow.innerHTML = `
+                                                    <div class="blog-tag-checkbox-box">
+                                                        <svg class="blog-tag-check-icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                                            <polyline points="20 6 9 17 4 12"></polyline>
+                                                        </svg>
+                                                    </div>
+                                                    <span class="blog-tag-row-label">${clean}</span>
+                                                `;
+                                                bindRowClick(newRow);
+                                                tagsList.appendChild(newRow);
+
+                                                var emptyDefault = document.getElementById('blogTagsEmptyDefault');
+                                                if (emptyDefault) emptyDefault.style.display = 'none';
+                                            }
+                                        }
+
+                                        inlineInput.value = '';
+                                        if (createOption) createOption.classList.remove('is-visible');
+                                        filterList('');
+                                        updateState();
+                                        inlineInput.focus();
+                                    }
+
+                                    function removeTag(tagName) {
+                                        var clean = (tagName || '').toLowerCase();
+                                        var pills = pillsContainer.querySelectorAll('.blog-tag-pill');
+                                        pills.forEach(function(pill) {
+                                            var val = pill.getAttribute('data-tag') || '';
+                                            if (val.toLowerCase() === clean) {
+                                                pill.remove();
+                                            }
+                                        });
+                                        updateState();
+                                    }
+
+                                    function bindRowClick(row) {
+                                        row.addEventListener('click', function(e) {
+                                            var val = row.getAttribute('data-tag-value');
+                                            if (!val) return;
+
+                                            var current = getSelectedTags();
+                                            var isSelected = current.some(function(t) {
+                                                return t.toLowerCase() === val.toLowerCase();
+                                            });
+
+                                            if (isSelected) {
+                                                removeTag(val);
+                                            } else {
+                                                addTag(val);
+                                            }
+                                        });
+                                    }
+
+                                    // Bind existing rows
+                                    var existingRows = tagsList.querySelectorAll('.blog-tag-row');
+                                    existingRows.forEach(function(row) {
+                                        bindRowClick(row);
+                                    });
+
+                                    function filterList(query) {
+                                        var q = (query || '').trim().toLowerCase();
+                                        var rows = tagsList.querySelectorAll('.blog-tag-row');
+                                        var matched = 0;
+                                        var exactMatch = false;
+
+                                        rows.forEach(function(row) {
+                                            var name = row.getAttribute('data-tag-name') || '';
+                                            if (!q || name.indexOf(q) !== -1) {
+                                                row.style.display = 'flex';
+                                                matched++;
+                                            } else {
+                                                row.style.display = 'none';
+                                            }
+                                            if (name === q) {
+                                                exactMatch = true;
+                                            }
+                                        });
+
+                                        if (noMatch) {
+                                            noMatch.style.display = (matched === 0 && q) ? 'block' : 'none';
+                                        }
+
+                                        if (createOption && createNameSpan) {
+                                            if (q.length > 0 && !exactMatch) {
+                                                createNameSpan.textContent = query.trim();
+                                                createOption.classList.add('is-visible');
+                                            } else {
+                                                createOption.classList.remove('is-visible');
+                                            }
+                                        }
+                                    }
+
+                                    // Create Option Click
+                                    if (createOption) {
+                                        createOption.addEventListener('click', function(e) {
+                                            e.preventDefault();
+                                            e.stopPropagation();
+                                            if (inlineInput.value.trim()) {
+                                                addTag(inlineInput.value);
+                                            }
+                                        });
+                                    }
+
+                                    // Clear All button
+                                    if (clearAllBtn) {
+                                        clearAllBtn.addEventListener('click', function(e) {
+                                            e.preventDefault();
+                                            e.stopPropagation();
+                                            var pills = pillsContainer.querySelectorAll('.blog-tag-pill');
+                                            pills.forEach(function(pill) { pill.remove(); });
+                                            updateState();
+                                            inlineInput.focus();
+                                        });
+                                    }
+
+                                    // Inline input typing & keyboard actions
+                                    inlineInput.addEventListener('input', function() {
+                                        var val = this.value;
+                                        if (val.indexOf(',') !== -1) {
+                                            var parts = val.split(',');
+                                            for (var i = 0; i < parts.length; i++) {
+                                                if (parts[i].trim()) {
+                                                    addTag(parts[i]);
+                                                }
+                                            }
+                                            this.value = '';
+                                            return;
+                                        }
+
+                                        if (!isOpen()) {
+                                            setOpen(true);
+                                        }
+                                        filterList(val);
+                                    });
+
+                                    inlineInput.addEventListener('keydown', function(e) {
+                                        if (e.key === 'Enter') {
+                                            e.preventDefault();
+                                            var val = this.value.trim();
+                                            if (val) {
+                                                addTag(val);
+                                            } else if (isOpen()) {
+                                                setOpen(false);
+                                            }
+                                        } else if (e.key === 'Backspace' && !this.value) {
+                                            var pills = pillsContainer.querySelectorAll('.blog-tag-pill');
+                                            if (pills.length > 0) {
+                                                var lastPill = pills[pills.length - 1];
+                                                lastPill.remove();
+                                                updateState();
+                                            }
+                                        } else if (e.key === 'Escape') {
+                                            setOpen(false);
+                                        } else if (e.key === 'ArrowDown') {
+                                            if (!isOpen()) {
+                                                setOpen(true);
+                                            }
+                                        }
+                                    });
+
+                                    inlineInput.addEventListener('focus', function() {
+                                        if (!isOpen()) {
+                                            setOpen(true);
+                                        }
+                                    });
+
+                                    // Trigger click delegation
+                                    trigger.addEventListener('click', function(e) {
+                                        if (e.target.closest('.blog-tag-remove-btn')) {
+                                            var tagToRemove = e.target.closest('.blog-tag-remove-btn').getAttribute('data-tag');
+                                            if (tagToRemove) {
+                                                removeTag(tagToRemove);
+                                            }
+                                            e.stopPropagation();
+                                            inlineInput.focus();
+                                            return;
+                                        }
+
+                                        if (e.target === arrowBtn || arrowBtn.contains(e.target)) {
+                                            e.stopPropagation();
+                                            setOpen(!isOpen());
+                                            return;
+                                        }
+
+                                        if (!isOpen()) {
+                                            setOpen(true);
+                                        }
+                                        inlineInput.focus();
+                                    });
+
+                                    // Click outside close
+                                    document.addEventListener('click', function(e) {
+                                        if (!container.contains(e.target)) {
+                                            setOpen(false);
+                                        }
+                                    });
+
+                                    updateState();
+                                }
+
+                                if (document.readyState === 'loading') {
+                                    document.addEventListener('DOMContentLoaded', setupTags);
+                                } else {
+                                    setupTags();
+                                }
+                            })();
+                            </script>
+                        </div>
 
                         <label>
                             Publish Date

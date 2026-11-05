@@ -288,7 +288,16 @@ class PageMetaController extends Controller
                     if (isset($pData['keywords'])) $updateData['keywords'] = $pData['keywords'];
                     if (!empty($pData['custom_path'])) $updateData['url_path'] = '/' . ltrim($pData['custom_path'], '/');
                     if (!empty($updateData)) {
-                        \App\Models\Page::where('route_name', $rName)->update($updateData);
+                        $catalogPage = collect(SeoPageCatalog::pages())->firstWhere('route_name', $rName);
+                        \App\Models\Page::updateOrCreate(
+                            ['route_name' => $rName],
+                            array_merge([
+                                'label' => $catalogPage['label'] ?? \Illuminate\Support\Str::headline(str_replace('frontend.', '', $rName)),
+                                'section' => $catalogPage['section'] ?? 'Company Pages',
+                                'url_path' => $catalogPage['url_path'] ?? SeoPageCatalog::defaultPathForRoute($rName),
+                                'status' => 'published',
+                            ], $updateData)
+                        );
                     }
                 }
             }
@@ -406,12 +415,13 @@ class PageMetaController extends Controller
             $pageSections[$sectionName][] = [
                 ...$page,
                 'input_index' => $pageIndex,
-                'path' => $this->pathForRoute($routeName),
+                'path' => !empty($page['url_path']) ? $page['url_path'] : $this->pathForRoute($routeName),
                 'default_path' => SeoPageCatalog::defaultPathForRoute($routeName),
                 'custom_path' => trim((string) ($storedValues['custom_path'] ?? '')),
                 'title' => trim((string) ($storedValues['title'] ?? '')) ?: $page['title'],
                 'description' => trim((string) ($storedValues['description'] ?? '')) ?: $page['description'],
                 'keywords' => trim((string) ($storedValues['keywords'] ?? '')) ?: $page['keywords'],
+                'exclude_sitemap' => (bool) ($storedValues['exclude_sitemap'] ?? false),
             ];
 
             $pageIndex++;
@@ -429,7 +439,7 @@ class PageMetaController extends Controller
                 'section' => $page['section'],
                 'label' => $page['label'],
                 'route_name' => $page['route_name'],
-                'path' => $this->pathForRoute($page['route_name']),
+                'path' => !empty($page['url_path']) ? $page['url_path'] : $this->pathForRoute($page['route_name']),
             ];
         }
 
@@ -494,6 +504,7 @@ class PageMetaController extends Controller
                 'description' => trim((string) ($page['description'] ?? '')),
                 'keywords' => trim((string) ($page['keywords'] ?? '')),
                 'custom_path' => $customPath !== '' ? $customPath : null,
+                'exclude_sitemap' => !empty($page['exclude_sitemap']),
             ]);
         }
 

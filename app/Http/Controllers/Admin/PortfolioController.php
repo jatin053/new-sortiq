@@ -41,7 +41,16 @@ class PortfolioController extends Controller
         }
 
         if ($category !== null) {
-            $query->where('category_slug', $category);
+            $catName = $this->availableCategories()[$category] ?? null;
+            $query->where(function ($q) use ($category, $catName) {
+                $q->where('category_slug', $category);
+                if ($catName) {
+                    $q->orWhere('category_name', $catName)
+                      ->orWhere('category_name', 'like', "%, {$catName}%")
+                      ->orWhere('category_name', 'like', "%{$catName},%")
+                      ->orWhere('category_name', 'like', "%{$catName}%");
+                }
+            });
         }
 
         if ($tag !== '') {
@@ -392,6 +401,7 @@ class PortfolioController extends Controller
         return view('admin.portfolios.create-portfolio', [
             'portfolio' => $portfolio,
             'categories' => $categories,
+            'availableTags' => $this->availableTags(),
             'permalink' => $this->getPermalink($portfolio),
         ]);
     }
@@ -417,6 +427,7 @@ class PortfolioController extends Controller
         return view('admin.portfolios.edit-portfolio', [
             'portfolio' => $portfolio,
             'categories' => $this->availableCategories(),
+            'availableTags' => $this->availableTags(),
             'permalink' => $this->getPermalink($portfolio),
         ]);
     }
@@ -491,7 +502,13 @@ class PortfolioController extends Controller
             $meta = $customMeta[$name] ?? [];
             $catSlug = $meta['slug'] ?? $slug;
             $description = $meta['description'] ?? '—';
-            $count = Portfolio::query()->where('category_slug', $catSlug)->orWhere('category_name', $name)->count();
+            $count = Portfolio::query()
+                ->where('category_slug', $catSlug)
+                ->orWhere('category_name', $name)
+                ->orWhere('category_name', 'like', "%, {$name}%")
+                ->orWhere('category_name', 'like', "%{$name},%")
+                ->orWhere('category_name', 'like', "%{$name}%")
+                ->count();
             $isCustom = in_array($name, SiteLayoutSetting::main()->data['admin_categories']['portfolios'] ?? [], true);
 
             return [
@@ -543,7 +560,34 @@ class PortfolioController extends Controller
     {
         $data = $request->validated();
 
-        unset($data['image_file'], $data['tags_text']);
+        unset($data['image_file'], $data['tags_text'], $data['categories']);
+
+        // Auto-register any new tags into SiteLayoutSetting admin_tags so they are saved system-wide
+        if (!empty($data['tags']) && is_array($data['tags'])) {
+            try {
+                $setting = SiteLayoutSetting::main();
+                $settings = $setting->data ?? [];
+                $customTags = $settings['admin_tags']['portfolios'] ?? [];
+                $hasNewTag = false;
+
+                foreach ($data['tags'] as $tag) {
+                    $trimmed = trim((string) $tag);
+                    if ($trimmed === '') continue;
+                    $alreadyExists = collect($customTags)->contains(fn ($t) => strcasecmp($t, $trimmed) === 0);
+                    if (!$alreadyExists) {
+                        $customTags[] = $trimmed;
+                        $hasNewTag = true;
+                    }
+                }
+
+                if ($hasNewTag) {
+                    $settings['admin_tags']['portfolios'] = array_values(array_unique($customTags));
+                    $setting->update(['data' => $settings]);
+                }
+            } catch (\Throwable $e) {
+                // Ignore failure if settings table is unavailable
+            }
+        }
 
         if ($request->hasFile('image_file')) {
             if ($portfolio) {

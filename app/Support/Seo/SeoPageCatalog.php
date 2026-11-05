@@ -6,31 +6,73 @@ class SeoPageCatalog
 {
     public static function pages(): array
     {
+        $static = self::staticPages();
+
+        $dbPages = collect();
         try {
             if (\Illuminate\Support\Facades\Schema::hasTable('pages')) {
-                $dbPages = \App\Models\Page::all();
-                if ($dbPages->count() > 0) {
-                    $result = [];
-                    foreach ($dbPages as $p) {
-                        $result[] = [
-                            'section' => $p->section,
-                            'label' => $p->label,
-                            'route_name' => $p->route_name,
-                            'url_path' => $p->url_path,
-                            'title' => $p->title ?? '',
-                            'description' => $p->description ?? '',
-                            'keywords' => $p->keywords ?? '',
-                            'status' => $p->status ?? 'published',
-                            'view_name' => $p->view_name,
-                            'social_image' => $p->social_image,
-                        ];
-                    }
-                    return $result;
-                }
+                $dbPages = \App\Models\Page::all()->keyBy('route_name');
             }
         } catch (\Throwable $e) {}
 
-        $static = [
+        $pages = [];
+        $processedRoutes = [];
+
+        // 1. Process static catalog pages with database overrides
+        foreach ($static as $sp) {
+            $rName = $sp['route_name'];
+            $processedRoutes[$rName] = true;
+
+            $db = $dbPages->get($rName);
+
+            $pages[] = [
+                'section' => !empty($db?->section) ? $db->section : $sp['section'],
+                'label' => !empty($db?->label) ? $db->label : $sp['label'],
+                'route_name' => $rName,
+                'url_path' => !empty($db?->url_path) ? $db->url_path : $sp['url_path'],
+                'title' => ($db?->title !== null && $db->title !== '') ? $db->title : ($sp['title'] ?? ''),
+                'description' => ($db?->description !== null && $db->description !== '') ? $db->description : ($sp['description'] ?? ''),
+                'keywords' => ($db?->keywords !== null && $db->keywords !== '') ? $db->keywords : ($sp['keywords'] ?? ''),
+                'status' => !empty($db?->status) ? $db->status : 'published',
+                'view_name' => $db?->view_name ?? null,
+                'social_image' => $db?->social_image ?? null,
+            ];
+        }
+
+        // 2. Add extra DB pages (custom pages created directly in DB)
+        foreach ($dbPages as $rName => $db) {
+            if (!isset($processedRoutes[$rName])) {
+                $processedRoutes[$rName] = true;
+                $pages[] = [
+                    'section' => !empty($db->section) ? $db->section : 'Custom Pages',
+                    'label' => !empty($db->label) ? $db->label : 'Custom Page',
+                    'route_name' => $rName,
+                    'url_path' => !empty($db->url_path) ? $db->url_path : ('/' . ltrim(str_replace(['frontend.', '.'], ['', '/'], $rName), '/')),
+                    'title' => $db->title ?? '',
+                    'description' => $db->description ?? '',
+                    'keywords' => $db->keywords ?? '',
+                    'status' => !empty($db->status) ? $db->status : 'published',
+                    'view_name' => $db->view_name ?? null,
+                    'social_image' => $db->social_image ?? null,
+                ];
+            }
+        }
+
+        // 3. Add custom pages from SiteLayoutSetting
+        foreach (self::customPages() as $cPage) {
+            $rName = $cPage['route_name'] ?? null;
+            if ($rName && !isset($processedRoutes[$rName])) {
+                $processedRoutes[$rName] = true;
+                $pages[] = $cPage;
+            }
+        }
+
+        return $pages;
+    }
+
+    public static function staticPages(): array
+    {
+        return [
             self::page(
                 section: 'Company Pages',
                 label: 'Home',
@@ -101,7 +143,8 @@ class SeoPageCatalog
                 routeName: 'frontend.best-it-internship',
                 title: 'Best IT Internship Company in Mohali Chandigarh | Sortiq Solutions',
                 description: 'Join Sortiq Solutions Pvt. Ltd. for industry-oriented internship and industrial training programs in Mohali Chandigarh. Gain practical experience through live projects and professional mentorship.',
-                keywords: 'Best IT Internship Company in Mohali Chandigarh, IT internship Mohali, internship in Chandigarh, industrial training Mohali, web development internship'
+                keywords: 'Best IT Internship Company in Mohali Chandigarh, IT internship Mohali, internship in Chandigarh, industrial training Mohali, web development internship',
+                urlPath: '/best-it-internship-company-mohali-chandigarh'
             ),
             self::page(
                 section: 'Company Pages',
@@ -133,7 +176,8 @@ class SeoPageCatalog
                 routeName: 'frontend.certificate-authenticate',
                 title: 'Certificate Authentication | Sortiq Solutions',
                 description: 'Verify Your Certificate Authenticity Instantly With Sortiq Solutions. Enter Your Certificate Details to Confirm Validity and Authenticity.',
-                keywords: 'certificate verification, verify certificate, sortiq certificate, certificate authenticity'
+                keywords: 'certificate verification, verify certificate, sortiq certificate, certificate authenticity',
+                urlPath: '/certificate-authenticate'
             ),
             self::page(
                 section: 'Company Pages',
@@ -165,7 +209,8 @@ class SeoPageCatalog
                 routeName: 'frontend.privacy-policy',
                 title: 'Privacy Policy | Sortiq Solutions Pvt. Ltd.',
                 description: 'Read the official Privacy Policy of Sortiq Solutions Pvt. Ltd. to learn how we collect, use, and protect your personal and business information.',
-                keywords: 'privacy policy, Sortiq Solutions privacy, data protection, security, privacy terms'
+                keywords: 'privacy policy, Sortiq Solutions privacy, data protection, security, privacy terms',
+                urlPath: '/privacy-policy'
             ),
             self::page(
                 section: 'Company Pages',
@@ -435,7 +480,7 @@ class SeoPageCatalog
             ),
         ];
 
-        return array_merge($static, self::customPages());
+        return $static;
     }
 
     public static function customPages(): array
@@ -471,6 +516,34 @@ class SeoPageCatalog
 
     public static function defaultPathForRoute(string $routeName): string
     {
+        if ($routeName === 'frontend.home') {
+            return '/';
+        }
+        if ($routeName === 'frontend.blog.index') {
+            return '/blog';
+        }
+        if ($routeName === 'frontend.privacy-policy') {
+            return '/privacy-policy';
+        }
+        if ($routeName === 'frontend.certificate-authenticate') {
+            return '/certificate-authenticate';
+        }
+        if ($routeName === 'frontend.best-it-internship' || $routeName === 'frontend.internship') {
+            return '/best-it-internship-company-mohali-chandigarh';
+        }
+        if ($routeName === 'frontend.best-it-company-chandigarh') {
+            return '/best-it-company-in-chandigarh';
+        }
+        if ($routeName === 'frontend.best-it-company-mohali') {
+            return '/best-it-company-in-mohali';
+        }
+        if ($routeName === 'frontend.ads-landing-page') {
+            return '/ads-landing-page';
+        }
+        if ($routeName === 'frontend.services.zoho') {
+            return '/zoho';
+        }
+
         try {
             if (\Illuminate\Support\Facades\Schema::hasTable('pages')) {
                 $dbPage = \App\Models\Page::where('route_name', $routeName)->first();
@@ -479,13 +552,6 @@ class SeoPageCatalog
                 }
             }
         } catch (\Throwable $e) {}
-
-        if ($routeName === 'frontend.home') {
-            return '/';
-        }
-        if ($routeName === 'frontend.blog.index') {
-            return '/blog';
-        }
 
         $routes = config('frontend-routes');
         if (is_array($routes) && isset($routes['pages']) && is_array($routes['pages'])) {
@@ -529,14 +595,18 @@ class SeoPageCatalog
         string $title,
         string $description,
         string $keywords = '',
+        ?string $urlPath = null,
     ): array {
         return [
             'section' => $section,
             'label' => $label,
             'route_name' => $routeName,
+            'url_path' => $urlPath ?? self::defaultPathForRoute($routeName),
             'title' => $title,
             'description' => $description,
             'keywords' => $keywords,
+            'status' => 'published',
+            'social_image' => null,
         ];
     }
 }
