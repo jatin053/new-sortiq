@@ -12,22 +12,621 @@
         <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700;800&display=swap" rel="stylesheet">
       </noscript>
       <style>
-        .sortiq-home-slider-iframe {
+        .sq-hero-slider {
+          position: relative;
           width: 100%;
-          height: 600px;
-          border: none;
+          min-height: 560px;
+          background: linear-gradient(135deg, #00102b 0%, #00173e 50%, #002561 100%);
+          color: #ffffff;
+          overflow: hidden;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+        }
+        .sq-hero-slider::before {
+          content: '';
+          position: absolute;
+          inset: 0;
+          background-image: radial-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+          background-size: 28px 28px;
+          opacity: 0.65;
+          pointer-events: none;
+        }
+        .sq-hero-glow-1 {
+          position: absolute;
+          top: -20%;
+          right: -5%;
+          width: 480px;
+          height: 480px;
+          border-radius: 50%;
+          background: radial-gradient(circle, rgba(255, 102, 0, 0.16) 0%, transparent 70%);
+          filter: blur(60px);
+          pointer-events: none;
+        }
+        .sq-hero-glow-2 {
+          position: absolute;
+          bottom: -20%;
+          left: -5%;
+          width: 480px;
+          height: 480px;
+          border-radius: 50%;
+          background: radial-gradient(circle, rgba(0, 140, 255, 0.14) 0%, transparent 70%);
+          filter: blur(60px);
+          pointer-events: none;
+        }
+        .sq-hero-track {
+          display: flex;
+          width: 100%;
+          transition: transform 0.6s cubic-bezier(0.25, 1, 0.35, 1);
+          will-change: transform;
+        }
+        .sq-hero-slide {
+          flex: 0 0 100%;
+          width: 100%;
+          box-sizing: border-box;
+          padding: 55px 24px 75px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        .sq-hero-container {
+          max-width: 1240px;
+          width: 100%;
+          margin: 0 auto;
+          display: grid;
+          grid-template-columns: 1.15fr 0.85fr;
+          gap: 48px;
+          align-items: center;
+          position: relative;
+          z-index: 2;
+        }
+        .sq-hero-badge {
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+          background: rgba(255, 102, 0, 0.12);
+          border: 1px solid rgba(255, 102, 0, 0.32);
+          color: #ff8533;
+          font-size: 11.5px;
+          font-weight: 700;
+          letter-spacing: 1px;
+          text-transform: uppercase;
+          padding: 6px 14px;
+          border-radius: 30px;
+          margin-bottom: 16px;
+          backdrop-filter: blur(4px);
+        }
+        .sq-hero-badge-pulse {
+          width: 7px;
+          height: 7px;
+          border-radius: 50%;
+          background: #ff6600;
+          box-shadow: 0 0 8px #ff6600;
+          animation: sqHeroPulse 2s infinite;
+        }
+        @keyframes sqHeroPulse {
+          0%, 100% { opacity: 1; transform: scale(1); }
+          50% { opacity: 0.4; transform: scale(0.8); }
+        }
+        .sq-hero-title {
+          font-size: 42px;
+          line-height: 1.2;
+          font-weight: 800;
+          color: #ffffff;
+          margin: 0 0 16px;
+          font-family: 'Raleway', sans-serif;
+          letter-spacing: -0.5px;
+        }
+        .sq-hero-title span {
+          background: linear-gradient(135deg, #ff8533 0%, #ff5a00 100%);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+        }
+        .sq-hero-desc {
+          font-size: 16px;
+          line-height: 1.65;
+          color: #cbd5e1;
+          margin: 0 0 24px;
+          max-width: 580px;
+        }
+        .sq-hero-actions {
+          display: flex;
+          gap: 14px;
+          align-items: center;
+          flex-wrap: wrap;
+          margin-bottom: 24px;
+        }
+        .sq-hero-btn-primary {
+          background: linear-gradient(135deg, #ff6600 0%, #e05300 100%);
+          color: #ffffff !important;
+          font-size: 14px;
+          font-weight: 700;
+          letter-spacing: 0.4px;
+          padding: 12px 26px;
+          border-radius: 8px;
+          text-decoration: none;
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+          box-shadow: 0 8px 24px rgba(255, 102, 0, 0.35);
+          transition: all 0.25s ease;
+          border: 1px solid rgba(255, 102, 0, 0.5);
+        }
+        .sq-hero-btn-primary:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 12px 28px rgba(255, 102, 0, 0.45);
+          background: linear-gradient(135deg, #ff771a 0%, #eb5a00 100%);
+        }
+        .sq-hero-btn-outline {
+          background: rgba(255, 255, 255, 0.06);
+          border: 1px solid rgba(255, 255, 255, 0.18);
+          color: #ffffff !important;
+          font-size: 14px;
+          font-weight: 600;
+          padding: 12px 22px;
+          border-radius: 8px;
+          text-decoration: none;
+          display: inline-flex;
+          align-items: center;
+          gap: 6px;
+          backdrop-filter: blur(8px);
+          transition: all 0.25s ease;
+        }
+        .sq-hero-btn-outline:hover {
+          background: rgba(255, 255, 255, 0.12);
+          border-color: rgba(255, 255, 255, 0.35);
+          transform: translateY(-2px);
+        }
+        .sq-hero-pills {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 10px;
+        }
+        .sq-hero-pill {
+          background: rgba(255, 255, 255, 0.04);
+          border: 1px solid rgba(255, 255, 255, 0.08);
+          color: #94a3b8;
+          font-size: 12px;
+          font-weight: 600;
+          padding: 5px 12px;
+          border-radius: 20px;
+          display: inline-flex;
+          align-items: center;
+          gap: 6px;
+        }
+        /* Visual Stage on Right */
+        .sq-hero-visual {
+          position: relative;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          width: 100%;
+        }
+        .sq-tech-stage {
+          position: relative;
+          width: 100%;
+          max-width: 520px;
+        }
+        .sq-tech-board {
+          position: relative;
+          background: rgba(3, 11, 28, 0.88);
+          border: 1px solid rgba(0, 210, 255, 0.22);
+          border-radius: 20px;
+          padding: 20px;
+          box-shadow: 0 25px 60px rgba(0, 0, 0, 0.65), inset 0 1px 0 rgba(255, 255, 255, 0.12), 0 0 35px rgba(0, 110, 255, 0.12);
+          backdrop-filter: blur(16px);
+          -webkit-backdrop-filter: blur(16px);
+          overflow: hidden;
+        }
+        .sq-tech-board::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          height: 2px;
+          background: linear-gradient(90deg, transparent, #ff6600, #00d2ff, transparent);
+        }
+        .sq-board-header {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding-bottom: 12px;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+          margin-bottom: 16px;
+        }
+        .sq-board-dots {
+          display: flex;
+          gap: 6px;
+        }
+        .sq-board-dot {
+          width: 10px;
+          height: 10px;
+          border-radius: 50%;
+        }
+        .sq-board-dot.d-red { background: #ff5f56; box-shadow: 0 0 6px rgba(255, 95, 86, 0.6); }
+        .sq-board-dot.d-yellow { background: #ffbd2e; box-shadow: 0 0 6px rgba(255, 189, 46, 0.6); }
+        .sq-board-dot.d-green { background: #27c93f; box-shadow: 0 0 6px rgba(39, 201, 63, 0.6); }
+        .sq-board-title-tag {
+          font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+          font-size: 11.5px;
+          color: #38bdf8;
+          letter-spacing: 0.5px;
+          display: inline-flex;
+          align-items: center;
+          gap: 6px;
+        }
+        .sq-live-badge {
+          display: inline-flex;
+          align-items: center;
+          gap: 5px;
+          background: rgba(34, 197, 94, 0.15);
+          border: 1px solid rgba(34, 197, 94, 0.35);
+          color: #4ade80;
+          font-size: 10.5px;
+          font-weight: 700;
+          padding: 3px 9px;
+          border-radius: 12px;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+        }
+        .sq-live-dot {
+          width: 6px;
+          height: 6px;
+          border-radius: 50%;
+          background: #22c55e;
+          animation: sqLivePulse 1.8s infinite;
+        }
+        @keyframes sqLivePulse {
+          0%, 100% { opacity: 1; transform: scale(1); }
+          50% { opacity: 0.3; transform: scale(0.7); }
+        }
+
+        /* Code Terminal */
+        .sq-code-terminal {
+          font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+          font-size: 12px;
+          line-height: 1.7;
+          color: #cbd5e1;
+          background: rgba(0, 6, 20, 0.9);
+          border: 1px solid rgba(255, 255, 255, 0.08);
+          border-radius: 12px;
+          padding: 14px 16px;
+          margin-bottom: 14px;
+          min-height: 154px;
+          box-sizing: border-box;
+          white-space: pre-wrap;
+          word-break: break-word;
+        }
+        .c-kw { color: #c084fc; font-weight: 600; }
+        .c-fn { color: #38bdf8; }
+        .c-cls { color: #fbbf24; font-weight: 600; }
+        .c-str { color: #4ade80; }
+        .c-var { color: #93c5fd; }
+        .c-tag { color: #f43f5e; font-weight: 600; }
+        .c-res { color: #ff8533; font-weight: 600; }
+        .c-cursor {
+          display: inline-block;
+          width: 7px;
+          height: 14px;
+          background: #ff8533;
+          margin-left: 2px;
+          vertical-align: middle;
+          animation: sqCursorBlink 1s infinite;
+        }
+        .c-cursor.typing {
+          animation: none !important;
+          opacity: 1 !important;
+        }
+        @keyframes sqCursorBlink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+
+        /* Telemetry Grid */
+        .sq-telemetry-grid {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 10px;
+        }
+        .sq-telemetry-item {
+          background: rgba(255, 255, 255, 0.03);
+          border: 1px solid rgba(255, 255, 255, 0.08);
+          border-radius: 10px;
+          padding: 10px 8px;
+          text-align: center;
+        }
+        .sq-telemetry-val {
+          font-size: 15px;
+          font-weight: 800;
+          color: #ffffff;
+          display: block;
+          font-family: 'Raleway', sans-serif;
+        }
+        .sq-telemetry-val.c-orange { color: #ff8533; }
+        .sq-telemetry-val.c-green { color: #4ade80; }
+        .sq-telemetry-val.c-blue { color: #38bdf8; }
+        .sq-telemetry-label {
+          font-size: 10px;
+          color: #94a3b8;
+          display: block;
+          margin-top: 2px;
+          font-weight: 600;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+        }
+
+        /* Floating Badges */
+        .sq-float-badge {
+          position: absolute;
+          background: rgba(0, 18, 50, 0.94);
+          border: 1px solid rgba(255, 255, 255, 0.18);
+          box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(0, 210, 255, 0.15);
+          border-radius: 12px;
+          padding: 8px 14px;
+          display: inline-flex;
+          align-items: center;
+          gap: 9px;
+          backdrop-filter: blur(12px);
+          z-index: 4;
+        }
+        .sq-float-badge strong { font-size: 12.5px; color: #ffffff; display: block; }
+        .sq-float-badge small { font-size: 10.5px; color: #94a3b8; display: block; }
+        .sq-float-badge-1 {
+          top: -12px;
+          right: -10px;
+          border-color: rgba(0, 210, 255, 0.45);
+          animation: sqFloat1 4.5s ease-in-out infinite;
+        }
+        .sq-float-badge-2 {
+          bottom: -12px;
+          left: -10px;
+          border-color: rgba(255, 102, 0, 0.45);
+          animation: sqFloat2 5s ease-in-out infinite;
+        }
+        @keyframes sqFloat1 {
+          0%, 100% { transform: translateY(0); }
+          50% { transform: translateY(-7px); }
+        }
+        @keyframes sqFloat2 {
+          0%, 100% { transform: translateY(0); }
+          50% { transform: translateY(7px); }
+        }
+
+        /* Slide 2: Enterprise Cloud Nodes */
+        .sq-cloud-nodes-grid {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 10px;
+        }
+        .sq-cloud-node {
+          background: rgba(0, 14, 38, 0.7);
+          border: 1px solid rgba(255, 255, 255, 0.08);
+          border-radius: 12px;
+          padding: 12px;
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          transition: all 0.3s ease;
+        }
+        .sq-cloud-node:hover {
+          border-color: rgba(0, 210, 255, 0.4);
+          background: rgba(0, 24, 64, 0.85);
+          transform: translateY(-2px);
+        }
+        .sq-node-icon-box {
+          width: 34px;
+          height: 34px;
+          border-radius: 9px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          flex-shrink: 0;
+        }
+        .sq-node-icon-box.orange { background: rgba(255, 102, 0, 0.15); color: #ff8533; border: 1px solid rgba(255, 102, 0, 0.3); }
+        .sq-node-icon-box.blue { background: rgba(56, 189, 248, 0.15); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.3); }
+        .sq-node-icon-box.green { background: rgba(34, 197, 94, 0.15); color: #4ade80; border: 1px solid rgba(34, 197, 94, 0.3); }
+        .sq-node-icon-box.purple { background: rgba(192, 132, 252, 0.15); color: #c084fc; border: 1px solid rgba(192, 132, 252, 0.3); }
+        .sq-node-copy strong { font-size: 12.5px; color: #ffffff; display: block; font-weight: 700; }
+        .sq-node-copy small { font-size: 10.5px; color: #94a3b8; display: block; }
+
+        /* Slide 3: Growth Chart */
+        .sq-chart-card {
+          position: relative;
+          width: 100%;
+        }
+        .sq-chart-svg {
+          width: 100%;
+          height: auto;
           display: block;
         }
+        .sq-chart-grid-line {
+          stroke: rgba(255, 255, 255, 0.08);
+          stroke-dasharray: 4, 4;
+        }
+        .sq-chart-line {
+          fill: none;
+          stroke: #ff6600;
+          stroke-width: 3.5;
+          stroke-linecap: round;
+          filter: drop-shadow(0 4px 10px rgba(255, 102, 0, 0.6));
+        }
+        .sq-chart-point {
+          fill: #ffffff;
+          stroke: #ff6600;
+          stroke-width: 3;
+        }
+        /* Navigation & Tabs */
+        .sq-hero-nav-arrow {
+          position: absolute;
+          top: 50%;
+          transform: translateY(-50%);
+          width: 44px;
+          height: 44px;
+          border-radius: 50%;
+          background: rgba(255, 255, 255, 0.08);
+          border: 1px solid rgba(255, 255, 255, 0.18);
+          color: #ffffff;
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          transition: all 0.25s ease;
+          z-index: 10;
+          backdrop-filter: blur(8px);
+          padding: 0;
+        }
+        .sq-hero-nav-arrow:hover {
+          background: #ff6600;
+          border-color: #ff6600;
+          transform: translateY(-50%) scale(1.08);
+          box-shadow: 0 6px 18px rgba(255, 102, 0, 0.4);
+        }
+        .sq-hero-prev { left: 20px; }
+        .sq-hero-next { right: 20px; }
+        .sq-hero-tabs {
+          position: absolute;
+          bottom: 18px;
+          left: 50%;
+          transform: translateX(-50%);
+          display: flex;
+          gap: 8px;
+          background: rgba(0, 16, 43, 0.7);
+          border: 1px solid rgba(255, 255, 255, 0.12);
+          border-radius: 30px;
+          padding: 4px;
+          backdrop-filter: blur(12px);
+          z-index: 10;
+        }
+        .sq-hero-tab-btn {
+          background: transparent;
+          border: none;
+          color: #94a3b8;
+          font-size: 12.5px;
+          font-weight: 600;
+          padding: 7px 16px;
+          border-radius: 24px;
+          cursor: pointer;
+          transition: all 0.25s ease;
+          display: inline-flex;
+          align-items: center;
+          gap: 6px;
+          font-family: inherit;
+        }
+        .sq-hero-tab-btn.active {
+          background: #ff6600;
+          color: #ffffff;
+          font-weight: 700;
+          box-shadow: 0 4px 14px rgba(255, 102, 0, 0.4);
+        }
+        .sq-hero-tab-num {
+          font-size: 11px;
+          opacity: 0.75;
+        }
+        /* Progress Bar */
+        .sq-hero-progress-track {
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          width: 100%;
+          height: 3px;
+          background: rgba(255, 255, 255, 0.08);
+          z-index: 20;
+        }
+        .sq-hero-progress-bar {
+          height: 100%;
+          width: 0%;
+          background: linear-gradient(90deg, #ff6600, #ff944d);
+          transition: width 0.1s linear;
+        }
+        /* Mobile & Tablet Responsiveness */
+        .sq-tab-txt-mobile { display: none; }
         @media (max-width: 991px) {
-          .sortiq-home-slider-iframe {
-            height: 520px;
+          .sq-hero-slider { min-height: auto; }
+          .sq-hero-slide { padding: 36px 16px 85px; }
+          .sq-hero-container {
+            grid-template-columns: 1fr;
+            gap: 22px;
+            text-align: center;
+          }
+          .sq-hero-title { font-size: 30px; }
+          .sq-hero-desc { margin: 0 auto 16px; }
+          .sq-hero-actions { justify-content: center; }
+          .sq-hero-pills { justify-content: center; }
+          .sq-hero-nav-arrow { display: none; }
+          .sq-float-badge-2 { display: none !important; }
+          .sq-float-badge-1 {
+            top: -12px;
+            right: 10px;
+            transform: scale(0.9);
+            transform-origin: top right;
           }
         }
-        @media (max-width: 767px) {
-          .sortiq-home-slider-iframe {
-            height: 560px;
+        @media (max-width: 640px) {
+          .sq-hero-slide { padding: 24px 12px 88px; }
+          .sq-hero-title { font-size: 23px; line-height: 1.25; margin-bottom: 10px; }
+          .sq-hero-desc { font-size: 13px; line-height: 1.45; margin-bottom: 12px; }
+          .sq-hero-actions { gap: 8px; margin-bottom: 12px; }
+          .sq-hero-btn-primary,
+          .sq-hero-btn-outline { font-size: 12.5px; padding: 9px 18px; }
+          .sq-hero-pills { gap: 5px; margin-bottom: 14px; }
+          .sq-hero-pill { font-size: 10px; padding: 4px 8px; }
+          
+          /* Code board adjustments for mobile */
+          .sq-tech-board {
+            padding: 12px 10px;
+            border-radius: 14px;
+          }
+          .sq-board-header {
+            margin-bottom: 8px;
+            padding-bottom: 6px;
+          }
+          .sq-code-terminal {
+            font-size: 10.5px;
+            line-height: 1.5;
+            padding: 9px 11px;
+            min-height: 128px;
+            margin-bottom: 8px;
+          }
+          .sq-telemetry-grid {
+            gap: 5px;
+          }
+          .sq-telemetry-item {
+            padding: 5px 2px;
+            border-radius: 8px;
+          }
+          .sq-telemetry-val {
+            font-size: 12px;
+          }
+          .sq-telemetry-label {
+            font-size: 8px;
+            margin-top: 1px;
+          }
+          .sq-float-badge-1 {
+            top: -10px;
+            right: 6px;
+            transform: scale(0.82);
+            transform-origin: top right;
+            padding: 4px 8px;
+          }
+
+          /* Bottom tabs for mobile */
+          .sq-tab-txt-full { display: none; }
+          .sq-tab-txt-mobile { display: inline; }
+          .sq-hero-tabs {
+            bottom: 10px;
+            gap: 4px;
+            padding: 3px;
+            background: rgba(0, 16, 43, 0.94);
+            border: 1px solid rgba(255, 255, 255, 0.16);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+            max-width: calc(100% - 20px);
+          }
+          .sq-hero-tab-btn {
+            font-size: 11px;
+            padding: 5px 14px;
+            white-space: nowrap;
+            gap: 4px;
           }
         }
+
         .hm-cert-slider {
           position: relative;
           width: 100%;
@@ -547,7 +1146,300 @@
 @section('content')
 <main class="sortiq-home font-raleway"><div class="font-raleway">
 <h1 class="sr-only">Sortiq Solutions | Leading Web Development, Mobile Apps &amp; Digital Marketing Company</h1>
-<iframe src="https://slides-jatin-choudhary.vercel.app/" class="sortiq-home-slider-iframe" title="Sortiq Solutions - Web &amp; Mobile App Development" loading="lazy" scrolling="no"></iframe>
+
+<!-- ===================== ULTRA-FAST HERO SLIDER ===================== -->
+<section class="sq-hero-slider" id="sqHeroSlider" aria-roledescription="carousel" aria-label="Sortiq Solutions Highlights">
+  <div class="sq-hero-glow-1" aria-hidden="true"></div>
+  <div class="sq-hero-glow-2" aria-hidden="true"></div>
+
+  <!-- SLIDES TRACK -->
+  <div class="sq-hero-track" id="sqHeroTrack">
+
+    <!-- SLIDE 1: Web & Mobile Apps -->
+    <article class="sq-hero-slide" aria-roledescription="slide" aria-label="1 of 3: Web and Mobile App Engineering">
+      <div class="sq-hero-container">
+        <div class="sq-hero-content">
+          <div class="sq-hero-badge">
+            <span class="sq-hero-badge-pulse" aria-hidden="true"></span>
+            <span>Full-Cycle Software Engineering</span>
+          </div>
+          <h2 class="sq-hero-title">
+            Architecting High-Speed <span>Web &amp; Mobile</span> Apps
+          </h2>
+          <p class="sq-hero-desc">
+            We design, develop, and scale responsive web applications, modern SaaS platforms, and mobile apps engineered for blazing performance, bulletproof security, and higher conversions.
+          </p>
+          <div class="sq-hero-actions">
+            <a href="{{ route('frontend.services.web') }}" class="sq-hero-btn-primary">
+              <span>Explore Services</span>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+            </a>
+            <a href="{{ route('frontend.portfolio') }}" class="sq-hero-btn-outline">
+              <span>View Portfolio</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+            </a>
+          </div>
+          <div class="sq-hero-pills">
+            <span class="sq-hero-pill">⚡ 99.9% Uptime Architecture</span>
+            <span class="sq-hero-pill">🚀 3.5x Faster Load Time</span>
+            <span class="sq-hero-pill">🔒 Enterprise-Grade Security</span>
+          </div>
+        </div>
+
+        <!-- SLIDE 1 VISUAL: REACT CODE ENGINE -->
+        <div class="sq-hero-visual">
+          <div class="sq-tech-stage">
+            <div class="sq-float-badge sq-float-badge-1">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+              <div>
+                <strong>React 19 + Next.js 15</strong>
+                <small>High Concurrency Frontend</small>
+              </div>
+            </div>
+
+            <div class="sq-tech-board">
+              <div class="sq-board-header">
+                <div class="sq-board-dots">
+                  <span class="sq-board-dot d-red"></span>
+                  <span class="sq-board-dot d-yellow"></span>
+                  <span class="sq-board-dot d-green"></span>
+                </div>
+                <div class="sq-board-title-tag">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
+                  <span>SortiqApp.tsx</span>
+                </div>
+                <span class="sq-live-badge"><span class="sq-live-dot"></span> Active</span>
+              </div>
+
+              <div class="sq-code-terminal" id="sqCodeTerminal1"></div>
+
+              <div class="sq-telemetry-grid">
+                <div class="sq-telemetry-item">
+                  <span class="sq-telemetry-val c-green">0.18s</span>
+                  <span class="sq-telemetry-label">Page Speed</span>
+                </div>
+                <div class="sq-telemetry-item">
+                  <span class="sq-telemetry-val c-orange">100/100</span>
+                  <span class="sq-telemetry-label">Core Web Vitals</span>
+                </div>
+                <div class="sq-telemetry-item">
+                  <span class="sq-telemetry-val c-blue">150+</span>
+                  <span class="sq-telemetry-label">Apps Built</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="sq-float-badge sq-float-badge-2">
+              <span class="sq-live-dot" style="background: #ff8533; box-shadow: 0 0 8px #ff8533;"></span>
+              <div>
+                <strong>Global Edge Delivery</strong>
+                <small>&lt; 15ms Latency Worldwide</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- SLIDE 2: Enterprise IT & Wix Partner -->
+    <article class="sq-hero-slide" aria-roledescription="slide" aria-label="2 of 3: Enterprise IT and Certified Wix Partner">
+      <div class="sq-hero-container">
+        <div class="sq-hero-content">
+          <div class="sq-hero-badge">
+            <span class="sq-hero-badge-pulse" aria-hidden="true"></span>
+            <span>Certified Wix Partner &amp; Cloud IT</span>
+          </div>
+          <h2 class="sq-hero-title">
+            Scaling Brands With <span>Future-Ready IT</span> Solutions
+          </h2>
+          <p class="sq-hero-desc">
+            As a certified Wix Studio Partner and ISO 9001:2015 accredited company, we build bespoke enterprise web platforms, custom cloud architectures, and seamless digital transformations.
+          </p>
+          <div class="sq-hero-actions">
+            <a href="{{ route('frontend.contact') }}" class="sq-hero-btn-primary">
+              <span>Start Your Project</span>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+            </a>
+            <a href="{{ route('frontend.why-us') }}" class="sq-hero-btn-outline">
+              <span>Why Choose Us</span>
+            </a>
+          </div>
+          <div class="sq-hero-pills">
+            <span class="sq-hero-pill">🏆 Certified Wix Partner</span>
+            <span class="sq-hero-pill">⚙️ Custom API &amp; ERP Cloud</span>
+            <span class="sq-hero-pill">🎖️ ISO 9001:2015 Accredited</span>
+          </div>
+        </div>
+
+        <!-- SLIDE 2 VISUAL: PHP / LARAVEL CORE ENGINE -->
+        <div class="sq-hero-visual">
+          <div class="sq-tech-stage">
+            <div class="sq-float-badge sq-float-badge-1">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+              <div>
+                <strong>PHP 8.3 + Laravel 11</strong>
+                <small>Enterprise Cloud Backend</small>
+              </div>
+            </div>
+
+            <div class="sq-tech-board">
+              <div class="sq-board-header">
+                <div class="sq-board-dots">
+                  <span class="sq-board-dot d-red"></span>
+                  <span class="sq-board-dot d-yellow"></span>
+                  <span class="sq-board-dot d-green"></span>
+                </div>
+                <div class="sq-board-title-tag">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#a855f7" stroke-width="2"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
+                  <span>SortiqEnterprise.php</span>
+                </div>
+                <span class="sq-live-badge"><span class="sq-live-dot"></span> Synced</span>
+              </div>
+
+              <div class="sq-code-terminal" id="sqCodeTerminal2"></div>
+
+              <div class="sq-telemetry-grid">
+                <div class="sq-telemetry-item">
+                  <span class="sq-telemetry-val c-green">0 Downtime</span>
+                  <span class="sq-telemetry-label">Deployment</span>
+                </div>
+                <div class="sq-telemetry-item">
+                  <span class="sq-telemetry-val c-orange">25k+</span>
+                  <span class="sq-telemetry-label">Req / Sec</span>
+                </div>
+                <div class="sq-telemetry-item">
+                  <span class="sq-telemetry-val c-blue">99.99%</span>
+                  <span class="sq-telemetry-label">Cloud SLA</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="sq-float-badge sq-float-badge-2">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ff8533" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="m4.93 4.93 4.24 4.24"></path><path d="m14.83 9.17 4.24-4.24"></path><path d="m14.83 14.83 4.24 4.24"></path><path d="m9.17 14.83-4.24 4.24"></path></svg>
+              <div>
+                <strong>ISO 9001:2015 Accredited</strong>
+                <small>Official Wix Studio Partner</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- SLIDE 3: Data-Driven Marketing & SEO -->
+    <article class="sq-hero-slide" aria-roledescription="slide" aria-label="3 of 3: Data-Driven Marketing and SEO">
+      <div class="sq-hero-container">
+        <div class="sq-hero-content">
+          <div class="sq-hero-badge">
+            <span class="sq-hero-badge-pulse" aria-hidden="true"></span>
+            <span>Data-Driven Growth &amp; Performance</span>
+          </div>
+          <h2 class="sq-hero-title">
+            Grow Revenue With <span>Targeted SEO &amp; Marketing</span>
+          </h2>
+          <p class="sq-hero-desc">
+            Transform visitors into high-value clients. Our battle-tested SEO, performance advertising, and conversion rate optimization campaigns produce real, compounding ROI.
+          </p>
+          <div class="sq-hero-actions">
+            <a href="{{ route('frontend.services.seo') }}" class="sq-hero-btn-primary">
+              <span>Get Free SEO Audit</span>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+            </a>
+            <a href="{{ route('frontend.services.marketing') }}" class="sq-hero-btn-outline">
+              <span>Digital Marketing</span>
+            </a>
+          </div>
+          <div class="sq-hero-pills">
+            <span class="sq-hero-pill">📈 +340% Avg Traffic Growth</span>
+            <span class="sq-hero-pill">🎯 High-Intent Lead Gen</span>
+            <span class="sq-hero-pill">📊 Real-Time Analytics</span>
+          </div>
+        </div>
+
+        <!-- SLIDE 3 VISUAL: JAVASCRIPT REAL-TIME GROWTH ENGINE -->
+        <div class="sq-hero-visual">
+          <div class="sq-tech-stage">
+            <div class="sq-float-badge sq-float-badge-1">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ff8533" stroke-width="2.5"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 6 23 12"></polyline></svg>
+              <div>
+                <strong>Vanilla JS + Google V8</strong>
+                <small>High-Throughput Analytics</small>
+              </div>
+            </div>
+
+            <div class="sq-tech-board">
+              <div class="sq-board-header">
+                <div class="sq-board-dots">
+                  <span class="sq-board-dot d-red"></span>
+                  <span class="sq-board-dot d-yellow"></span>
+                  <span class="sq-board-dot d-green"></span>
+                </div>
+                <div class="sq-board-title-tag">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#facc15" stroke-width="2"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
+                  <span>growthEngine.js</span>
+                </div>
+                <span class="sq-live-badge"><span class="sq-live-dot"></span> Optimized</span>
+              </div>
+
+              <div class="sq-code-terminal" id="sqCodeTerminal3"></div>
+
+              <div class="sq-telemetry-grid">
+                <div class="sq-telemetry-item">
+                  <span class="sq-telemetry-val c-orange">4.8x</span>
+                  <span class="sq-telemetry-label">Avg ROAS</span>
+                </div>
+                <div class="sq-telemetry-item">
+                  <span class="sq-telemetry-val c-green">Top 3</span>
+                  <span class="sq-telemetry-label">Google Rank</span>
+                </div>
+                <div class="sq-telemetry-item">
+                  <span class="sq-telemetry-val c-blue">+340%</span>
+                  <span class="sq-telemetry-label">Traffic Spike</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="sq-float-badge sq-float-badge-2">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.5"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+              <div>
+                <strong>Google Partner Certified</strong>
+                <small>High-Intent Buyer Traffic</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+  </div>
+
+  <!-- PREV / NEXT BUTTONS -->
+  <button type="button" class="sq-hero-nav-arrow sq-hero-prev" id="sqHeroPrev" aria-label="Previous slide">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"></polyline></svg>
+  </button>
+  <button type="button" class="sq-hero-nav-arrow sq-hero-next" id="sqHeroNext" aria-label="Next slide">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"></polyline></svg>
+  </button>
+
+  <!-- BOTTOM TABS -->
+  <div class="sq-hero-tabs" role="tablist" aria-label="Hero slider tabs">
+    <button type="button" class="sq-hero-tab-btn active" data-slide-index="0" role="tab" aria-selected="true">
+      <span class="sq-hero-tab-num">01</span> <span class="sq-tab-txt-full">Web &amp; Apps</span><span class="sq-tab-txt-mobile">Web</span>
+    </button>
+    <button type="button" class="sq-hero-tab-btn" data-slide-index="1" role="tab" aria-selected="false">
+      <span class="sq-hero-tab-num">02</span> <span class="sq-tab-txt-full">Enterprise IT</span><span class="sq-tab-txt-mobile">Cloud</span>
+    </button>
+    <button type="button" class="sq-hero-tab-btn" data-slide-index="2" role="tab" aria-selected="false">
+      <span class="sq-hero-tab-num">03</span> <span class="sq-tab-txt-full">SEO &amp; Growth</span><span class="sq-tab-txt-mobile">SEO</span>
+    </button>
+  </div>
+
+  <!-- PROGRESS BAR -->
+  <div class="sq-hero-progress-track" aria-hidden="true">
+    <div class="sq-hero-progress-bar" id="sqHeroProgressBar"></div>
+  </div>
+</section>
+
 <section class="hm-why-section">
   <div class="max-w-[1200px] mx-auto px-4 w-full hm-why-container">
     <div class="hm-why-head">
@@ -1016,6 +1908,381 @@
 @endsection
 @push('scripts')
 <script>
+/* ============================================================
+   ULTRA-FAST NATIVE HERO SLIDER JS
+   ============================================================ */
+(function initHeroSlider() {
+  function start() {
+    var slider = document.getElementById('sqHeroSlider');
+    var track = document.getElementById('sqHeroTrack');
+    var prevBtn = document.getElementById('sqHeroPrev');
+    var nextBtn = document.getElementById('sqHeroNext');
+    var tabs = document.querySelectorAll('.sq-hero-tab-btn');
+    var progressBar = document.getElementById('sqHeroProgressBar');
+
+    if (!slider || !track) return;
+
+    var slides = track.querySelectorAll('.sq-hero-slide');
+    var total = slides.length;
+    if (total <= 1) return;
+
+    var current = 0;
+    var duration = 6000;
+    var progressInterval = 50;
+    var elapsed = 0;
+    var timer = null;
+    var isPaused = false;
+
+    // --- MULTI-LANGUAGE LIVE TYPEWRITER ENGINE (REACT | PHP | JS) ---
+    var typingTimer = null;
+
+    // 01: REACT CODE (Next.js / React 19 Frontend)
+    var reactScript = [
+      {
+        tokens: [
+          { t: "import ", c: "c-kw" },
+          { t: "{ useState } ", c: "c-fn" },
+          { t: "from ", c: "c-kw" },
+          { t: "\"react\";", c: "c-str" }
+        ]
+      },
+      {
+        tokens: [
+          { t: "export default function ", c: "c-kw" },
+          { t: "SortiqApp", c: "c-fn" },
+          { t: "() {", c: "" }
+        ]
+      },
+      {
+        tokens: [
+          { t: "  const [live] = ", c: "" },
+          { t: "useState", c: "c-fn" },
+          { t: "(true);", c: "" }
+        ]
+      },
+      {
+        tokens: [
+          { t: "  return <", c: "" },
+          { t: "EnterpriseApp ", c: "c-cls" },
+          { t: "speed=", c: "c-var" },
+          { t: "\"100/100\"", c: "c-str" },
+          { t: " />;", c: "" }
+        ]
+      },
+      {
+        tokens: [
+          { t: "}", c: "" }
+        ]
+      },
+      {
+        isResult: true,
+        tokens: [
+          { t: "✔ React Live: ", c: "c-res" },
+          { t: "Interactive in 0.18s", c: "c-str" }
+        ]
+      }
+    ];
+
+    // 02: PHP CODE (PHP 8.3 / Laravel 11 Cloud Architecture)
+    var phpScript = [
+      {
+        tokens: [
+          { t: "namespace ", c: "c-kw" },
+          { t: "App\\Services;", c: "c-cls" }
+        ]
+      },
+      {
+        tokens: [
+          { t: "class ", c: "c-kw" },
+          { t: "CloudEngine ", c: "c-cls" },
+          { t: "extends ", c: "c-kw" },
+          { t: "Service ", c: "c-cls" },
+          { t: "{", c: "" }
+        ]
+      },
+      {
+        tokens: [
+          { t: "  public function ", c: "c-kw" },
+          { t: "deploy", c: "c-fn" },
+          { t: "($node) {", c: "" }
+        ]
+      },
+      {
+        tokens: [
+          { t: "    $cloud = $node->", c: "c-var" },
+          { t: "scale", c: "c-fn" },
+          { t: "(nodes: 64);", c: "" }
+        ]
+      },
+      {
+        tokens: [
+          { t: "    return $cloud->", c: "c-kw" },
+          { t: "secureDeploy", c: "c-fn" },
+          { t: "('AES-256');", c: "c-str" }
+        ]
+      },
+      {
+        tokens: [
+          { t: "  }", c: "" }
+        ]
+      },
+      {
+        tokens: [
+          { t: "}", c: "" }
+        ]
+      },
+      {
+        isResult: true,
+        tokens: [
+          { t: "✔ Cloud Engine: ", c: "c-res" },
+          { t: "64 Nodes Live (0ms Downtime)", c: "c-str" }
+        ]
+      }
+    ];
+
+    // 03: JAVASCRIPT CODE (Google V8 / Real-Time Growth Analytics)
+    var jsScript = [
+      {
+        tokens: [
+          { t: "import ", c: "c-kw" },
+          { t: "{ SortiqGrowth } ", c: "c-cls" },
+          { t: "from ", c: "c-kw" },
+          { t: "\"@sortiq/growth\";", c: "c-str" }
+        ]
+      },
+      {
+        tokens: [
+          { t: "async function ", c: "c-kw" },
+          { t: "trackROI", c: "c-fn" },
+          { t: "(domain) {", c: "" }
+        ]
+      },
+      {
+        tokens: [
+          { t: "  const report = await SortiqGrowth.", c: "" },
+          { t: "audit", c: "c-fn" },
+          { t: "(domain);", c: "" }
+        ]
+      },
+      {
+        tokens: [
+          { t: "  return report.", c: "c-kw" },
+          { t: "boost", c: "c-fn" },
+          { t: "({ roas: ", c: "" },
+          { t: "\"4.8x\"", c: "c-str" },
+          { t: " });", c: "" }
+        ]
+      },
+      {
+        tokens: [
+          { t: "}", c: "" }
+        ]
+      },
+      {
+        isResult: true,
+        tokens: [
+          { t: "✔ Real-time JS: ", c: "c-res" },
+          { t: "+340% Traffic Spike", c: "c-str" }
+        ]
+      }
+    ];
+
+    var terminalScripts = [reactScript, phpScript, jsScript];
+
+    function stopTerminalTyping() {
+      if (typingTimer) {
+        clearTimeout(typingTimer);
+        typingTimer = null;
+      }
+    }
+
+    function startTerminalTyping(slideIndex) {
+      stopTerminalTyping();
+      var terminalEl = document.getElementById('sqCodeTerminal' + (slideIndex + 1));
+      if (!terminalEl) return;
+
+      var script = terminalScripts[slideIndex];
+      if (!script) return;
+
+      terminalEl.innerHTML = '';
+
+      var cursor = document.createElement('span');
+      cursor.className = 'c-cursor typing';
+
+      var lineIdx = 0;
+      var tokenIdx = 0;
+      var charIdx = 0;
+
+      var currentLineEl = document.createElement('div');
+      terminalEl.appendChild(currentLineEl);
+      currentLineEl.appendChild(cursor);
+
+      var currentSpan = null;
+
+      function typeChar() {
+        if (lineIdx >= script.length) {
+          cursor.classList.remove('typing');
+          return;
+        }
+
+        var lineData = script[lineIdx];
+
+        if (tokenIdx >= lineData.tokens.length) {
+          lineIdx++;
+          tokenIdx = 0;
+          charIdx = 0;
+          currentSpan = null;
+
+          if (lineIdx < script.length) {
+            currentLineEl = document.createElement('div');
+            if (script[lineIdx].isResult) {
+              currentLineEl.style.marginTop = '6px';
+            }
+            terminalEl.appendChild(currentLineEl);
+            currentLineEl.appendChild(cursor);
+            typingTimer = setTimeout(typeChar, 70);
+          } else {
+            cursor.classList.remove('typing');
+          }
+          return;
+        }
+
+        var token = lineData.tokens[tokenIdx];
+
+        if (charIdx === 0) {
+          currentSpan = document.createElement('span');
+          if (token.c) currentSpan.className = token.c;
+          currentLineEl.insertBefore(currentSpan, cursor);
+        }
+
+        currentSpan.textContent += token.t.charAt(charIdx);
+        charIdx++;
+
+        if (charIdx >= token.t.length) {
+          tokenIdx++;
+          charIdx = 0;
+          currentSpan = null;
+        }
+
+        var delay = Math.floor(Math.random() * 10) + 11;
+        typingTimer = setTimeout(typeChar, delay);
+      }
+
+      typingTimer = setTimeout(typeChar, 140);
+    }
+
+    function goTo(index) {
+      if (index < 0) index = total - 1;
+      if (index >= total) index = 0;
+      current = index;
+      track.style.transform = 'translateX(-' + (current * 100) + '%)';
+
+      slides.forEach(function(slide, i) {
+        slide.classList.toggle('is-active', i === current);
+      });
+
+      tabs.forEach(function(btn, i) {
+        var active = (i === current);
+        btn.classList.toggle('active', active);
+        btn.setAttribute('aria-selected', active ? 'true' : 'false');
+      });
+
+      elapsed = 0;
+      if (progressBar) progressBar.style.width = '0%';
+
+      startTerminalTyping(current);
+    }
+
+    function tick() {
+      if (isPaused) return;
+      elapsed += progressInterval;
+      var pct = Math.min((elapsed / duration) * 100, 100);
+      if (progressBar) progressBar.style.width = pct + '%';
+
+      if (elapsed >= duration) {
+        goTo(current + 1);
+      }
+    }
+
+    function startAutoplay() {
+      stopAutoplay();
+      timer = setInterval(tick, progressInterval);
+    }
+
+    function stopAutoplay() {
+      if (timer) {
+        clearInterval(timer);
+        timer = null;
+      }
+    }
+
+    if (prevBtn) {
+      prevBtn.addEventListener('click', function() {
+        goTo(current - 1);
+      });
+    }
+
+    if (nextBtn) {
+      nextBtn.addEventListener('click', function() {
+        goTo(current + 1);
+      });
+    }
+
+    tabs.forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        var idx = parseInt(this.getAttribute('data-slide-index'), 10);
+        if (!isNaN(idx)) goTo(idx);
+      });
+    });
+
+    slider.addEventListener('mouseenter', function() {
+      isPaused = true;
+    });
+
+    slider.addEventListener('mouseleave', function() {
+      isPaused = false;
+    });
+
+    document.addEventListener('visibilitychange', function() {
+      isPaused = document.hidden;
+    });
+
+    // Touch swipe support
+    var touchStartX = 0;
+    var touchEndX = 0;
+    slider.addEventListener('touchstart', function(e) {
+      touchStartX = e.changedTouches[0].screenX;
+      isPaused = true;
+    }, { passive: true });
+
+    slider.addEventListener('touchend', function(e) {
+      touchEndX = e.changedTouches[0].screenX;
+      isPaused = false;
+      var diff = touchStartX - touchEndX;
+      if (Math.abs(diff) > 40) {
+        if (diff > 0) {
+          goTo(current + 1);
+        } else {
+          goTo(current - 1);
+        }
+      }
+    }, { passive: true });
+
+    goTo(0);
+    startAutoplay();
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', start);
+  } else {
+    start();
+  }
+})();
+
+/* ============================================================
+   HOMEPAGE SCRIPTS
+   ============================================================ */
+
 /* ---- Video Lightbox Modal ---- */
 (function() {
   var modal = document.getElementById('sqVideoModal');
@@ -1106,11 +2373,6 @@
     }
   });
 })();
-
-
-/* ============================================================
-   HOMEPAGE SCRIPTS
-   ============================================================ */
 
 (function() {
   var track = document.querySelector('.hm-clients-track');
