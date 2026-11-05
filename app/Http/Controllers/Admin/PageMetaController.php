@@ -17,28 +17,17 @@ class PageMetaController extends Controller
     public function index(Request $request): View
     {
         $allPages = $this->allPagesWithMeta();
-        $statusFilter = $request->query('status', 'all');
         $searchQuery = trim((string) $request->query('s', ''));
-
-        $publishedCount = count(array_filter($allPages, fn($p) => ($p['status'] ?? 'published') === 'published'));
-        $draftCount = count(array_filter($allPages, fn($p) => ($p['status'] ?? 'published') === 'draft'));
-
-        // Filter by Status
-        if ($statusFilter === 'published') {
-            $filtered = array_values(array_filter($allPages, fn($p) => ($p['status'] ?? 'published') === 'published'));
-        } elseif ($statusFilter === 'draft') {
-            $filtered = array_values(array_filter($allPages, fn($p) => ($p['status'] ?? 'published') === 'draft'));
-        } else {
-            $filtered = $allPages;
-        }
 
         // Search Filter
         if ($searchQuery !== '') {
-            $filtered = array_values(array_filter($filtered, function ($p) use ($searchQuery) {
+            $filtered = array_values(array_filter($allPages, function ($p) use ($searchQuery) {
                 return str_contains(strtolower($p['label']), strtolower($searchQuery))
                     || str_contains(strtolower($p['section']), strtolower($searchQuery))
                     || str_contains(strtolower($p['path']), strtolower($searchQuery));
             }));
+        } else {
+            $filtered = $allPages;
         }
 
         // Pagination 10 per page
@@ -51,9 +40,6 @@ class PageMetaController extends Controller
         return view('admin.pages.index', [
             'allPages' => $paginatedPages,
             'totalCount' => count($allPages),
-            'publishedCount' => $publishedCount,
-            'draftCount' => $draftCount,
-            'currentStatus' => $statusFilter,
             'searchQuery' => $searchQuery,
             'currentPage' => $currentPage,
             'lastPage' => $lastPage,
@@ -359,11 +345,6 @@ class PageMetaController extends Controller
         foreach (SeoPageCatalog::pages() as $page) {
             $routeName = $page['route_name'];
             $storedValues = $this->storedValuesForRoute($storedPageMeta, $routeName);
-            $status = $storedValues['status'] ?? ($page['status'] ?? 'published');
-
-            if ($status === 'trashed' || $status === 'deleted') {
-                continue;
-            }
 
             $pages[] = [
                 ...$page,
@@ -373,7 +354,7 @@ class PageMetaController extends Controller
                 'title' => trim((string) ($storedValues['title'] ?? '')) ?: $page['title'],
                 'description' => trim((string) ($storedValues['description'] ?? '')) ?: $page['description'],
                 'keywords' => trim((string) ($storedValues['keywords'] ?? '')) ?: $page['keywords'],
-                'status' => $status,
+                'status' => 'published',
                 'exclude_sitemap' => (bool) ($storedValues['exclude_sitemap'] ?? false),
                 'current_meta' => [
                     'title' => trim((string) ($storedValues['title'] ?? '')),

@@ -307,15 +307,7 @@ class PageMeta
 
     public static function isDraftRoute(?string $routeName = null, ?string $path = null): bool
     {
-        $resolvedRoute = self::resolveRouteName($routeName, $path);
-        if (! $resolvedRoute) {
-            return false;
-        }
-
-        $meta = self::metaForRoute($resolvedRoute, $path);
-        $status = strtolower(trim((string) ($meta['status'] ?? 'published')));
-
-        return in_array($status, ['draft', 'trashed', 'deleted'], true);
+        return false;
     }
 
     public static function custom(string $description, ?string $image = null, string $type = 'website', ?string $title = null, ?string $keywords = null): self

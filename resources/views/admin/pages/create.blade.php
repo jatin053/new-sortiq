@@ -48,24 +48,13 @@
                         </div>
                     </div>
 
-                    <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 16px;">
-                        <div>
-                            <label style="display: block; font-weight: 600; font-size: 13px; margin-bottom: 6px; color: #1d2327;">
-                                URL Slug / Permalink <span style="color: #d63638;">*</span>
-                            </label>
-                            <input type="text" name="slug" value="{{ old('slug') }}" placeholder="e.g. pricing" required style="width: 100%; padding: 7px 10px; border: 1px solid #8c8f94; border-radius: 3px; font-size: 13px;">
-                            <small style="color: #646970; font-size: 12px; margin-top: 4px; display: block;">Permalink will be registered under <code>/slug</code> on your site.</small>
-                        </div>
-
-                        <div>
-                            <label style="display: block; font-weight: 600; font-size: 13px; margin-bottom: 6px; color: #1d2327;">
-                                Initial Status <span style="color: #d63638;">*</span>
-                            </label>
-                            <select name="status" style="width: 100%; padding: 7px 10px; border: 1px solid #8c8f94; border-radius: 3px; font-size: 13px; background: #ffffff;">
-                                <option value="published" @selected(old('status', 'published') === 'published')>Published</option>
-                                <option value="draft" @selected(old('status') === 'draft')>Draft</option>
-                            </select>
-                        </div>
+                    <div>
+                        <label style="display: block; font-weight: 600; font-size: 13px; margin-bottom: 6px; color: #1d2327;">
+                            URL Slug / Permalink <span style="color: #d63638;">*</span>
+                        </label>
+                        <input type="text" name="slug" value="{{ old('slug') }}" placeholder="e.g. pricing" required style="width: 100%; padding: 7px 10px; border: 1px solid #8c8f94; border-radius: 3px; font-size: 13px;">
+                        <small style="color: #646970; font-size: 12px; margin-top: 4px; display: block;">Permalink will be registered under <code>/slug</code> on your site.</small>
+                        <input type="hidden" name="status" value="published">
                     </div>
                 </div>
             </div>
