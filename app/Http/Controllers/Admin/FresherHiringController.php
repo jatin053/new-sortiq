@@ -103,10 +103,22 @@ class FresherHiringController extends Controller
             abort(404, 'No attachment found.');
         }
 
-        if (!\Illuminate\Support\Facades\Storage::disk('public')->exists($fresherHiring->attachment)) {
-            abort(404, 'File does not exist on storage.');
+        $filePath = $fresherHiring->attachment;
+
+        if (\Illuminate\Support\Facades\Storage::disk('public')->exists($filePath)) {
+            return \Illuminate\Support\Facades\Storage::disk('public')->download($filePath);
         }
 
-        return \Illuminate\Support\Facades\Storage::disk('public')->download($fresherHiring->attachment);
+        $absPath = storage_path('app/public/' . ltrim($filePath, '/'));
+        if (is_file($absPath)) {
+            return response()->download($absPath);
+        }
+
+        $pubPath = public_path(ltrim($filePath, '/'));
+        if (is_file($pubPath)) {
+            return response()->download($pubPath);
+        }
+
+        abort(404, 'File does not exist on storage.');
     }
 }

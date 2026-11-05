@@ -47,22 +47,6 @@
                                 A new candidate submitted an application through the Fresher Connect modal form. Candidate details:
                             </p>
 
-                            <!-- Highlighted Source URL Box (Always Visible) -->
-                            <div style="background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%); border: 1px solid #bbf7d0; border-left: 4px solid #10b981; border-radius: 8px; padding: 14px 18px; margin-bottom: 22px;">
-                                <div style="font-size: 11px; font-weight: 700; text-transform: uppercase; color: #065f46; letter-spacing: 0.5px; margin-bottom: 4px;">
-                                    📍 Submitted From Page URL
-                                </div>
-                                <div style="font-size: 14px; font-weight: 600; word-break: break-all;">
-                                    @if($fresherHiring->url)
-                                        <a href="{{ $fresherHiring->url }}" target="_blank" rel="noopener noreferrer" style="color: #047857; text-decoration: underline;">
-                                            {{ $fresherHiring->url }}
-                                        </a>
-                                    @else
-                                        <span style="color: #64748b; font-style: italic;">Fresher Hiring Modal (Global Website)</span>
-                                    @endif
-                                </div>
-                            </div>
-
                             <!-- Candidate Details Table -->
                             <div style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 18px 20px; margin-bottom: 22px;">
                                 <h3 style="margin: 0 0 12px 0; color: #0f172a; font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 2px solid #e2e8f0; padding-bottom: 8px;">
@@ -112,24 +96,13 @@
 
                             <!-- CV / Attachment Section (If present) -->
                             @if($fresherHiring->attachment)
-                            <div style="background-color: #f0fdf4; border: 1px solid #bbf7d0; border-left: 4px solid #16a34a; border-radius: 8px; padding: 16px 20px; margin-bottom: 22px;">
-                                <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
-                                    <tr>
-                                        <td>
-                                            <div style="font-size: 13px; font-weight: 700; color: #166534;">
-                                                📎 CV / Resume Document Attached
-                                            </div>
-                                            <div style="font-size: 12px; color: #15803d; margin-top: 3px;">
-                                                File: <strong>{{ basename($fresherHiring->attachment) }}</strong> (attached directly to this email)
-                                            </div>
-                                        </td>
-                                        <td align="right">
-                                            <a href="{{ asset('storage/' . $fresherHiring->attachment) }}" target="_blank" style="display: inline-block; padding: 7px 16px; background-color: #16a34a; color: #ffffff; font-size: 12px; font-weight: 700; text-decoration: none; border-radius: 6px;">
-                                                View / Download CV ↗
-                                            </a>
-                                        </td>
-                                    </tr>
-                                </table>
+                            <div style="background-color: #f0fdf4; border: 1px solid #bbf7d0; border-left: 4px solid #16a34a; border-radius: 8px; padding: 14px 18px; margin-bottom: 22px;">
+                                <div style="font-size: 13px; font-weight: 700; color: #166534;">
+                                    📎 CV / Resume Document Attached
+                                </div>
+                                <div style="font-size: 12.5px; color: #15803d; margin-top: 4px;">
+                                    File: <strong>{{ basename($fresherHiring->attachment) }}</strong> (attached directly to this email)
+                                </div>
                             </div>
                             @endif
 
