@@ -132,42 +132,232 @@
   <div class="sq-footer-bottom-pro"><div class="sq-footer-bottom-inner"><span>&copy; 2026 Sortiq Solutions Pvt. Ltd. All rights reserved. &bull; <a href="{{ url('/privacy-policy/') }}" style="color:inherit;text-decoration:underline;opacity:0.85;">Privacy Policy</a> &bull; <a href="{{ url('/terms/') }}" style="color:inherit;text-decoration:underline;opacity:0.85;">Terms of Service</a></span><div class="sq-footer-socials"><a href="https://www.facebook.com/SortiqSolutions/" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><iconify-icon icon="fa6-brands:facebook-f" width="13" height="13"></iconify-icon></a><a href="https://www.linkedin.com/company/sortiq-solutions/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><iconify-icon icon="fa6-brands:linkedin-in" width="13" height="13"></iconify-icon></a><a href="https://www.youtube.com/@SortiqSolutions" target="_blank" rel="noopener noreferrer" aria-label="YouTube"><iconify-icon icon="fa6-brands:youtube" width="13" height="13"></iconify-icon></a><a href="https://www.instagram.com/sortiqsolutions/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><iconify-icon icon="fa6-brands:instagram" width="13" height="13"></iconify-icon></a><a href="https://x.com/SortiqSolutions" target="_blank" rel="noopener noreferrer" aria-label="Twitter"><iconify-icon icon="fa6-brands:x-twitter" width="13" height="13"></iconify-icon></a><a href="https://in.pinterest.com/sortiqsolutions/" target="_blank" rel="noopener noreferrer" aria-label="Pinterest"><iconify-icon icon="fa6-brands:pinterest-p" width="13" height="13"></iconify-icon></a><a href="https://medium.com/@sortiqsolutions" target="_blank" rel="noopener noreferrer" aria-label="Medium"><iconify-icon icon="simple-icons:medium" width="13" height="13"></iconify-icon></a></div></div></div>
 
   <!-- ISO 9001 Certificate Modal -->
-  <div id="isoCertModal" class="iso-cert-modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(2, 6, 23, 0.82); backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px); z-index:999999; align-items:center; justify-content:center; padding:16px; box-sizing:border-box;">
-      <div class="iso-cert-modal-content" style="position:relative; width:100%; max-width:960px; height:90vh; max-height:920px; background:#ffffff; border-radius:12px; box-shadow:0 25px 50px -12px rgba(0, 0, 0, 0.6); display:flex; flex-direction:column; overflow:hidden; border:1px solid rgba(255, 255, 255, 0.15); animation:isoModalFadeIn 0.25s ease-out;">
+  <div id="isoCertModal" class="iso-cert-modal">
+      <div class="iso-cert-modal-content">
           <!-- Header -->
-          <div style="display:flex; align-items:center; justify-content:space-between; padding:12px 18px; background:#00173e; color:#ffffff; border-bottom:1px solid rgba(255,255,255,0.08); flex-shrink:0;">
-              <div style="display:flex; align-items:center; gap:12px;">
-                  <img src="{{ asset('frontend-assets/media/footer/iso-certified-company-image.webp') }}" alt="ISO 9001" style="width:34px; height:34px; object-fit:contain; flex-shrink:0;">
-                  <div>
-                      <h3 style="margin:0; font-size:15px; font-weight:700; color:#ffffff; line-height:1.2;">ISO 9001:2015 Certificate of Registration</h3>
-                      <p style="margin:2px 0 0 0; font-size:11px; color:#94a3b8; line-height:1.2;">Sortiq Solutions Private Limited &bull; Certificate No: <strong>KSRSS2506509112</strong></p>
+          <div class="iso-cert-header">
+              <div class="iso-cert-title-wrap">
+                  <img src="{{ asset('frontend-assets/media/footer/iso-certified-company-image.webp') }}" alt="ISO 9001" class="iso-cert-badge">
+                  <div class="iso-cert-text">
+                      <h3 class="iso-cert-title">ISO 9001:2015 Certificate of Registration</h3>
+                      <p class="iso-cert-sub">Sortiq Solutions Private Limited &bull; Certificate No: <strong>KSRSS2506509112</strong></p>
                   </div>
               </div>
-              <div style="display:flex; align-items:center; gap:8px;">
-                  <a href="{{ url('/sortiq-solutions-iso-9001-certificate.pdf') }}" download="Sortiq-Solutions-ISO-9001-Certificate.pdf" style="display:inline-flex; align-items:center; gap:5px; background:rgba(255,255,255,0.12); color:#ffffff; padding:6px 12px; border-radius:6px; font-size:12px; text-decoration:none; font-weight:600; transition:background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.22)'" onmouseout="this.style.background='rgba(255,255,255,0.12)'">
+              <div class="iso-cert-actions">
+                  <a href="{{ url('/sortiq-solutions-iso-9001-certificate.pdf') }}" download="Sortiq-Solutions-ISO-9001-Certificate.pdf" class="iso-btn-download">
                       <iconify-icon icon="lucide:download" width="14" height="14"></iconify-icon>
                       <span>Download</span>
                   </a>
-                  <a href="{{ url('/sortiq-solutions-iso-9001-certificate.pdf') }}" target="_blank" rel="noopener noreferrer" style="display:inline-flex; align-items:center; gap:5px; background:rgba(255,255,255,0.12); color:#ffffff; padding:6px 12px; border-radius:6px; font-size:12px; text-decoration:none; font-weight:600; transition:background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.22)'" onmouseout="this.style.background='rgba(255,255,255,0.12)'">
+                  <a href="{{ url('/sortiq-solutions-iso-9001-certificate.pdf') }}" target="_blank" rel="noopener noreferrer" class="iso-btn-tab">
                       <iconify-icon icon="lucide:external-link" width="14" height="14"></iconify-icon>
                       <span>New Tab</span>
                   </a>
-                  <button type="button" onclick="closeIsoCertModal()" aria-label="Close" style="background:none; border:none; color:#cbd5e1; font-size:28px; line-height:1; cursor:pointer; padding:2px 8px; border-radius:6px; display:inline-flex; align-items:center; justify-content:center; transition:color 0.2s, background 0.2s;" onmouseover="this.style.color='#ffffff'; this.style.background='rgba(255,255,255,0.15)'" onmouseout="this.style.color='#cbd5e1'; this.style.background='none'">
+                  <button type="button" onclick="closeIsoCertModal()" aria-label="Close" class="iso-btn-close">
                       &times;
                   </button>
               </div>
           </div>
           <!-- Body with PDF Viewer -->
-          <div style="flex:1; width:100%; height:100%; background:#525659; position:relative; overflow:hidden;">
-              <iframe id="isoCertIframe" src="" style="width:100%; height:100%; border:none; display:block;" title="ISO 9001:2015 Certificate Viewer"></iframe>
+          <div class="iso-cert-body">
+              <iframe id="isoCertIframe" src="" class="iso-cert-iframe" title="ISO 9001:2015 Certificate Viewer"></iframe>
           </div>
       </div>
   </div>
 
   <style>
+  .iso-cert-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(2, 6, 23, 0.82);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      z-index: 999999;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      box-sizing: border-box;
+  }
+  .iso-cert-modal-content {
+      position: relative;
+      width: 100%;
+      max-width: 960px;
+      height: 90vh;
+      max-height: 920px;
+      background: #ffffff;
+      border-radius: 12px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      animation: isoModalFadeIn 0.25s ease-out;
+  }
+  .iso-cert-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 18px;
+      background: #00173e;
+      color: #ffffff;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      flex-shrink: 0;
+      gap: 12px;
+  }
+  .iso-cert-title-wrap {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+      flex: 1;
+  }
+  .iso-cert-badge {
+      width: 34px;
+      height: 34px;
+      object-fit: contain;
+      flex-shrink: 0;
+  }
+  .iso-cert-text {
+      min-width: 0;
+      flex: 1;
+  }
+  .iso-cert-title {
+      margin: 0;
+      font-size: 15px;
+      font-weight: 700;
+      color: #ffffff;
+      line-height: 1.25;
+  }
+  .iso-cert-sub {
+      margin: 2px 0 0 0;
+      font-size: 11px;
+      color: #94a3b8;
+      line-height: 1.25;
+  }
+  .iso-cert-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+  }
+  .iso-btn-download,
+  .iso-btn-tab {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: rgba(255, 255, 255, 0.12);
+      color: #ffffff;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 12px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: background 0.2s;
+      white-space: nowrap;
+  }
+  .iso-btn-download:hover,
+  .iso-btn-tab:hover {
+      background: rgba(255, 255, 255, 0.22);
+      color: #ffffff;
+  }
+  .iso-btn-close {
+      background: none;
+      border: none;
+      color: #cbd5e1;
+      font-size: 28px;
+      line-height: 1;
+      cursor: pointer;
+      padding: 2px 8px;
+      border-radius: 6px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: color 0.2s, background 0.2s;
+  }
+  .iso-btn-close:hover {
+      color: #ffffff;
+      background: rgba(255, 255, 255, 0.15);
+  }
+  .iso-cert-body {
+      flex: 1;
+      width: 100%;
+      height: 100%;
+      background: #525659;
+      position: relative;
+      overflow: hidden;
+  }
+  .iso-cert-iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      display: block;
+  }
+
   @keyframes isoModalFadeIn {
       from { opacity: 0; transform: scale(0.96); }
       to { opacity: 1; transform: scale(1); }
+  }
+
+  /* Responsive Mobile Layout (Prevents text and button collision) */
+  @media (max-width: 640px) {
+      .iso-cert-modal {
+          padding: 8px !important;
+      }
+      .iso-cert-modal-content {
+          height: calc(100dvh - 16px) !important;
+          max-height: calc(100dvh - 16px) !important;
+          border-radius: 10px !important;
+      }
+      .iso-cert-header {
+          display: grid;
+          grid-template-columns: 1fr auto;
+          grid-template-areas:
+              "title close"
+              "actions actions";
+          padding: 10px 12px;
+          gap: 10px 8px;
+      }
+      .iso-cert-title-wrap {
+          grid-area: title;
+          gap: 9px;
+      }
+      .iso-cert-badge {
+          width: 32px;
+          height: 32px;
+      }
+      .iso-cert-title {
+          font-size: 13.5px;
+          line-height: 1.25;
+      }
+      .iso-cert-sub {
+          font-size: 10.5px;
+          line-height: 1.25;
+      }
+      .iso-btn-close {
+          grid-area: close;
+          align-self: start;
+          font-size: 26px;
+          padding: 0 4px;
+          margin-top: -3px;
+      }
+      .iso-cert-actions {
+          grid-area: actions;
+          width: 100%;
+          display: flex;
+          gap: 8px;
+          padding-top: 6px;
+          border-top: 1px solid rgba(255, 255, 255, 0.08);
+      }
+      .iso-btn-download,
+      .iso-btn-tab {
+          flex: 1;
+          justify-content: center;
+          padding: 6px 8px;
+          font-size: 12px;
+      }
   }
   </style>
 
