@@ -63,8 +63,8 @@
     .sq-heading {
       margin: 0;
       color: #000;
-      font-size: 30px;
-      line-height: 1.2;
+      font-size: clamp(24px, 3.5vw, 32px);
+      line-height: 1.25;
       font-weight: 700;
       text-align: center;
       letter-spacing: 0;
@@ -507,7 +507,7 @@
 
     <section class="sq-why-intro">
       <div class="sq-container">
-        <h2 class="sq-heading sq-line">Why Choose Us?</h2>
+        <h2 class="sq-heading sq-line">The Advantage of Working With Us</h2>
       </div>
     </section>
 
@@ -764,7 +764,7 @@ if (phoneInput && window.intlTelInput) {
   });
 
   phoneInput.addEventListener('countrychange', function() {
-     var form = phonezInput.closest('form');
+     var form = phoneInput.closest('form');
      var hiddenCode = form ? form.querySelector('input[name="country_code"]') : null;
      if (hiddenCode) {
         var instance = window.intlTelInputGlobals.getInstance(phoneInput);
@@ -772,17 +772,5 @@ if (phoneInput && window.intlTelInput) {
      }
   });
 }
-
-document.querySelectorAll('.sq-form').forEach(function(form) {
-  form.addEventListener('submit', function() {
-    const submitBtn = form.querySelector('button[type="submit"]');
-    if (submitBtn) {
-      submitBtn.disabled = true;
-      submitBtn.style.opacity = '0.7';
-      submitBtn.style.cursor = 'not-allowed';
-      submitBtn.innerText = 'Sending...';
-    }
-  });
-});
 </script>
 @endpush

@@ -1,4 +1,4 @@
-
+﻿
   <!doctype html>
 @php
     $routeName = request()->route()?->getName();
@@ -219,29 +219,21 @@
   
       @yield('content')
       
-  <div class="relative">
-    <div id="chatbot-panel" class="chatbot-panel fixed bottom-24 right-4 md:right-8 z-[70] w-[calc(100%-2rem)] max-w-[350px] md:w-96 bg-white rounded-2xl shadow-2xl overflow-hidden origin-bottom-right border border-gray-100">
-      <div class="bg-[#ff6600] p-4 flex justify-between items-center text-white">
-        <div class="flex items-center gap-3">
-          <div class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-          <span class="font-bold">Chat with us!</span>
-        </div>
-        <button type="button" id="chatbot-close" class="hover:rotate-90 transition-transform p-1" aria-label="Close chatbot">
-          <iconify-icon icon="lucide:x" width="20" height="20"></iconify-icon>
-        </button>
-      </div>
-      <div class="h-72 md:h-80 p-4 bg-gray-50 flex flex-col justify-end">
-        <div class="bg-orange-100 text-[#000d23] p-3 rounded-t-lg rounded-br-lg text-sm max-w-[80%] self-start mb-4 shadow-sm">
-          Hello! How can we help you today?
-        </div>
-      </div>
-      <div class="p-4 border-t border-gray-100 bg-white flex gap-2">
-        <input id="chatbot-input" type="text" placeholder="Type your message..." class="flex-1 text-sm text-[#000d23] outline-none p-2 bg-gray-100 rounded-lg focus:ring-1 focus:ring-[#ff6600] transition-all">
-        <button type="button" id="chatbot-send" class="text-[#ff6600] p-2 hover:bg-orange-50 rounded-full transition-colors" aria-label="Send message">
-          <iconify-icon icon="lucide:send" width="20" height="20"></iconify-icon>
-        </button>
-      </div>
-    </div>
+@if(config('services.crisp.website_id'))
+<script type="text/javascript">
+      window.$crisp = [];
+      window.CRISP_WEBSITE_ID = "{{ config('services.crisp.website_id') }}";
+      (function() {
+        const d = document;
+        const s = d.createElement("script");
+        s.src = "https://client.crisp.chat/l.js";
+        s.async = 1;
+        d.getElementsByTagName("head")[0].appendChild(s);
+      })();
+</script>
+  @else
+    {{-- Leave the existing chat widget HTML here --}}
+  @endif
 
     <div id="chatbot-whatsapp" class="fixed bottom-24 right-8 z-[60]">
       <a href="https://wa.me/919646522110" target="_blank" rel="noopener noreferrer" class="group flex items-center gap-2 bg-[#25D366] text-white p-3 md:px-4 md:py-3 rounded-full shadow-lg hover:scale-110 transition-all border border-black/5">
@@ -249,13 +241,6 @@
         <span class="font-bold text-sm hidden md:inline">Chat with us</span>
       </a>
     </div>
-
-    <div class="fixed bottom-6 right-8 z-[60]">
-      <button id="chatbot-toggle" type="button" aria-expanded="false" class="w-14 h-14 bg-[#ff6600] rounded-full flex items-center justify-center text-white shadow-[0_10px_25px_rgba(255,102,0,0.3)] hover:scale-110 transition-all duration-300 border border-black/5">
-        <iconify-icon icon="lucide:message-circle" width="28" height="28"></iconify-icon>
-      </button>
-    </div>
-  </div>
 
       
       @include('layouts.partials.footer')
@@ -276,10 +261,7 @@
 
           <h3 class="fresher-connect-title">Lets'Connect</h3>
 
-          <form class="fresher-connect-form" method="post" action="{{ route('api.fresher-hirings.store') }}" enctype="multipart/form-data">
-            @csrf
-            <input type="hidden" name="type" value="fresher">
-            <input type="hidden" name="url" value="{{ url()->current() }}">
+          <form class="fresher-connect-form" enctype="multipart/form-data">
             <input type="hidden" name="country_code" value="+91">
 
             <div class="fresher-connect-grid">

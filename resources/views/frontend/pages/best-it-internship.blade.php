@@ -5,6 +5,7 @@
 
 @push('head')
 @include('components.service-page-styles')
+<link rel="preload" as="image" href="{{ asset('frontend-assets/media/pages/internship/internship-hero.webp') }}" type="image/webp" fetchpriority="high">
 <style>
 .service-pg .sp-hero-copy .sp-hero-bar {
   width: 44px;
@@ -12,7 +13,9 @@
   background: #ff5a0a;
   margin: 0 0 24px;
 }
+.service-pg .sp-hero-media picture,
 .service-pg .sp-hero-media img {
+  display: block;
   border-radius: 2px;
 }
 .service-pg .sp-why-band {
@@ -35,11 +38,17 @@
         <a href="{{ url('/contact') }}" class="sp-hero-btn">Get Started Today</a>
       </div>
       <div class="sp-hero-media">
-        <img src="{{ asset('frontend-assets/media/pages/internship/internship-hero.jpg') }}" 
-             alt="Best IT Internship Company in Mohali Chandigarh - Sortiq Solutions"
-             loading="eager"
-             width="546"
-             height="364">
+        <picture>
+          <source srcset="{{ asset('frontend-assets/media/pages/internship/internship-hero.webp') }}" type="image/webp">
+          <source srcset="{{ asset('frontend-assets/media/pages/internship/internship-hero.jpg') }}" type="image/jpeg">
+          <img src="{{ asset('frontend-assets/media/pages/internship/internship-hero.jpg') }}" 
+               alt="Best IT Internship Company in Mohali Chandigarh - Sortiq Solutions"
+               loading="eager"
+               fetchpriority="high"
+               width="546"
+               height="364"
+               onerror="this.onerror=null;this.src='{{ asset('frontend-assets/media/pages/internship/internship-hero.webp') }}';">
+        </picture>
       </div>
     </div>
   </section>

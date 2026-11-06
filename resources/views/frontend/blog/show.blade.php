@@ -96,12 +96,12 @@
                 <a href="https://in.pinterest.com/sortiqsolutions/" target="_blank" rel="noopener noreferrer" class="blog-share-icon blog-share-icon--pinterest" aria-label="Share on Pinterest">
                   <iconify-icon icon="fa6-brands:pinterest" width="22" height="22"></iconify-icon>
                 </a>
-              </div>
-            </div>
-            <div class="pl-[78px] -mt-1 flex">
+                <div class="pl-[78px] -mt-1 flex">
               <a href="https://plus.google.com" target="_blank" rel="noopener noreferrer" class="blog-share-icon blog-share-icon--gplus font-extrabold text-sm tracking-tighter" aria-label="Share on Google Plus" style="text-decoration: none;">
                 G+
               </a>
+            </div>
+              </div>
             </div>
           </div>
         </div>

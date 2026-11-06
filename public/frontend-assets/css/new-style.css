@@ -5126,19 +5126,16 @@ TESTIMONIALS RESPONSIVE
 
 /* --- Responsive Footer Fixes --- */
 @media (max-width: 991px) {
-  .sq-pro-footer .sq-footer-grid-pro {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (max-width: 767px) {
-  .sq-pro-footer .sq-footer-grid-pro {
-    grid-template-columns: 1fr;
+  .sq-pro-footer .sq-footer-wrap {
+    padding: 36px 20px 0;
   }
 
   .sq-pro-footer .sq-footer-top {
     flex-direction: column;
-    gap: 30px;
+    align-items: center;
+    gap: 24px;
+    text-align: center;
+    padding-bottom: 28px;
   }
 
   .sq-pro-footer .sq-footer-badges {
@@ -5146,12 +5143,13 @@ TESTIMONIALS RESPONSIVE
     flex-wrap: wrap;
     justify-content: center;
     gap: 15px;
+    width: 100%;
   }
 
   .sq-pro-footer .sq-footer-contact-row {
     flex-direction: column;
     align-items: center;
-    gap: 20px;
+    gap: 18px;
     text-align: center;
     width: 100%;
   }
@@ -5163,16 +5161,60 @@ TESTIMONIALS RESPONSIVE
     text-align: center;
   }
 
-  .sq-pro-footer .sq-footer-bottom-inner {
-    flex-direction: column;
-    gap: 20px;
-    text-align: center;
+  .sq-pro-footer .sq-footer-grid-pro {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 36px 24px;
+    padding: 36px 0 44px;
   }
 
+  .sq-pro-footer .sq-footer-bottom-inner {
+    flex-direction: column;
+    gap: 18px;
+    text-align: center;
+  }
 
   .sq-pro-footer .sq-footer-socials {
     justify-content: center;
     flex-wrap: wrap;
-    padding-right: 40px;
+    padding-right: 0;
+  }
+}
+
+@media (max-width: 767px) {
+  .sq-pro-footer .sq-footer-wrap {
+    padding: 28px 16px 0;
+  }
+
+  .sq-pro-footer .sq-footer-grid-pro {
+    grid-template-columns: 1fr;
+    gap: 28px;
+    padding: 28px 0 36px;
+  }
+
+  .sq-pro-footer .sq-footer-top {
+    flex-direction: column;
+    gap: 20px;
+    padding-bottom: 22px;
+  }
+
+  .sq-pro-footer .sq-footer-badges {
+    gap: 12px;
+  }
+
+  .sq-pro-footer .sq-footer-contact-row {
+    gap: 14px;
+  }
+
+  .sq-pro-footer .sq-footer-bottom-inner {
+    flex-direction: column;
+    gap: 16px;
+    text-align: center;
+    padding: 0 16px;
+  }
+
+  .sq-pro-footer .sq-footer-socials {
+    justify-content: center;
+    flex-wrap: wrap;
+    padding-right: 0;
   }
 }

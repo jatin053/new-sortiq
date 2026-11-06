@@ -110,12 +110,13 @@
             </div>
 
             <div class="social-box">
-              <a href="https://www.facebook.com/SortiqSolutions/" class="s-link" aria-label="Facebook" target="_blank" rel="noopener noreferrer"><iconify-icon icon="fa6-brands:facebook-f" width="15" height="15"></iconify-icon></a>
-              <a href="https://www.linkedin.com/company/sortiq-solutions/" class="s-link" aria-label="LinkedIn" target="_blank" rel="noopener noreferrer"><iconify-icon icon="fa6-brands:linkedin-in" width="15" height="15"></iconify-icon></a>
-              <a href="https://www.instagram.com/sortiqsolutions/" class="s-link" aria-label="Instagram" target="_blank" rel="noopener noreferrer"><iconify-icon icon="fa6-brands:instagram" width="15" height="15"></iconify-icon></a>
-              <a href="https://www.youtube.com/@SortiqSolutions" class="s-link" aria-label="YouTube" target="_blank" rel="noopener noreferrer"><iconify-icon icon="fa6-brands:youtube" width="15" height="15"></iconify-icon></a>
-              <a href="https://x.com/SortiqSolutions" class="s-link" aria-label="Twitter" target="_blank" rel="noopener noreferrer"><iconify-icon icon="fa6-brands:twitter" width="15" height="15"></iconify-icon></a>
-              <a href="https://www.google.com/search?q=Sortiq+Solutions+Pvt.+Ltd." class="s-link" aria-label="Google" target="_blank" rel="noopener noreferrer"><iconify-icon icon="fa6-brands:google" width="15" height="15"></iconify-icon></a>
+              <a href="https://www.facebook.com/SortiqSolutions/" class="s-link" aria-label="Facebook" target="_blank" rel="noopener noreferrer"><iconify-icon icon="fa6-brands:facebook-f" width="16" height="16"></iconify-icon></a>
+              <a href="https://www.linkedin.com/company/sortiq-solutions/" class="s-link" aria-label="LinkedIn" target="_blank" rel="noopener noreferrer"><iconify-icon icon="fa6-brands:linkedin-in" width="16" height="16"></iconify-icon></a>
+              <a href="https://www.youtube.com/@SortiqSolutions" class="s-link" aria-label="YouTube" target="_blank" rel="noopener noreferrer"><iconify-icon icon="fa6-brands:youtube" width="16" height="16"></iconify-icon></a>
+              <a href="https://www.instagram.com/sortiqsolutions/" class="s-link" aria-label="Instagram" target="_blank" rel="noopener noreferrer"><iconify-icon icon="fa6-brands:instagram" width="16" height="16"></iconify-icon></a>
+              <a href="https://x.com/SortiqSolutions" class="s-link" aria-label="Twitter" target="_blank" rel="noopener noreferrer"><iconify-icon icon="fa6-brands:x-twitter" width="16" height="16"></iconify-icon></a>
+              <a href="https://in.pinterest.com/sortiqsolutions/" class="s-link" aria-label="Pinterest" target="_blank" rel="noopener noreferrer"><iconify-icon icon="fa6-brands:pinterest-p" width="16" height="16"></iconify-icon></a>
+              <a href="https://medium.com/@sortiqsolutions" class="s-link" aria-label="Medium" target="_blank" rel="noopener noreferrer"><iconify-icon icon="fa6-brands:medium" width="16" height="16"></iconify-icon></a>
             </div>
           </aside>
         </div>
@@ -517,6 +518,23 @@
       }
 
       @media (max-width: 767px) {
+
+   
+    .contact-map {
+      padding-inline: 8px;
+      overflow: hidden;
+      height: 390px;
+      position: relative;
+    }
+  
+    .contact-map iframe {
+      width: 125%;
+      height: 487px;
+      min-width: 420px;
+      transform: scale(0.8);
+      transform-origin: top left;
+    }
+
         .contact-hero {
           min-height: 170px;
         }
