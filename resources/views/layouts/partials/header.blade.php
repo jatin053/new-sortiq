@@ -64,7 +64,7 @@
 
           <a href="{{ url('/our-expertise/') }}"><iconify-icon icon="fa6-solid:lightbulb" width="18" height="18"></iconify-icon><span>Our Expertise</span></a>
 
-          <a href="{{ url('/videos/') }}"><iconify-icon icon="fa6-solid:video" width="18" height="18"></iconify-icon><span>Video</span></a>
+          <a href="{{ url('/videos/') }}"><iconify-icon icon="fa6-solid:video" width="18" height="18"></iconify-icon><span>Videos</span></a>
 
         </div></div>
 
@@ -114,7 +114,7 @@
 
       </li>
 
-      <li><a href="{{ url('/blog/') }}">Blog</a></li>
+      <li><a href="{{ url('/blog/') }}">Blogs</a></li>
 
       <li><a href="{{ url('/contact/') }}">Contact Us</a></li>
 
@@ -184,7 +184,7 @@
 
         <a href="{{ url('/videos/') }}">
 
-          <iconify-icon icon="fa6-solid:video"></iconify-icon>Video
+          <iconify-icon icon="fa6-solid:video"></iconify-icon>Videos
 
         </a>
 
@@ -252,7 +252,7 @@
 
 
 
-      <a href="{{ url('/blog/') }}">Blog</a>
+      <a href="{{ url('/blog/') }}">Blogs</a>
 
       <a href="{{ url('/contact/') }}">Contact Us</a>
 

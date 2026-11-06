@@ -1433,7 +1433,7 @@ button {
 
   align-items: center;
 
-  gap: 16px;
+  gap: 4px;
 
 }
 
@@ -1739,7 +1739,9 @@ button {
 
   margin-bottom: 45px;
 
-}.hm-cert-slider {
+}
+
+.hm-cert-slider {
   position: relative;
   width: 100%;
   max-width: 1200px;
@@ -5165,11 +5167,12 @@ TESTIMONIALS RESPONSIVE
     flex-direction: column;
     gap: 20px;
     text-align: center;
-    padding-bottom: 110px;
   }
+
 
   .sq-pro-footer .sq-footer-socials {
     justify-content: center;
     flex-wrap: wrap;
+    padding-right: 40px;
   }
 }
