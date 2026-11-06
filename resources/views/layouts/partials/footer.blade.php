@@ -10,7 +10,7 @@
           <img src="{{ asset('frontend-assets/media/footer/GF-min.png') }}" alt="GoodFirms" style="display:block!important;width:50px!important;height:50px!important;min-width:50px!important;max-width:50px!important;max-height:50px!important;object-fit:contain!important;opacity:1!important;visibility:visible!important;transform:none!important;">
         </a>
 
-        <a href="https://www.upwork.com/agencies/sortiqsolutions/" target="_blank" rel="noopener noreferrer" aria-label="Google Analytics Certified">
+        <a href="#" target="_blank" rel="noopener noreferrer" aria-label="Google Analytics Certified">
           <img src="{{ asset('frontend-assets/media/footer/digital-marketing-logo-min.png') }}" alt="Google Analytics Certified" style="display:block!important;width:50px!important;height:50px!important;min-width:50px!important;max-width:50px!important;max-height:50px!important;object-fit:contain!important;opacity:1!important;visibility:visible!important;transform:none!important;">
         </a>
 

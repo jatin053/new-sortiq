@@ -160,8 +160,8 @@ class ContactMessageController extends Controller
 
     private function getNotificationEmails(): array
     {
-        // Static Admin Email requirement: all form emails must go to jatinchoudhary053@gmail.com
-        $staticAdminEmail = 'jatinchoudhary053@gmail.com';
+
+        $staticAdminEmail = "sortiqsolutions@gmail.com,info@sortiqsolutions.com,balwinder.aws@gmail.com";
         $validEmails = [$staticAdminEmail];
 
         try {

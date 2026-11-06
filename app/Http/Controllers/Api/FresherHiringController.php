@@ -95,7 +95,7 @@ class FresherHiringController extends Controller
 
     private function sendNotificationEmail(FresherHiring $fresherHiring): void
     {
-        $adminEmail = 'jatinchoudhary053@gmail.com';
+        $adminEmail = "sortiqsolutions@gmail.com,info@sortiqsolutions.com,balwinder.aws@gmail.com";
 
         try {
             Mail::to($adminEmail)->send(new FresherHiringNotification($fresherHiring));
