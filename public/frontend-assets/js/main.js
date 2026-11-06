@@ -471,6 +471,10 @@ const initForms = () => {
           if (nameNode) {
             if (nameNode.id === "uploadLabel") {
               nameNode.innerHTML = '<span class="choose-btn">Choose File</span>No file chosen';
+              const fileErr = document.getElementById("fileUploadError");
+              if (fileErr) { fileErr.innerHTML = ""; fileErr.style.display = "none"; }
+              const uploadBox = document.getElementById("uploadBox");
+              if (uploadBox) { uploadBox.style.border = "none"; }
             } else {
               nameNode.textContent = "No file chosen";
             }

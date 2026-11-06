@@ -4146,19 +4146,19 @@ a  {
 
         <div class="socials">
 
-          <a class="social-link" href="https://www.facebook.com/SortiqSolutions/" target="_blank"><iconify-icon icon="mdi:facebook"></iconify-icon></a>
+          <a class="social-link" href="https://www.facebook.com/SortiqSolutions/" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><iconify-icon icon="fa6-brands:facebook-f" width="16" height="16"></iconify-icon></a>
 
-          <a class="social-link" href="https://www.linkedin.com/company/sortiq-solutions/" target="_blank"><iconify-icon icon="mdi:linkedin"></iconify-icon></a>
+          <a class="social-link" href="https://www.linkedin.com/company/sortiq-solutions/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><iconify-icon icon="fa6-brands:linkedin-in" width="16" height="16"></iconify-icon></a>
 
-          <a class="social-link" href="https://www.instagram.com/sortiqsolutions/" target="_blank"><iconify-icon icon="mdi:instagram"></iconify-icon></a>
+          <a class="social-link" href="https://www.youtube.com/@SortiqSolutions" target="_blank" rel="noopener noreferrer" aria-label="YouTube"><iconify-icon icon="fa6-brands:youtube" width="16" height="16"></iconify-icon></a>
 
-          <a class="social-link" href="https://www.youtube.com/@sortiqsolutions" target="_blank"><iconify-icon icon="mdi:youtube"></iconify-icon></a>
+          <a class="social-link" href="https://www.instagram.com/sortiqsolutions/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><iconify-icon icon="fa6-brands:instagram" width="16" height="16"></iconify-icon></a>
 
-          <a class="social-link" href="https://twitter.com/sortiqsolutions" target="_blank"><iconify-icon icon="mdi:twitter"></iconify-icon></a>
+          <a class="social-link" href="https://x.com/SortiqSolutions" target="_blank" rel="noopener noreferrer" aria-label="Twitter"><iconify-icon icon="fa6-brands:x-twitter" width="16" height="16"></iconify-icon></a>
 
-          <a class="social-link" href="https://www.google.com/search?q=Sortiq+Solutions" target="_blank"><iconify-icon icon="mdi:google"></iconify-icon></a>
+          <a class="social-link" href="https://in.pinterest.com/sortiqsolutions/" target="_blank" rel="noopener noreferrer" aria-label="Pinterest"><iconify-icon icon="fa6-brands:pinterest-p" width="16" height="16"></iconify-icon></a>
 
-          <a class="social-link" href="#"><iconify-icon icon="mdi:skype"></iconify-icon></a>
+          <a class="social-link" href="https://medium.com/@sortiqsolutions" target="_blank" rel="noopener noreferrer" aria-label="Medium"><iconify-icon icon="fa6-brands:medium" width="16" height="16"></iconify-icon></a>
 
         </div>
 

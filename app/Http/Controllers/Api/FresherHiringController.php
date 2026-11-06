@@ -95,16 +95,52 @@ class FresherHiringController extends Controller
 
     private function sendNotificationEmail(FresherHiring $fresherHiring): void
     {
-        $adminEmail = "sortiqsolutions@gmail.com,info@sortiqsolutions.com,balwinder.aws@gmail.com";
+        $notificationEmails = $this->getNotificationEmails();
+
+        if (empty($notificationEmails)) {
+            Log::warning('Fresher hiring application saved without notification email configuration.', [
+                'fresher_hiring_id' => $fresherHiring->id,
+            ]);
+
+            return;
+        }
 
         try {
-            Mail::to($adminEmail)->send(new FresherHiringNotification($fresherHiring));
+            Mail::to($notificationEmails)->send(new FresherHiringNotification($fresherHiring));
         } catch (Throwable $e) {
-            Log::error('Fresher connect saved but notification email could not be sent to ' . $adminEmail, [
+            Log::warning('Fresher hiring application saved but notification email could not be sent.', [
                 'fresher_hiring_id' => $fresherHiring->id,
-                'admin_email' => $adminEmail,
+                'notification_emails' => $notificationEmails,
                 'error' => $e->getMessage(),
             ]);
         }
+    }
+
+    private function getNotificationEmails(): array
+    {
+        try {
+            $siteLayoutData = SiteLayoutSetting::main()->data ?? [];
+        } catch (Throwable) {
+            $siteLayoutData = [];
+        }
+
+        $rawEntries = [
+            config('services.contact.notification_email', env('CONTACT_NOTIFICATION_EMAIL')),
+            data_get($siteLayoutData, 'header.email'),
+            data_get($siteLayoutData, 'footer.email'),
+        ];
+
+        $emails = [];
+        foreach ($rawEntries as $entry) {
+            if (!$entry) continue;
+            foreach (explode(',', (string) $entry) as $part) {
+                $email = strtolower(trim($part));
+                if ($email !== '' && filter_var($email, FILTER_VALIDATE_EMAIL) && !in_array($email, $emails, true)) {
+                    $emails[] = $email;
+                }
+            }
+        }
+
+        return $emails;
     }
 }

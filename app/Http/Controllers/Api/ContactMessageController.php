@@ -147,8 +147,7 @@ class ContactMessageController extends Controller
         }
 
         try {
-            $to = count($notificationEmails) === 1 ? $notificationEmails[0] : $notificationEmails;
-            Mail::to($to)->send(new ContactMessageNotification($contactMessage));
+            Mail::to($notificationEmails)->send(new ContactMessageNotification($contactMessage));
         } catch (Throwable $e) {
             Log::warning('Contact message saved but notification email could not be sent.', [
                 'contact_message_id' => $contactMessage->id,
@@ -160,10 +159,6 @@ class ContactMessageController extends Controller
 
     private function getNotificationEmails(): array
     {
-
-        $staticAdminEmail = "sortiqsolutions@gmail.com,info@sortiqsolutions.com,balwinder.aws@gmail.com";
-        $validEmails = [$staticAdminEmail];
-
         try {
             $siteLayoutData = SiteLayoutSetting::main()->data ?? [];
         } catch (Throwable) {
@@ -171,21 +166,22 @@ class ContactMessageController extends Controller
         }
 
         $rawEntries = [
-            config('services.contact.notification_email'),
+            config('services.contact.notification_email', env('CONTACT_NOTIFICATION_EMAIL')),
             data_get($siteLayoutData, 'header.email'),
             data_get($siteLayoutData, 'footer.email'),
         ];
 
+        $emails = [];
         foreach ($rawEntries as $entry) {
             if (!$entry) continue;
             foreach (explode(',', (string) $entry) as $part) {
                 $email = strtolower(trim($part));
-                if ($email !== '' && filter_var($email, FILTER_VALIDATE_EMAIL) && !in_array($email, $validEmails, true)) {
-                    $validEmails[] = $email;
+                if ($email !== '' && filter_var($email, FILTER_VALIDATE_EMAIL) && !in_array($email, $emails, true)) {
+                    $emails[] = $email;
                 }
             }
         }
 
-        return $validEmails;
+        return $emails;
     }
 }

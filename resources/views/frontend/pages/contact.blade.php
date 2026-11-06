@@ -494,7 +494,7 @@
 
       .contact-map {
         width: 100%;
-        padding: 10px 12px 0;
+        /* padding: 10px 12px 0; */
         background: #fff;
         padding-bottom:20px !important;
       }

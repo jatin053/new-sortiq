@@ -42,9 +42,19 @@ class FresherHiringRequest extends FormRequest
             'subject' => 'nullable|string|max:255',
             'message' => 'nullable|string|max:5000',
             'url' => 'nullable|string|max:2048',
-            'attachment' => 'nullable|file|max:25600',
-            'resume' => 'nullable|file|max:25600',
+            'attachment' => 'nullable|file|mimes:pdf,doc,docx|max:10240',
+            'resume' => 'nullable|file|mimes:pdf,doc,docx|max:10240',
             'recaptcha' => 'nullable|string|max:4096',
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'attachment.mimes' => 'The attachment must be a PDF, DOC, or DOCX document.',
+            'resume.mimes' => 'The resume must be a PDF, DOC, or DOCX document.',
+            'attachment.max' => 'The attachment size must not exceed 10MB.',
+            'resume.max' => 'The resume size must not exceed 10MB.',
         ];
     }
 }

@@ -9,6 +9,23 @@
         -webkit-backdrop-filter:blur(10px);
     }
 
+    /* Hide scrollbars completely while maintaining smooth scrolling */
+    #fresherHiringModal,
+    #fresherHiringModalContent,
+    .right-form-area {
+        scrollbar-width: none !important;
+        -ms-overflow-style: none !important;
+    }
+
+    #fresherHiringModal::-webkit-scrollbar,
+    #fresherHiringModalContent::-webkit-scrollbar,
+    .right-form-area::-webkit-scrollbar {
+        display: none !important;
+        width: 0 !important;
+        height: 0 !important;
+        background: transparent !important;
+    }
+
     /* Main Modal */
     #fresherHiringModalContent{
         background:linear-gradient(135deg,#00173e 0%,#00265f 100%);
@@ -16,6 +33,8 @@
         overflow:hidden;
         min-height:650px;
         max-height:95vh;
+        -webkit-overflow-scrolling: touch;
+        overscroll-behavior: contain;
     }
 
     /* Left Image */
@@ -254,6 +273,34 @@
         font-weight:600;
     }
 
+    .file-info-bar{
+        font-size:12px;
+        color:rgba(255,255,255,0.78);
+        display:flex;
+        align-items:center;
+        justify-content:space-between;
+        padding:4px 4px 0;
+    }
+
+    .file-info-bar strong{
+        color:#ff7a45;
+        font-weight:600;
+    }
+
+    .file-error-msg{
+        font-size:12px;
+        color:#ff7675;
+        background:rgba(255,107,107,0.12);
+        border:1px solid rgba(255,107,107,0.35);
+        padding:7px 10px;
+        border-radius:3px;
+        margin-top:6px;
+        display:flex;
+        align-items:center;
+        gap:6px;
+        line-height:1.4;
+    }
+
     /* Recaptcha */
     .recaptcha-wrap{
         width:100%;
@@ -318,51 +365,113 @@
 
     @media(max-width:767px){
 
+        #fresherHiringModal{
+            align-items:flex-start !important;
+            justify-content:center !important;
+            overflow-y:auto !important;
+            padding:12px 10px !important;
+            -webkit-overflow-scrolling:touch;
+        }
+
         #fresherHiringModalContent{
-            min-height:auto;
-            max-height:95vh;
-            overflow-y:auto;
+            margin:auto !important;
+            min-height:auto !important;
+            max-height:calc(100dvh - 24px) !important;
+            max-height:calc(100vh - 24px) !important;
+            overflow-y:auto !important;
+            -webkit-overflow-scrolling:touch;
+            overscroll-behavior:contain;
+            border-radius:6px;
         }
 
         .fresher-left{
-            min-height:280px;
+            min-height:175px !important;
+            max-height:185px !important;
+            height:180px !important;
+        }
+
+        .fresher-left img{
+            height:100% !important;
+            object-fit:cover !important;
+            object-position:center 20% !important;
         }
 
         .right-form-area{
-            min-height:auto;
+            min-height:auto !important;
+            padding:20px 16px 28px !important;
         }
 
         .fresher-blink-title{
-            font-size:24px;
-            top:18px;
+            font-size:22px !important;
+            top:14px !important;
         }
 
         .connect-heading{
-            font-size:24px;
+            font-size:24px !important;
+            margin-bottom:0 !important;
+        }
+
+        .modal-close-btn{
+            position:sticky !important;
+            top:10px !important;
+            right:10px !important;
+            align-self:flex-end !important;
+            margin-top:10px !important;
+            margin-right:10px !important;
+            margin-bottom:-44px !important;
+            z-index:50 !important;
+            width:34px !important;
+            height:34px !important;
+            box-shadow:0 4px 12px rgba(0,0,0,0.4) !important;
+            border-radius:4px !important;
         }
     }
 
     @media(max-width:480px){
 
+        #fresherHiringModal{
+            padding:8px 6px !important;
+        }
+
+        #fresherHiringModalContent{
+            max-height:calc(100dvh - 16px) !important;
+            max-height:calc(100vh - 16px) !important;
+        }
+
+        .fresher-left{
+            min-height:150px !important;
+            max-height:165px !important;
+            height:155px !important;
+        }
+
         .fresher-blink-title{
-            font-size:20px;
+            font-size:19px !important;
+            top:12px !important;
+        }
+
+        .right-form-area{
+            padding:16px 14px 22px !important;
+        }
+
+        .connect-heading{
+            font-size:22px !important;
         }
 
         .custom-field{
-            height:50px;
+            height:48px;
         }
 
         .upload-box{
-            height:50px;
+            height:48px;
         }
 
         .submit-btn{
-            height:50px;
+            height:48px;
             font-size:15px;
         }
 
         .phone-wrapper{
-            height:50px;
+            height:48px;
         }
     }
 
@@ -486,19 +595,22 @@
                 </div>
 
                 <!-- Upload -->
-                <div class="upload-box">
-
-                    <div class="upload-icon">
-                        <iconify-icon icon="lucide:upload" width="18"></iconify-icon>
+                <div class="upload-container">
+                    <div class="upload-box" id="uploadBox">
+                        <div class="upload-icon">
+                            <iconify-icon icon="lucide:upload" width="18"></iconify-icon>
+                        </div>
+                        <input type="file" name="attachment" id="attachmentInput" accept=".pdf,.doc,.docx">
+                        <div class="upload-label" id="uploadLabel">
+                            <span class="choose-btn">Choose File</span>
+                            No file chosen
+                        </div>
                     </div>
-
-                    <input type="file" name="attachment" id="attachmentInput">
-
-                    <div class="upload-label" id="uploadLabel">
-                        <span class="choose-btn">Choose File</span>
-                        No file chosen
+                    <div class="file-info-bar">
+                        <span>Allowed format: <strong>PDF, DOC, DOCX</strong></span>
+                        <span>Max limit: <strong>10MB</strong></span>
                     </div>
-
+                    <div id="fileUploadError" class="file-error-msg" style="display:none;"></div>
                 </div>
 
                 <!-- Message -->
@@ -575,40 +687,53 @@
         const modal = document.getElementById('fresherHiringModal');
         const content = document.getElementById('fresherHiringModalContent');
 
-        modal.classList.remove('hidden');
-        modal.classList.add('flex');
+        if(content) content.scrollTop = 0;
+        if(modal) modal.scrollTop = 0;
 
-        setTimeout(() => {
+        if(modal){
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
 
-            modal.classList.remove('opacity-0');
+            setTimeout(() => {
+                modal.classList.remove('opacity-0');
+                if(content){
+                    content.classList.remove('scale-95');
+                    content.classList.add('scale-100');
+                }
+            },10);
+        }
 
-            content.classList.remove('scale-95');
-            content.classList.add('scale-100');
-
-        },10);
-
-        document.body.style.overflow='hidden';
+        document.documentElement.style.overflow = 'hidden';
+        document.body.style.overflow = 'hidden';
     }
 
     function closeFresherModal(){
 
-        const modal=document.getElementById('fresherHiringModal');
-        const content=document.getElementById('fresherHiringModalContent');
+        const modal = document.getElementById('fresherHiringModal');
+        const content = document.getElementById('fresherHiringModalContent');
 
-        modal.classList.add('opacity-0');
+        if(modal) modal.classList.add('opacity-0');
 
-        content.classList.remove('scale-100');
-        content.classList.add('scale-95');
+        if(content){
+            content.classList.remove('scale-100');
+            content.classList.add('scale-95');
+        }
 
         setTimeout(()=>{
 
-            modal.classList.add('hidden');
-            modal.classList.remove('flex');
+            if(modal){
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+            }
 
-            document.body.style.overflow='';
+            document.documentElement.style.overflow = '';
+            document.body.style.overflow = '';
 
         },300);
     }
+
+    window.openFresherModal = openFresherModal;
+    window.closeFresherModal = closeFresherModal;
 
     // Outside Click Close
     document.getElementById('fresherHiringModal').addEventListener('click',function(e){
@@ -619,23 +744,93 @@
 
     });
 
-    // File Upload Name
-    document.addEventListener('DOMContentLoaded',function(){
+    // File Upload Handler
+    document.addEventListener('DOMContentLoaded', function(){
+        const fileInput = document.getElementById('attachmentInput');
+        const uploadLabel = document.getElementById('uploadLabel');
+        const uploadBox = document.getElementById('uploadBox');
+        const fileError = document.getElementById('fileUploadError');
 
-        const fileInput=document.getElementById('attachmentInput');
-        const uploadLabel=document.getElementById('uploadLabel');
+        let errorTimer = null;
+        let fadeTimer = null;
 
-        if(fileInput){
+        function showError(msg) {
+            if(errorTimer) {
+                clearTimeout(errorTimer);
+                errorTimer = null;
+            }
+            if(fadeTimer) {
+                clearTimeout(fadeTimer);
+                fadeTimer = null;
+            }
 
-            fileInput.addEventListener('change',function(e){
+            if(fileError) {
+                fileError.innerHTML = `<iconify-icon icon="lucide:alert-circle" width="15" height="15"></iconify-icon> <span>${msg}</span>`;
+                fileError.style.transition = 'opacity 0.25s ease';
+                fileError.style.opacity = '1';
+                fileError.style.display = 'flex';
+            }
+            if(uploadBox) {
+                uploadBox.style.border = '1px solid #ff6b6b';
+            }
 
-                let fileName='No file chosen';
+            errorTimer = setTimeout(function(){
+                if(fileError) {
+                    fileError.style.opacity = '0';
+                }
+                fadeTimer = setTimeout(function(){
+                    clearError();
+                }, 300);
+            }, 3000);
+        }
 
-                if(e.target.files.length>0){
-                    fileName=e.target.files[0].name;
+        function clearError() {
+            if(errorTimer) {
+                clearTimeout(errorTimer);
+                errorTimer = null;
+            }
+            if(fadeTimer) {
+                clearTimeout(fadeTimer);
+                fadeTimer = null;
+            }
+            if(fileError) {
+                fileError.innerHTML = '';
+                fileError.style.display = 'none';
+                fileError.style.opacity = '1';
+            }
+            if(uploadBox) {
+                uploadBox.style.border = 'none';
+            }
+        }
+
+        if(fileInput && uploadLabel){
+            fileInput.addEventListener('change', function(e){
+                clearError();
+                let fileName = 'No file chosen';
+
+                if(e.target.files.length > 0){
+                    const file = e.target.files[0];
+                    const ext = file.name.split('.').pop().toLowerCase();
+                    const validExts = ['pdf', 'doc', 'docx'];
+
+                    if(!validExts.includes(ext)){
+                        showError('Only PDF, DOC, and DOCX resume files are allowed.');
+                        fileInput.value = '';
+                        uploadLabel.innerHTML = `<span class="choose-btn">Choose File</span>No file chosen`;
+                        return;
+                    }
+
+                    if(file.size > 10 * 1024 * 1024){
+                        showError('File size exceeds the 10MB limit. Please upload a smaller document.');
+                        fileInput.value = '';
+                        uploadLabel.innerHTML = `<span class="choose-btn">Choose File</span>No file chosen`;
+                        return;
+                    }
+
+                    fileName = file.name;
                 }
 
-                uploadLabel.innerHTML=`
+                uploadLabel.innerHTML = `
                     <span class="choose-btn">Choose File</span>
                     ${fileName}
                 `;

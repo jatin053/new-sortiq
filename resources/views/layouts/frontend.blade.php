@@ -1,4 +1,4 @@
-﻿
+
   <!doctype html>
 @php
     $routeName = request()->route()?->getName();
@@ -289,7 +289,7 @@
 
             <label class="fresher-connect-file">
               <iconify-icon icon="fa6-solid:upload" width="17" height="17"></iconify-icon>
-              <input id="fresher-file" name="resume" type="file">
+              <input id="fresher-file" name="resume" type="file" accept=".pdf,.doc,.docx">
             </label>
 
             <label class="fresher-connect-field fresher-connect-message-field">
