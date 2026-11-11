@@ -226,20 +226,22 @@
     gap: 8px;
     background: #ff6600;
     color: #ffffff !important;
-    font-weight: 700;
+    font-weight: 600;
     font-size: 13.5px;
-    padding: 13px 22px;
-    border-radius: 12px;
+    padding: 12px 28px;
+    border-radius: 999px;
     text-decoration: none;
     border: none;
     cursor: pointer;
-    box-shadow: 0 8px 22px rgba(255, 102, 0, 0.35);
+    box-shadow: 0 4px 14px rgba(255, 102, 0, 0.25);
     transition: all 0.25s ease;
   }
 
   .sq-btn-primary:hover {
-    background: #ff7a1a;
+    background: #001b43;
+    color: #ffffff !important;
     transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(0, 27, 67, 0.3);
   }
 
   .sq-btn-outline-white {
@@ -249,18 +251,19 @@
     gap: 8px;
     background: rgba(255, 255, 255, 0.08);
     color: #ffffff !important;
-    font-weight: 700;
+    font-weight: 600;
     font-size: 13.5px;
-    padding: 13px 20px;
-    border-radius: 12px;
+    padding: 12px 24px;
+    border-radius: 999px;
     text-decoration: none;
-    border: 1px solid rgba(255, 255, 255, 0.22);
+    border: 1px solid rgba(255, 255, 255, 0.25);
     backdrop-filter: blur(8px);
     transition: all 0.25s ease;
   }
 
   .sq-btn-outline-white:hover {
     background: rgba(255, 255, 255, 0.16);
+    border-color: rgba(255, 255, 255, 0.45);
     transform: translateY(-2px);
   }
 
@@ -754,8 +757,8 @@
   }
 
   .sq-btn-blueprint {
-    padding: 9px 12px;
-    border-radius: 9px;
+    padding: 8px 18px;
+    border-radius: 999px;
     border: 1.5px solid #cbd5e1;
     background: #ffffff;
     color: #00173e;
@@ -772,8 +775,8 @@
   }
 
   .sq-btn-demo {
-    padding: 9px 12px;
-    border-radius: 9px;
+    padding: 8px 18px;
+    border-radius: 999px;
     background: #ff6600;
     color: #ffffff !important;
     font-size: 12px;
@@ -782,11 +785,15 @@
     text-decoration: none;
     border: none;
     cursor: pointer;
-    transition: all 0.2s ease;
+    box-shadow: 0 4px 10px rgba(255, 102, 0, 0.25);
+    transition: all 0.25s ease;
   }
 
   .sq-btn-demo:hover {
-    background: #ff7a1a;
+    background: #001b43;
+    color: #ffffff !important;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px rgba(0, 27, 67, 0.3);
   }
 
   /* ---------------- SECTION 4: COMPARISON MATRIX ---------------- */
@@ -1298,23 +1305,25 @@
 
   .sq-submit-btn {
     width: 100%;
-    padding: 14px 20px;
+    padding: 14px 28px;
     background: #ff6600;
     color: #ffffff !important;
     border: none;
-    border-radius: 12px;
-    font-size: 13.5px;
-    font-weight: 800;
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.05em;
     cursor: pointer;
-    box-shadow: 0 6px 18px rgba(255, 102, 0, 0.35);
-    transition: all 0.2s ease;
+    box-shadow: 0 4px 14px rgba(255, 102, 0, 0.25);
+    transition: all 0.25s ease;
   }
 
   .sq-submit-btn:hover {
-    background: #ff7a1a;
+    background: #001b43;
+    color: #ffffff !important;
     transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(0, 27, 67, 0.3);
   }
 
   /* ---------------- SECTION 7: FAQ ---------------- */

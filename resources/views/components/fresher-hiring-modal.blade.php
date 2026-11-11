@@ -315,17 +315,20 @@
         width:100%;
         height:54px;
         border:none;
-        background:linear-gradient(135deg,#ff5722,#ff7a45);
-        color:#fff;
+        border-radius:999px;
+        background:#ff6600;
+        color:#fff !important;
         font-size:16px;
-        font-weight:700;
-        transition:all .3s ease;
-        box-shadow:0 10px 25px rgba(255,87,34,0.35);
+        font-weight:600;
+        cursor:pointer;
+        box-shadow:0 4px 14px rgba(255,102,0,0.25);
+        transition:all .25s ease;
     }
 
     .submit-btn:hover{
         transform:translateY(-2px);
-        background:linear-gradient(135deg,#e64a19,#ff5722);
+        background:#001b43 !important;
+        box-shadow:0 6px 18px rgba(0,27,67,0.3);
     }
 
     /* Single Close Button */

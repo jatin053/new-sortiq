@@ -274,14 +274,17 @@
       font-weight: 600;
       text-transform: none;
       border: 0;
-      border-radius: 4px;
-      background: #ff5a00;
+      border-radius: 999px;
+      background: #ff6600;
       cursor: pointer;
-      transition: background 0.2s ease, transform 0.2s ease;
+      box-shadow: 0 4px 14px rgba(255, 102, 0, 0.25);
+      transition: all 0.25s ease;
     }
 
     .sq-submit:hover {
-      background: #00173e;
+      background: #001b43;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 18px rgba(0, 27, 67, 0.3);
     }
 
     /* --- Clients & Work Sections --- */

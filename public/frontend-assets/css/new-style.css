@@ -1980,19 +1980,19 @@ button {
 
   color: #fff !important;
 
-  border-radius: 10px;
+  border-radius: 999px;
 
-  padding: 14px 30px;
+  padding: 12px 30px;
 
   font-size: .92rem;
 
-  font-weight: 700;
+  font-weight: 600;
 
   text-decoration: none;
 
   transition: background .25s, transform .25s, box-shadow .25s;
 
-  box-shadow: 0 10px 28px rgba(255, 102, 0, .28);
+  box-shadow: 0 4px 14px rgba(255, 102, 0, .28);
 
 }
 
@@ -2001,6 +2001,8 @@ button {
 .hm-btn-primary:hover {
 
   background: #001b43;
+
+  color: #fff !important;
 
   transform: translateY(-2px);
 
@@ -2018,17 +2020,17 @@ button {
 
   gap: 8px;
 
-  background: #0d6efd;
+  background: #ff6600;
 
   color: #fff !important;
 
-  border-radius: 10px;
+  border-radius: 999px;
 
-  padding: 14px 30px;
+  padding: 12px 30px;
 
   font-size: .92rem;
 
-  font-weight: 700;
+  font-weight: 600;
 
   text-decoration: none;
 
@@ -2036,7 +2038,7 @@ button {
 
   cursor: pointer;
 
-  box-shadow: 0 10px 28px rgba(13, 110, 253, .35);
+  box-shadow: 0 4px 14px rgba(255, 102, 0, .35);
 
   transition: background .25s, transform .25s, box-shadow .25s;
 
@@ -2046,9 +2048,9 @@ button {
 
 .hm-btn-hero-blue:hover {
 
-  background: #fff;
+  background: #001b43;
 
-  color: #00173e !important;
+  color: #fff !important;
 
   transform: translateY(-2px);
 
@@ -2132,19 +2134,19 @@ button {
 
   color: #fff !important;
 
-  padding: 16px 32px;
+  padding: 12px 32px;
 
   font-size: .92rem;
 
-  font-weight: 700;
+  font-weight: 600;
 
   text-decoration: none;
 
-  border-radius: 5px;
+  border-radius: 999px;
 
   transition: .25s;
 
-  box-shadow: 0 10px 28px rgba(255, 102, 0, .35);
+  box-shadow: 0 4px 14px rgba(255, 102, 0, .35);
 
 }
 
@@ -2152,13 +2154,15 @@ button {
 
 .hm-btn-dark:hover {
 
-  background: #fff;
+  background: #001b43;
 
-  color: #00173e !important;
+  color: #fff !important;
 
   text-decoration: none !important;
 
   transform: translateY(-2px);
+
+  box-shadow: 0 6px 18px rgba(0, 27, 67, 0.3);
 
 }
 
@@ -2186,7 +2190,7 @@ button {
 
   color: #fff !important;
 
-  padding: 8px 30px;
+  padding: 10px 30px;
 
   font-size: 15px;
 
@@ -2196,7 +2200,9 @@ button {
 
   transition: .25s;
 
-  font-weight: 400 !important;
+  font-weight: 600 !important;
+
+  box-shadow: 0 4px 14px rgba(255, 102, 0, 0.25);
 
 }
 
@@ -2211,6 +2217,8 @@ button {
   text-decoration: none !important;
 
   transform: translateY(-2px);
+
+  box-shadow: 0 6px 18px rgba(0, 27, 67, 0.3);
 
 }
 
@@ -2690,7 +2698,7 @@ button {
 
   border-radius: 0;
 
-  padding: 12px 2px 24px;
+  /* padding: 12px 2px 24px; */
 
   text-align: center;
 
@@ -5358,4 +5366,107 @@ TESTIMONIALS RESPONSIVE
     flex-wrap: wrap;
     padding-right: 0;
   }
+}
+
+/* ==========================================================================
+   UNIFIED WEBSITE-WIDE PILL BUTTON SYSTEM (Matching VIEW ALL VIDEOS design)
+   ========================================================================== */
+.hm-btn-orange,
+.hm-btn-dark,
+.hm-btn-primary,
+.hm-btn-hero-blue,
+.sq-hero-btn-primary,
+.service-pg .sp-hero-copy > a,
+.service-pg .sp-cta-content > a,
+.service-pg .sp-hero-btn,
+.service-web-page .web-hero-copy a,
+.service-web-page .web-cta-content a,
+body[data-route^="/services/"] .cta-btn,
+body[data-route^="/services/"] div[style*="contact-cta-background"] a,
+body[data-route^="/services/"] .service-pro-hero-btn,
+body[data-route="/services/ecommerce"] main > div > section:first-child a button,
+.fresher-connect-submit,
+.submit-btn,
+.internship-application-form .submit-btn,
+.career-form .submit-btn,
+.contact-submit,
+.sq-submit,
+.sq-cta-button,
+.cs-card-btn,
+.cs-submit-btn,
+#csSubmitBtn,
+.ads-landing-page .hero-btn,
+.ads-landing-page .form-submit,
+#submitBtn,
+.sq-btn-primary,
+.sq-btn-demo,
+.sq-submit-btn,
+.ask-form-submit-btn,
+.cert-btn,
+#certSubmitBtn,
+.sq-support-card a.sq-btn-light {
+  border-radius: 999px !important;
+  background: #ff6600 !important;
+  color: #ffffff !important;
+  font-weight: 600 !important;
+  text-decoration: none !important;
+  transition: all 0.25s ease !important;
+  box-shadow: 0 4px 14px rgba(255, 102, 0, 0.25) !important;
+  border: none !important;
+  cursor: pointer !important;
+}
+
+.hm-btn-orange:hover,
+.hm-btn-dark:hover,
+.hm-btn-primary:hover,
+.hm-btn-hero-blue:hover,
+.sq-hero-btn-primary:hover,
+.service-pg .sp-hero-copy > a:hover,
+.service-pg .sp-cta-content > a:hover,
+.service-pg .sp-hero-btn:hover,
+.service-web-page .web-hero-copy a:hover,
+.service-web-page .web-cta-content a:hover,
+body[data-route^="/services/"] .cta-btn:hover,
+body[data-route^="/services/"] div[style*="contact-cta-background"] a:hover,
+body[data-route^="/services/"] .service-pro-hero-btn:hover,
+body[data-route="/services/ecommerce"] main > div > section:first-child a button:hover,
+.fresher-connect-submit:hover,
+.submit-btn:hover,
+.internship-application-form .submit-btn:hover,
+.career-form .submit-btn:hover,
+.contact-submit:hover,
+.sq-submit:hover,
+.sq-cta-button:hover,
+.cs-card-btn:hover,
+.cs-submit-btn:hover,
+#csSubmitBtn:hover,
+.ads-landing-page .hero-btn:hover,
+.ads-landing-page .form-submit:hover,
+#submitBtn:hover,
+.sq-btn-primary:hover,
+.sq-btn-demo:hover,
+.sq-submit-btn:hover,
+.ask-form-submit-btn:hover,
+.cert-btn:hover,
+#certSubmitBtn:hover,
+.sq-support-card a.sq-btn-light:hover {
+  background: #001b43 !important;
+  color: #ffffff !important;
+  text-decoration: none !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 6px 18px rgba(0, 27, 67, 0.3) !important;
+}
+
+/* Ensure secondary/outline action buttons also keep matching pill styling */
+.sq-hero-btn-outline,
+.sq-btn-outline-white,
+.sq-btn-blueprint {
+  border-radius: 999px !important;
+  transition: all 0.25s ease !important;
+}
+
+.sq-hero-btn-outline:hover,
+.sq-btn-outline-white:hover,
+.sq-btn-blueprint:hover {
+  transform: translateY(-2px) !important;
 }

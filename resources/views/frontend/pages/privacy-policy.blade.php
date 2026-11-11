@@ -222,18 +222,19 @@
     display: block;
     text-align: center;
     background: #ff6600;
-    color: #ffffff;
+    color: #ffffff !important;
     font-size: 13px;
-    font-weight: 700;
-    padding: 10px 16px;
-    border-radius: 8px;
+    font-weight: 600;
+    padding: 10px 20px;
+    border-radius: 999px;
     text-decoration: none;
+    box-shadow: 0 4px 14px rgba(255, 102, 0, 0.25);
     transition: all 0.25s ease;
   }
   .sq-support-card a.sq-btn-light:hover {
-    background: #e65c00;
+    background: #001b43 !important;
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(255, 102, 0, 0.35);
+    box-shadow: 0 6px 18px rgba(0, 27, 67, 0.3);
   }
 
   /* Content Column */

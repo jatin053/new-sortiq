@@ -9,10 +9,10 @@
         <a href="https://www.goodfirms.co/company/sortiq-solutions" target="_blank" rel="noopener noreferrer" aria-label="GoodFirms">
           <img src="{{ asset('frontend-assets/media/footer/GF-min.png') }}" alt="GoodFirms" style="display:block!important;width:50px!important;height:50px!important;min-width:50px!important;max-width:50px!important;max-height:50px!important;object-fit:contain!important;opacity:1!important;visibility:visible!important;transform:none!important;">
         </a>
-
+<!-- 
         <a href="#" target="_blank" rel="noopener noreferrer" aria-label="Google Analytics Certified">
           <img src="{{ asset('frontend-assets/media/footer/digital-marketing-logo-min.png') }}?v={{ filemtime(public_path('frontend-assets/media/footer/digital-marketing-logo-min.png')) }}" alt="Google Analytics Certified" style="display:block!important;width:50px!important;height:50px!important;min-width:50px!important;max-width:50px!important;max-height:50px!important;object-fit:contain!important;opacity:1!important;visibility:visible!important;transform:none!important;">
-        </a>
+        </a> -->
 
         <a href="https://www.upwork.com/agencies/sortiqsolutions/" target="_blank" rel="noopener noreferrer" aria-label="Upwork">
           <img src="{{ asset('frontend-assets/media/footer/upwork-logo-min.png') }}" alt="Upwork" style="display:block!important;width:50px!important;height:50px!important;min-width:50px!important;max-width:50px!important;max-height:50px!important;object-fit:contain!important;opacity:1!important;visibility:visible!important;transform:none!important;">
@@ -61,7 +61,7 @@
           <a class="sq-footer-link" href="{{ url('/our-career/') }}"><span class="sq-footer-arrow"><iconify-icon icon="lucide:chevron-right" width="12" height="12"></iconify-icon></span><span>Our Career</span></a>
           <a class="sq-footer-link" href="{{ url('/clients/') }}"><span class="sq-footer-arrow"><iconify-icon icon="lucide:chevron-right" width="12" height="12"></iconify-icon></span><span>Our Clients</span></a>
           <a class="sq-footer-link" href="{{ url('/blog/') }}"><span class="sq-footer-arrow"><iconify-icon icon="lucide:chevron-right" width="12" height="12"></iconify-icon></span><span>Blog</span></a>
-          <a class="sq-footer-link" href="{{ url('/contact/') }}"><span class="sq-footer-arrow"><iconify-icon icon="lucide:chevron-right" width="12" height="12"></iconify-icon></span><span>Contact Sortiq Solutions</span></a>
+          <a class="sq-footer-link" href="{{ url('/contact/') }}"><span class="sq-footer-arrow"><iconify-icon icon="lucide:chevron-right" width="12" height="12"></iconify-icon></span><span>Contact Us</span></a>
           <a class="sq-footer-link" href="{{ url('/faq/') }}"><span class="sq-footer-arrow"><iconify-icon icon="lucide:chevron-right" width="12" height="12"></iconify-icon></span><span>FAQ</span></a>
           <a class="sq-footer-link" href="{{ url('/our-expertise/') }}"><span class="sq-footer-arrow"><iconify-icon icon="lucide:chevron-right" width="12" height="12"></iconify-icon></span><span>Our Expertise</span></a>
           <a class="sq-footer-link" href="{{ url('/support/') }}"><span class="sq-footer-arrow"><iconify-icon icon="lucide:chevron-right" width="12" height="12"></iconify-icon></span><span>Support</span></a>
@@ -250,8 +250,8 @@
       gap: 5px;
       background: rgba(255, 255, 255, 0.12);
       color: #ffffff;
-      padding: 6px 12px;
-      border-radius: 6px;
+      padding: 6px 14px;
+      border-radius: 999px;
       font-size: 12px;
       text-decoration: none;
       font-weight: 600;

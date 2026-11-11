@@ -80,22 +80,26 @@
 }
 
 .cert-btn {
-  background-color: #00173e;
-  color: #ffffff;
+  background-color: #ff6600;
+  color: #ffffff !important;
   border: none;
   padding: 13px 36px;
-  font-weight: 700;
+  font-weight: 600;
   font-size: 16px;
-  border-radius: 4px;
+  border-radius: 999px;
   cursor: pointer;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  transition: background-color 0.2s, transform 0.15s;
+  box-shadow: 0 4px 14px rgba(255, 102, 0, 0.25);
+  transition: all 0.25s ease;
   white-space: nowrap;
 }
 
 .cert-btn:hover {
-  background-color: #ff6600;
+  background-color: #001b43;
+  color: #ffffff !important;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(0, 27, 67, 0.3);
 }
 
 .cert-btn:disabled {

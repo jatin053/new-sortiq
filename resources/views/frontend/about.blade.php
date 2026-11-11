@@ -760,25 +760,27 @@
 
     width: 100%;
 
-    min-height: 56px;
+    min-height: 52px;
 
-    padding: 16px;
+    padding: 14px 24px;
 
     border: 0;
 
-    border-radius: 0;
+    border-radius: 999px;
 
     color: #fff;
 
-    background: var(--sq-orange);
+    background: #ff6600;
 
-    font-size: 14px;
+    font-size: 15px;
 
-    font-weight: 500;
+    font-weight: 600;
 
     cursor: pointer;
 
-    transition: background .25s ease;
+    box-shadow: 0 4px 14px rgba(255, 102, 0, 0.25);
+
+    transition: all .25s ease;
 
 }
 
@@ -786,7 +788,11 @@
 
   .sq-submit:hover  {
 
-    background: var(--sq-blue);
+    background: #001b43;
+
+    transform: translateY(-2px);
+
+    box-shadow: 0 6px 18px rgba(0, 27, 67, 0.3);
 
 }
 

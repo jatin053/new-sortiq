@@ -137,34 +137,34 @@
           margin-bottom: 24px;
         }
         .sq-hero-btn-primary {
-          background: linear-gradient(135deg, #ff6600 0%, #e05300 100%);
+          background: #ff6600;
           color: #ffffff !important;
           font-size: 14px;
-          font-weight: 700;
+          font-weight: 600;
           letter-spacing: 0.4px;
-          padding: 12px 26px;
-          border-radius: 8px;
+          padding: 12px 28px;
+          border-radius: 999px;
           text-decoration: none;
           display: inline-flex;
           align-items: center;
           gap: 8px;
-          box-shadow: 0 8px 24px rgba(255, 102, 0, 0.35);
+          box-shadow: 0 4px 14px rgba(255, 102, 0, 0.35);
           transition: all 0.25s ease;
-          border: 1px solid rgba(255, 102, 0, 0.5);
+          border: none;
         }
         .sq-hero-btn-primary:hover {
           transform: translateY(-2px);
-          box-shadow: 0 12px 28px rgba(255, 102, 0, 0.45);
-          background: linear-gradient(135deg, #ff771a 0%, #eb5a00 100%);
+          box-shadow: 0 6px 18px rgba(0, 27, 67, 0.3);
+          background: #001b43 !important;
         }
         .sq-hero-btn-outline {
           background: rgba(255, 255, 255, 0.06);
-          border: 1px solid rgba(255, 255, 255, 0.18);
+          border: 1px solid rgba(255, 255, 255, 0.25);
           color: #ffffff !important;
           font-size: 14px;
           font-weight: 600;
-          padding: 12px 22px;
-          border-radius: 8px;
+          padding: 12px 26px;
+          border-radius: 999px;
           text-decoration: none;
           display: inline-flex;
           align-items: center;
@@ -173,8 +173,8 @@
           transition: all 0.25s ease;
         }
         .sq-hero-btn-outline:hover {
-          background: rgba(255, 255, 255, 0.12);
-          border-color: rgba(255, 255, 255, 0.35);
+          background: rgba(255, 255, 255, 0.16);
+          border-color: rgba(255, 255, 255, 0.45);
           transform: translateY(-2px);
         }
         .sq-hero-pills {

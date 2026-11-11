@@ -3018,15 +3018,21 @@ a  {
 
   border: none;
 
-  border-radius: 2px;
+  border-radius: 999px;
 
-  background: var(--sq-orange);
+  background: #ff6600;
 
-  color: #fff;
+  color: #fff !important;
 
   font-size: 16px;
 
+  font-weight: 600;
+
   cursor: pointer;
+
+  box-shadow: 0 4px 14px rgba(255, 102, 0, 0.25);
+
+  transition: all 0.25s ease;
 
 }
 
@@ -3034,7 +3040,11 @@ a  {
 
 .submit-btn:hover  {
 
-  background: var(--sq-blue);
+  background: #001b43;
+
+  transform: translateY(-2px);
+
+  box-shadow: 0 6px 18px rgba(0, 27, 67, 0.3);
 
 }
 

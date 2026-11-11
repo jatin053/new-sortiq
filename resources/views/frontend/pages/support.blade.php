@@ -310,20 +310,23 @@
     justify-content: center;
     height: 48px;
     padding: 0 40px;
-    border: 2px solid #2563eb;
-    border-radius: 8px;
-    background-color: #ffffff;
-    color: #2563eb;
+    border: none;
+    border-radius: 999px;
+    background-color: #ff6600;
+    color: #ffffff !important;
     font-size: 15px;
-    font-weight: 700;
+    font-weight: 600;
     cursor: pointer;
+    box-shadow: 0 4px 14px rgba(255, 102, 0, 0.25);
     transition: all 0.25s ease;
     outline: none;
   }
 
   .ask-form-submit-btn:hover {
-    background-color: #2563eb;
-    color: #ffffff;
+    background-color: #001b43;
+    color: #ffffff !important;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(0, 27, 67, 0.3);
   }
 
   /* ==========================================================================

@@ -83,23 +83,24 @@
 }
 
 .ads-landing-page .hero-btn {
-  background: #ff5800;
+  background: #ff6600;
   border: none;
-  border-radius: 40px;
+  border-radius: 999px;
   color: #fff !important;
-  padding: 14px 38px;
-  font-size: 18px;
+  padding: 12px 36px;
+  font-size: 16px;
   font-weight: 600;
   text-decoration: none;
   display: inline-block;
   transition: all 0.25s ease;
-  box-shadow: 0 4px 15px rgba(255, 88, 0, 0.4);
+  box-shadow: 0 4px 14px rgba(255, 102, 0, 0.25);
 }
 
 .ads-landing-page .hero-btn:hover {
-  background: #e04e00;
+  background: #001b43;
+  color: #fff !important;
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(255, 88, 0, 0.5);
+  box-shadow: 0 6px 18px rgba(0, 27, 67, 0.3);
 }
 
 /* ========== FORM DESIGN ========== */
@@ -156,22 +157,25 @@
 }
 
 .ads-landing-page .form-submit {
-  background: #ff5800;
-  color: #fff;
+  background: #ff6600;
+  color: #fff !important;
   border: none;
   width: 100%;
-  padding: 15px;
-  font-size: 17px;
-  border-radius: 10px;
+  padding: 14px 28px;
+  font-size: 16px;
+  border-radius: 999px;
   font-weight: 600;
   cursor: pointer;
   margin-top: 5px;
+  box-shadow: 0 4px 14px rgba(255, 102, 0, 0.25);
   transition: all 0.25s ease;
 }
 
 .ads-landing-page .form-submit:hover {
-  background: #e04e00;
-  opacity: 0.95;
+  background: #001b43;
+  color: #fff !important;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(0, 27, 67, 0.3);
 }
 
 /* ========== SECTIONS ========== */

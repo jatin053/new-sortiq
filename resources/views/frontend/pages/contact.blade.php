@@ -396,17 +396,21 @@
         min-height: 52px;
         margin-top: 2px;
         border: 0;
-        border-radius: 4px;
-        background: #ff5a0a;
-        color: #fff;
+        border-radius: 999px;
+        background: #ff6600;
+        color: #fff !important;
         font-size: 16px;
         font-weight: 600;
         cursor: pointer;
-        transition: background 0.2s ease;
+        box-shadow: 0 4px 14px rgba(255, 102, 0, 0.25);
+        transition: all 0.25s ease;
       }
 
       .contact-submit:hover {
-        background: #00173e;
+        background: #001b43;
+        color: #fff !important;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 18px rgba(0, 27, 67, 0.3);
       }
 
       .contact-page .sidebar {
@@ -494,16 +498,21 @@
 
       .contact-map {
         width: 100%;
-        padding: 10px 12px 0; 
+        margin: 0 !important;
+        padding: 0 !important;
         background: #fff;
-        padding-bottom:20px !important;
+        line-height: 0;
       }
 
       .contact-map iframe {
         display: block;
-        width: 100%;
+        width: 100% !important;
+        min-width: 0 !important;
         height: 520px;
         border: 0;
+        margin: 0 !important;
+        padding: 0 !important;
+        transform: none !important;
       }
 
       @media (max-width: 1023px) {
@@ -518,22 +527,6 @@
       }
 
       @media (max-width: 767px) {
-
-   
-    .contact-map {
-      padding-inline: 8px;
-      overflow: hidden;
-      height: 390px;
-      position: relative;
-    }
-  
-    .contact-map iframe {
-      width: 125%;
-      height: 487px;
-      min-width: 420px;
-      transform: scale(0.8);
-      transform-origin: top left;
-    }
 
         .contact-hero {
           min-height: 170px;
@@ -573,11 +566,21 @@
         }
 
         .contact-map {
-          padding-inline: 8px;
+          width: 100%;
+          margin: 0 !important;
+          padding: 0 !important;
+          height: auto;
+          overflow: visible;
         }
 
         .contact-map iframe {
+          width: 100% !important;
+          min-width: 0 !important;
           height: 380px;
+          border: 0;
+          margin: 0 !important;
+          padding: 0 !important;
+          transform: none !important;
         }
       }
     </style>

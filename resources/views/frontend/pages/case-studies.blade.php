@@ -204,25 +204,26 @@
 }
 
 .cs-card-btn {
-  background: #ff5800;
+  background: #ff6600;
   color: #ffffff !important;
   font-size: 14.5px;
-  font-weight: 700;
-  padding: 13px 26px;
-  border-radius: 10px;
+  font-weight: 600;
+  padding: 12px 28px;
+  border-radius: 999px;
   text-decoration: none;
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  transition: all 0.2s ease;
+  transition: all 0.25s ease;
   white-space: nowrap;
-  box-shadow: 0 4px 14px rgba(255, 88, 0, 0.28);
+  box-shadow: 0 4px 14px rgba(255, 102, 0, 0.25);
 }
 
 .cs-card-btn:hover {
-  background: #e04e00;
+  background: #001b43;
+  color: #ffffff !important;
   transform: translateY(-2px);
-  box-shadow: 0 6px 18px rgba(255, 88, 0, 0.38);
+  box-shadow: 0 6px 18px rgba(0, 27, 67, 0.3);
 }
 
 /* ---------- Consultation Form Section ---------- */
@@ -338,25 +339,27 @@
 
 .cs-submit-btn {
   width: 100%;
-  background: #ff5800;
+  background: #ff6600;
   color: #ffffff;
   border: none;
-  border-radius: 10px;
-  padding: 15px;
+  border-radius: 999px;
+  padding: 14px 28px;
   font-size: 16px;
-  font-weight: 700;
+  font-weight: 600;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 10px;
   transition: all 0.25s ease;
-  box-shadow: 0 4px 15px rgba(255, 88, 0, 0.3);
+  box-shadow: 0 4px 14px rgba(255, 102, 0, 0.25);
 }
 
 .cs-submit-btn:hover {
-  background: #e04e00;
-  box-shadow: 0 6px 20px rgba(255, 88, 0, 0.4);
+  background: #001b43;
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(0, 27, 67, 0.3);
 }
 
 .cs-submit-btn:disabled {

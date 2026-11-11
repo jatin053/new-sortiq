@@ -238,22 +238,26 @@
       align-items: center;
       gap: 10px;
       min-height: 45px;
-      padding: 12px 25px;
-      color: var(--sq-white);
-      background: var(--sq-orange);
-      border-radius: 3px;
+      padding: 12px 30px;
+      color: #ffffff !important;
+      background: #ff6600;
+      border-radius: 999px;
       font-family: inherit;
       font-size: 15px;
-      font-weight: 500;
+      font-weight: 600;
       line-height: 1;
       text-transform: uppercase;
-      transition: background 0.2s ease, transform 0.2s ease;
+      text-decoration: none;
+      box-shadow: 0 4px 14px rgba(255, 102, 0, 0.25);
+      transition: all 0.25s ease;
     }
 
     .sq-cta-button:hover {
-      color: var(--sq-white);
-      background: var(--sq-blue);
-      transform: translateY(-1px);
+      color: #ffffff !important;
+      background: #001b43;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 18px rgba(0, 27, 67, 0.3);
+      text-decoration: none !important;
     }
 
     /* Target UI Exact Match CSS */
@@ -413,21 +417,23 @@
       width: 100%;
       min-height: 50px;
       padding: 12px 20px;
-      color: var(--sq-white);
+      color: #ffffff !important;
       font-family: inherit;
       font-size: 16px;
       font-weight: 600;
       text-transform: none; 
       border: 0;
-      border-radius: 4px;
-      background: var(--sq-orange);
+      border-radius: 999px;
+      background: #ff6600;
       cursor: pointer;
-      transition: background 0.2s ease, transform 0.2s ease;
+      box-shadow: 0 4px 14px rgba(255, 102, 0, 0.25);
+      transition: all 0.25s ease;
     }
 
     .sq-submit:hover {
-      background: #e65100;
-      transform: translateY(-1px);
+      background: #001b43;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 18px rgba(0, 27, 67, 0.3);
     }
 
     @media (max-width: 1024px) {
