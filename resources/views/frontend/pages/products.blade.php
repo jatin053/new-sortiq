@@ -620,19 +620,16 @@
 
   .sq-prod-catalog-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 22px;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 28px;
+    max-width: 1040px;
+    margin: 0 auto;
   }
 
-  @media (max-width: 991px) {
-    .sq-prod-catalog-grid {
-      grid-template-columns: repeat(2, 1fr);
-    }
-  }
-
-  @media (max-width: 620px) {
+  @media (max-width: 840px) {
     .sq-prod-catalog-grid {
       grid-template-columns: 100%;
+      max-width: 580px;
     }
   }
 
@@ -1807,25 +1804,23 @@
 
         {{-- Filter Buttons --}}
         <div class="sq-filter-tabs" id="product-filters" role="tablist">
-          <button type="button" class="sq-filter-btn active" data-filter="all">All Products</button>
-          <button type="button" class="sq-filter-btn" data-filter="enterprise">Enterprise &amp; Ops</button>
-          <button type="button" class="sq-filter-btn" data-filter="commerce">Commerce</button>
-          <button type="button" class="sq-filter-btn" data-filter="ai">AI &amp; Sales</button>
-          <button type="button" class="sq-filter-btn" data-filter="health-edu">Health &amp; Edu</button>
+          <button type="button" class="sq-filter-btn active" data-filter="all">All Products (2)</button>
+          <button type="button" class="sq-filter-btn" data-filter="education">Education &amp; Campus</button>
+          <button type="button" class="sq-filter-btn" data-filter="content">Listings &amp; Content</button>
         </div>
       </div>
 
-      {{-- 6 Flagship Product Cards --}}
+      {{-- Product Cards --}}
       <div class="sq-prod-catalog-grid" id="products-catalog">
 
-        {{-- Product 1: Sortiq ERP Pro --}}
-        <div class="sq-product-item-card" data-category="enterprise">
+        {{-- Product 1: CampusEdge Pro --}}
+        <div class="sq-product-item-card" data-category="education">
           <div class="sq-card-header">
             <div>
               <span class="sq-card-cat-badge" style="background: #eff6ff; color: #2563eb;">
-                Operations &amp; Finance
+                Education &amp; Campus Management
               </span>
-              <h3 class="sq-font-title sq-card-name">Sortiq ERP Pro</h3>
+              <h3 class="sq-font-title sq-card-name">CampusEdge Pro</h3>
             </div>
             <span class="sq-status-pill" style="background: #ecfdf5; color: #047857; border: 1px solid #a7f3d0;">
               Ready to Deploy
@@ -1835,26 +1830,26 @@
           <div class="sq-card-body">
             <div>
               <p class="sq-card-summary">
-                All-in-one ERP engine designed for manufacturing, distribution, and services. Automates inventory, purchase orders, GST billing, and multi-branch accounting.
+                Campus ERP for schools, colleges and coaching institutes. It runs admissions, fees, attendance, exams and staff records in one system, with portals for students, parents and teachers.
               </p>
 
               <div style="font-size: 11px; font-weight: 800; text-transform: uppercase; color: #94a3b8; margin-bottom: 8px;">Key Capabilities</div>
               <ul class="sq-feature-list">
                 <li>
                   <iconify-icon icon="lucide:check-circle-2"></iconify-icon>
-                  <span>Real-time multi-warehouse inventory &amp; batch tracking</span>
+                  <span>Online admissions, student records and fee collection with receipts</span>
                 </li>
                 <li>
                   <iconify-icon icon="lucide:check-circle-2"></iconify-icon>
-                  <span>Automated double-entry accounting &amp; GST tax compliance</span>
+                  <span>Attendance, timetables, exam results and report cards</span>
                 </li>
                 <li>
                   <iconify-icon icon="lucide:check-circle-2"></iconify-icon>
-                  <span>Role-based permissions &amp; tamper-proof audit trails</span>
+                  <span>Student, parent and teacher portals with instant notices</span>
                 </li>
                 <li>
                   <iconify-icon icon="lucide:check-circle-2"></iconify-icon>
-                  <span>Executive BI dashboard with real-time cashflow analytics</span>
+                  <span>Staff payroll and role-based access with audit trails</span>
                 </li>
               </ul>
             </div>
@@ -1870,14 +1865,14 @@
               <div class="sq-card-actions">
                 <button type="button" 
                   class="sq-btn-blueprint sq-blueprint-trigger"
-                  data-name="Sortiq ERP Pro"
-                  data-tag="Enterprise Resource Planning"
-                  data-desc="Sortiq ERP Pro is an enterprise-grade ERP built with modular microservices for scaling businesses. It unifies finance, inventory, multi-channel procurement, and staff logistics under a single high-security dashboard."
-                  data-stack="Laravel 11, React, PostgreSQL, Docker, AWS S3, Redis"
-                  data-features="Automated GST Billing;Multi-Branch Inventory Sync;Supplier Portal;Double-Entry Ledger;Barcode Scanning Support;Role-Based Granular Security">
+                  data-name="CampusEdge Pro"
+                  data-tag="Education &amp; Campus Management"
+                  data-desc="Campus ERP for schools, colleges and coaching institutes. It runs admissions, fees, attendance, exams and staff records in one system, with portals for students, parents and teachers."
+                  data-stack="Laravel 11, React, PostgreSQL, REST API"
+                  data-features="Online admissions, student records and fee collection with receipts;Attendance, timetables, exam results and report cards;Student, parent and teacher portals with instant notices;Staff payroll and role-based access with audit trails">
                   View Blueprint
                 </button>
-                <a href="#request-demo" class="sq-btn-demo" onclick="preselectProduct('Sortiq ERP Pro')">
+                <a href="#request-demo" class="sq-btn-demo" onclick="preselectProduct('CampusEdge Pro')">
                   Request Demo
                 </a>
               </div>
@@ -1885,311 +1880,43 @@
           </div>
         </div>
 
-        {{-- Product 2: Sortiq Commerce Hub --}}
-        <div class="sq-product-item-card" data-category="commerce">
+        {{-- Product 2: Blogerzworld --}}
+        <div class="sq-product-item-card" data-category="content">
           <div class="sq-card-header">
             <div>
-              <span class="sq-card-cat-badge" style="background: #ecfdf5; color: #059669;">
-                Omnichannel Retail
+              <span class="sq-card-cat-badge" style="background: #faf5ff; color: #7c3aed;">
+                Listings &amp; Content Platform
               </span>
-              <h3 class="sq-font-title sq-card-name">Sortiq Commerce Hub</h3>
+              <h3 class="sq-font-title sq-card-name">Blogerzworld</h3>
             </div>
-            <span class="sq-status-pill" style="background: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe;">
-              High Concurrency
+            <span class="sq-status-pill" style="background: #fff7ed; color: #c2410c; border: 1px solid #fed7aa;">
+              Approval-Based
             </span>
           </div>
 
           <div class="sq-card-body">
             <div>
               <p class="sq-card-summary">
-                Ultra-fast headless commerce platform tailored for B2B wholesale and high-volume B2C brands. Supports sub-second catalog search and dynamic order routing.
+                A listing and blog platform where only approved listings, stories and comments reach the public site. Visitors browse by category, while your team reviews and publishes from one admin panel.
               </p>
 
               <div style="font-size: 11px; font-weight: 800; text-transform: uppercase; color: #94a3b8; margin-bottom: 8px;">Key Capabilities</div>
               <ul class="sq-feature-list">
                 <li>
                   <iconify-icon icon="lucide:check-circle-2"></iconify-icon>
-                  <span>Sub-300ms product catalog search with Elasticsearch</span>
+                  <span>Simple flow to post listings and share blog stories</span>
                 </li>
                 <li>
                   <iconify-icon icon="lucide:check-circle-2"></iconify-icon>
-                  <span>Tiered B2B pricing, credit terms &amp; bulk volume discounts</span>
+                  <span>Approval workflow for listings, blogs and comments</span>
                 </li>
                 <li>
                   <iconify-icon icon="lucide:check-circle-2"></iconify-icon>
-                  <span>Multi-gateway payments (Stripe, Razorpay, Cashfree, PayPal)</span>
+                  <span>Organized categories for easy browsing by topic</span>
                 </li>
                 <li>
                   <iconify-icon icon="lucide:check-circle-2"></iconify-icon>
-                  <span>Automated shipping logistics &amp; live courier webhook tracking</span>
-                </li>
-              </ul>
-            </div>
-
-            <div>
-              <div class="sq-stack-row">
-                <span class="sq-tech-badge">Next.js</span>
-                <span class="sq-tech-badge">Node.js</span>
-                <span class="sq-tech-badge">Redis</span>
-                <span class="sq-tech-badge">Elasticsearch</span>
-              </div>
-
-              <div class="sq-card-actions">
-                <button type="button" 
-                  class="sq-btn-blueprint sq-blueprint-trigger"
-                  data-name="Sortiq Commerce Hub"
-                  data-tag="Headless Commerce Engine"
-                  data-desc="Built to sustain 10,000+ simultaneous checkout requests without throttling. Features a GraphQL API layer, decoupled frontend, and turnkey integration with global fulfillment partners."
-                  data-stack="Next.js, Node.js Microservices, Redis Cache, MongoDB, Elasticsearch, AWS Lambda"
-                  data-features="Sub-second Elastic Search;Tiered B2B Quotations;One-Click Checkout;Automated Cart Recovery;Courier API Integrations;Multi-Currency Conversion">
-                  View Blueprint
-                </button>
-                <a href="#request-demo" class="sq-btn-demo" onclick="preselectProduct('Sortiq Commerce Hub')">
-                  Request Demo
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {{-- Product 3: Sortiq HR & Workforce 360 --}}
-        <div class="sq-product-item-card" data-category="enterprise">
-          <div class="sq-card-header">
-            <div>
-              <span class="sq-card-cat-badge" style="background: #faf5ff; color: #9333ea;">
-                Human Capital &amp; Payroll
-              </span>
-              <h3 class="sq-font-title sq-card-name">Sortiq HRMS 360</h3>
-            </div>
-            <span class="sq-status-pill" style="background: #faf5ff; color: #7e22ce; border: 1px solid #e9d5ff;">
-              Web &amp; Mobile App
-            </span>
-          </div>
-
-          <div class="sq-card-body">
-            <div>
-              <p class="sq-card-summary">
-                Complete employee lifecycle suite with mobile clock-in, geofencing, automated monthly salary computation, leave approvals, and tax deductions.
-              </p>
-
-              <div style="font-size: 11px; font-weight: 800; text-transform: uppercase; color: #94a3b8; margin-bottom: 8px;">Key Capabilities</div>
-              <ul class="sq-feature-list">
-                <li>
-                  <iconify-icon icon="lucide:check-circle-2"></iconify-icon>
-                  <span>Geofenced mobile attendance &amp; biometric machine sync</span>
-                </li>
-                <li>
-                  <iconify-icon icon="lucide:check-circle-2"></iconify-icon>
-                  <span>Automated one-click payroll calculation &amp; payslip generation</span>
-                </li>
-                <li>
-                  <iconify-icon icon="lucide:check-circle-2"></iconify-icon>
-                  <span>Employee self-service portal for leave, claims &amp; documents</span>
-                </li>
-                <li>
-                  <iconify-icon icon="lucide:check-circle-2"></iconify-icon>
-                  <span>Performance KPIs, probation tracking &amp; digital onboarding</span>
-                </li>
-              </ul>
-            </div>
-
-            <div>
-              <div class="sq-stack-row">
-                <span class="sq-tech-badge">Laravel</span>
-                <span class="sq-tech-badge">Vue.js</span>
-                <span class="sq-tech-badge">Flutter</span>
-                <span class="sq-tech-badge">MySQL</span>
-              </div>
-
-              <div class="sq-card-actions">
-                <button type="button" 
-                  class="sq-btn-blueprint sq-blueprint-trigger"
-                  data-name="Sortiq HRMS 360"
-                  data-tag="Workforce & Payroll Suite"
-                  data-desc="Sortiq HRMS 360 automates complex enterprise HR processes, eliminates payroll spreadsheet errors, and connects remote as well as on-site teams with a native mobile app."
-                  data-stack="Laravel, Vue.js 3, Flutter (iOS/Android), MySQL, Redis Queue, Push Notifications"
-                  data-features="Biometric API Sync;Geo-Fenced Mobile Punch;Tax & Statutory Deductions;Digital Asset Management;Appraisal Review Cycles;Automated Salary Slips">
-                  View Blueprint
-                </button>
-                <a href="#request-demo" class="sq-btn-demo" onclick="preselectProduct('Sortiq HRMS 360')">
-                  Request Demo
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {{-- Product 4: Sortiq CRM & Lead Matrix --}}
-        <div class="sq-product-item-card" data-category="ai">
-          <div class="sq-card-header">
-            <div>
-              <span class="sq-card-cat-badge" style="background: #fffbeb; color: #d97706;">
-                AI &amp; Sales Pipeline
-              </span>
-              <h3 class="sq-font-title sq-card-name">Sortiq Lead Matrix</h3>
-            </div>
-            <span class="sq-status-pill" style="background: #fffbeb; color: #b45309; border: 1px solid #fde68a;">
-              AI Powered
-            </span>
-          </div>
-
-          <div class="sq-card-body">
-            <div>
-              <p class="sq-card-summary">
-                Intelligent customer relationship management system. Consolidates inquiries from WhatsApp, Meta Ads, emails, and website forms into one revenue pipeline.
-              </p>
-
-              <div style="font-size: 11px; font-weight: 800; text-transform: uppercase; color: #94a3b8; margin-bottom: 8px;">Key Capabilities</div>
-              <ul class="sq-feature-list">
-                <li>
-                  <iconify-icon icon="lucide:check-circle-2"></iconify-icon>
-                  <span>Omnichannel lead capture with instant auto-assignment</span>
-                </li>
-                <li>
-                  <iconify-icon icon="lucide:check-circle-2"></iconify-icon>
-                  <span>Automated WhatsApp &amp; Email drip marketing cadences</span>
-                </li>
-                <li>
-                  <iconify-icon icon="lucide:check-circle-2"></iconify-icon>
-                  <span>AI lead intent scoring &amp; conversion probability forecasting</span>
-                </li>
-                <li>
-                  <iconify-icon icon="lucide:check-circle-2"></iconify-icon>
-                  <span>Click-to-call VoIP with automated call recording &amp; notes</span>
-                </li>
-              </ul>
-            </div>
-
-            <div>
-              <div class="sq-stack-row">
-                <span class="sq-tech-badge">React</span>
-                <span class="sq-tech-badge">Python AI</span>
-                <span class="sq-tech-badge">Node.js</span>
-                <span class="sq-tech-badge">WebSockets</span>
-              </div>
-
-              <div class="sq-card-actions">
-                <button type="button" 
-                  class="sq-btn-blueprint sq-blueprint-trigger"
-                  data-name="Sortiq Lead Matrix"
-                  data-tag="AI Sales & Pipeline Automation"
-                  data-desc="Supercharge sales teams with automated qualification, lead enrichment, deal tracking, and real-time activity sync across web and mobile."
-                  data-stack="React.js, Node.js, Python NLP/ML, WebSockets, Twilio VoIP, PostgreSQL"
-                  data-features="WhatsApp Cloud API Sync;Deal Stage Kanban;AI Inactivity Alerts;Live Call Logs;Automated Email Sequences;Executive Revenue Projection">
-                  View Blueprint
-                </button>
-                <a href="#request-demo" class="sq-btn-demo" onclick="preselectProduct('Sortiq Lead Matrix')">
-                  Request Demo
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {{-- Product 5: Sortiq CareClinic EHR --}}
-        <div class="sq-product-item-card" data-category="health-edu">
-          <div class="sq-card-header">
-            <div>
-              <span class="sq-card-cat-badge" style="background: #f0fdfa; color: #0d9488;">
-                Healthcare &amp; Clinical
-              </span>
-              <h3 class="sq-font-title sq-card-name">Sortiq CareClinic</h3>
-            </div>
-            <span class="sq-status-pill" style="background: #f0fdfa; color: #0f766e; border: 1px solid #99f6e4;">
-              HIPAA Compliant
-            </span>
-          </div>
-
-          <div class="sq-card-body">
-            <div>
-              <p class="sq-card-summary">
-                Hospital and clinic management software with Electronic Health Records (EHR), telemedicine consultations, appointment queue, and pharmacy inventory.
-              </p>
-
-              <div style="font-size: 11px; font-weight: 800; text-transform: uppercase; color: #94a3b8; margin-bottom: 8px;">Key Capabilities</div>
-              <ul class="sq-feature-list">
-                <li>
-                  <iconify-icon icon="lucide:check-circle-2"></iconify-icon>
-                  <span>Encrypted Electronic Health Records &amp; digital prescriptions</span>
-                </li>
-                <li>
-                  <iconify-icon icon="lucide:check-circle-2"></iconify-icon>
-                  <span>Encrypted WebRTC high-definition telemedicine video engine</span>
-                </li>
-                <li>
-                  <iconify-icon icon="lucide:check-circle-2"></iconify-icon>
-                  <span>Online doctor appointment scheduling &amp; SMS reminders</span>
-                </li>
-                <li>
-                  <iconify-icon icon="lucide:check-circle-2"></iconify-icon>
-                  <span>Diagnostic lab sync, radiology report uploads &amp; patient app</span>
-                </li>
-              </ul>
-            </div>
-
-            <div>
-              <div class="sq-stack-row">
-                <span class="sq-tech-badge">React</span>
-                <span class="sq-tech-badge">WebRTC</span>
-                <span class="sq-tech-badge">Node.js</span>
-                <span class="sq-tech-badge">Encrypted DB</span>
-              </div>
-
-              <div class="sq-card-actions">
-                <button type="button" 
-                  class="sq-btn-blueprint sq-blueprint-trigger"
-                  data-name="Sortiq CareClinic"
-                  data-tag="Clinical Health & Telemedicine"
-                  data-desc="Engineered specifically to comply with international patient data privacy standards (HIPAA/GDPR). Provides seamless continuity of care between doctor and patient."
-                  data-stack="React.js, Node.js, WebRTC Media Server, MongoDB (AES-256), Redis, AWS HealthLake"
-                  data-features="Telemedicine Consultation;E-Prescription Builder;Doctor Slot Calendar;Pharmacy Stock Tracking;Diagnostic Lab Results;Patient Health Vault">
-                  View Blueprint
-                </button>
-                <a href="#request-demo" class="sq-btn-demo" onclick="preselectProduct('Sortiq CareClinic')">
-                  Request Demo
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {{-- Product 6: Sortiq EduPulse LMS --}}
-        <div class="sq-product-item-card" data-category="health-edu">
-          <div class="sq-card-header">
-            <div>
-              <span class="sq-card-cat-badge" style="background: #eef2ff; color: #4f46e5;">
-                EdTech &amp; Academy
-              </span>
-              <h3 class="sq-font-title sq-card-name">Sortiq EduPulse LMS</h3>
-            </div>
-            <span class="sq-status-pill" style="background: #eef2ff; color: #4338ca; border: 1px solid #c7d2fe;">
-              Interactive
-            </span>
-          </div>
-
-          <div class="sq-card-body">
-            <div>
-              <p class="sq-card-summary">
-                Modern Learning Management System for educational institutes and corporate training. Features live streams, video courses, quizzes, and automated certificate generation.
-              </p>
-
-              <div style="font-size: 11px; font-weight: 800; text-transform: uppercase; color: #94a3b8; margin-bottom: 8px;">Key Capabilities</div>
-              <ul class="sq-feature-list">
-                <li>
-                  <iconify-icon icon="lucide:check-circle-2"></iconify-icon>
-                  <span>Modular chapter-based video learning with progress meters</span>
-                </li>
-                <li>
-                  <iconify-icon icon="lucide:check-circle-2"></iconify-icon>
-                  <span>Live lecture integration with Zoom, Google Meet &amp; YouTube Live</span>
-                </li>
-                <li>
-                  <iconify-icon icon="lucide:check-circle-2"></iconify-icon>
-                  <span>Interactive timed examinations with instant auto-grading</span>
-                </li>
-                <li>
-                  <iconify-icon icon="lucide:check-circle-2"></iconify-icon>
-                  <span>Dynamic QR-verifiable certificate generation upon course completion</span>
+                  <span>Central admin control for moderation and visibility</span>
                 </li>
               </ul>
             </div>
@@ -2197,22 +1924,22 @@
             <div>
               <div class="sq-stack-row">
                 <span class="sq-tech-badge">Laravel 11</span>
-                <span class="sq-tech-badge">Alpine.js</span>
-                <span class="sq-tech-badge">AWS S3</span>
-                <span class="sq-tech-badge">Stripe</span>
+                <span class="sq-tech-badge">Tailwind CSS</span>
+                <span class="sq-tech-badge">MySQL</span>
+                <span class="sq-tech-badge">REST API</span>
               </div>
 
               <div class="sq-card-actions">
                 <button type="button" 
                   class="sq-btn-blueprint sq-blueprint-trigger"
-                  data-name="Sortiq EduPulse LMS"
-                  data-tag="Digital Learning & Examination"
-                  data-desc="Scalable academy platform supporting thousands of concurrent learners. Includes anti-piracy DRM video player, assignment review workflows, and gamified student leaderboards."
-                  data-stack="Laravel 11, Tailwind CSS, Alpine.js, Vimeo / AWS S3 DRM, Stripe / Razorpay, MySQL"
-                  data-features="DRM Protected Video Player;Live Classroom Integration;Mock Test Engine;QR Code Verifiable Certificates;Instructor Revenue Sharing;Student Mobile App">
+                  data-name="Blogerzworld"
+                  data-tag="Listings &amp; Content Platform"
+                  data-desc="A listing and blog platform where only approved listings, stories and comments reach the public site. Visitors browse by category, while your team reviews and publishes from one admin panel."
+                  data-stack="Laravel 11, Tailwind CSS, MySQL, REST API"
+                  data-features="Simple flow to post listings and share blog stories;Approval workflow for listings, blogs and comments;Organized categories for easy browsing by topic;Central admin control for moderation and visibility">
                   View Blueprint
                 </button>
-                <a href="#request-demo" class="sq-btn-demo" onclick="preselectProduct('Sortiq EduPulse LMS')">
+                <a href="#request-demo" class="sq-btn-demo" onclick="preselectProduct('Blogerzworld')">
                   Request Demo
                 </a>
               </div>
@@ -2490,12 +2217,8 @@
                 </label>
                 <div class="sq-input-wrapper">
                   <select id="product_select" name="subject" class="sq-form-select" required>
-                    <option value="Sortiq ERP Pro Demo Inquiry">Sortiq ERP Pro (Operations &amp; Finance)</option>
-                    <option value="Sortiq Commerce Hub Demo Inquiry">Sortiq Commerce Hub (Omnichannel Retail)</option>
-                    <option value="Sortiq HRMS 360 Demo Inquiry">Sortiq HR &amp; Workforce 360 (HRMS &amp; Payroll)</option>
-                    <option value="Sortiq Lead Matrix Demo Inquiry">Sortiq Lead Matrix (AI Sales CRM)</option>
-                    <option value="Sortiq CareClinic Demo Inquiry">Sortiq CareClinic (EHR &amp; Telehealth)</option>
-                    <option value="Sortiq EduPulse LMS Demo Inquiry">Sortiq EduPulse LMS (Academy &amp; Exams)</option>
+                    <option value="CampusEdge Pro Demo Inquiry">CampusEdge Pro (Education &amp; Campus Management)</option>
+                    <option value="Blogerzworld Demo Inquiry">Blogerzworld (Listings &amp; Content Platform)</option>
                     <option value="Custom Product Architecture Inquiry">Custom Product Architecture from Scratch</option>
                   </select>
                   <iconify-icon icon="lucide:chevron-down" width="18" height="18" class="sq-select-arrow"></iconify-icon>

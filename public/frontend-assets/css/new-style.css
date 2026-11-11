@@ -232,7 +232,7 @@ button {
 
   50% {
 
-    opacity: 0;
+    opacity: .35;
 
   }
 
@@ -378,6 +378,8 @@ button {
 
   color: #222;
 
+  white-space: nowrap !important;
+
 }
 
 
@@ -394,6 +396,8 @@ button {
 
   overflow: visible !important;
 
+  white-space: nowrap !important;
+
 }
 
 
@@ -407,6 +411,8 @@ button {
   text-decoration: none;
 
   transition: color .22s ease;
+
+  white-space: nowrap !important;
 
 }
 
@@ -5052,6 +5058,105 @@ TESTIMONIALS RESPONSIVE
 
   }
 
+}
+
+/* Laptop & Responsive Desktop Navigation (1201px - 1440px) */
+@media (min-width: 1201px) and (max-width: 1440px) {
+  .sq-pro-top-inner {
+    padding-left: 24px !important;
+    padding-right: 24px !important;
+  }
+
+  .sq-pro-top-left,
+  .sq-pro-social {
+    gap: 16px !important;
+  }
+
+  .sq-pro-nav {
+    min-height: 90px !important;
+    gap: 38px !important;
+    padding-left: 24px !important;
+    padding-right: 24px !important;
+  }
+
+  .sq-pro-logo img {
+    width: 145px !important;
+    height: 62px !important;
+  }
+
+  .sq-pro-menu {
+    gap: 20px !important;
+    font-size: 14.5px !important;
+    white-space: nowrap !important;
+  }
+
+  .sq-pro-menu>li {
+    min-height: 72px !important;
+    white-space: nowrap !important;
+  }
+
+  .sq-pro-menu a,
+  .sq-pro-menu span {
+    white-space: nowrap !important;
+  }
+
+  .sq-pro-menu .sq-pro-down {
+    width: 13px !important;
+    height: 13px !important;
+    margin-left: 3px !important;
+  }
+
+  .sq-pro-actions {
+    gap: 12px !important;
+    flex-shrink: 0 !important;
+  }
+
+  .sq-pro-actions .sq-pro-review {
+    font-size: 13.5px !important;
+    gap: 6px !important;
+    white-space: nowrap !important;
+  }
+
+  .sq-pro-actions .sq-pro-btn {
+    padding: 8px 18px !important;
+    font-size: 13px !important;
+    min-height: auto !important;
+    white-space: nowrap !important;
+  }
+}
+
+/* Medium-Large Screens (1441px - 1536px) */
+@media (min-width: 1441px) and (max-width: 1536px) {
+  .sq-pro-top-inner {
+    padding-left: 40px !important;
+    padding-right: 40px !important;
+  }
+
+  .sq-pro-nav {
+    gap: 38px !important;
+    padding-left: 24px !important;
+    padding-right: 24px !important;
+  }
+
+  .sq-pro-logo img {
+    width: 145px !important;
+  }
+
+  .sq-pro-menu {
+    gap: 24px !important;
+    font-size: 15.5px !important;
+    white-space: nowrap !important;
+  }
+
+  .sq-pro-actions {
+    gap: 14px !important;
+  }
+
+  .sq-pro-actions .sq-pro-btn {
+    padding: 9px 24px !important;
+    font-size: 13.5px !important;
+    white-space: nowrap !important;
+  }
 }
 
 /* Responsive Header & Top Bar Navigation */

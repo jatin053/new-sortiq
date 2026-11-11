@@ -113,7 +113,7 @@
         </div></div>
 
       </li>
-
+   <li><a class="products" href="{{ url('/products') }}" style="color: black;" onmouseover="this.style.color='#ff6600'" onmouseout="this.style.color='black'">Our Products</a></li>
       <li><a href="{{ url('/blog/') }}">Blogs</a></li>
 
       <li><a href="{{ url('/contact/') }}">Contact Us</a></li>
@@ -250,7 +250,7 @@
 
       </div>
 
-
+<a class="products" href="{{ url('/products') }}" style="color: black;" onmouseover="this.style.color='#ff6600'" onmouseout="this.style.color='black'">Our Products</a>
 
       <a href="{{ url('/blog/') }}">Blogs</a>
 

@@ -4,5 +4,85 @@
 @section('body_attributes') data-route="/terms" @endsection
 
 @section('content')
-<main class="font-raleway"><div class="w-full font-sans bg-white antialiased"><div class="relative w-full h-[220px] md:h-[350px] overflow-hidden"><img src="{{ asset('frontend-assets/media/pages/terms/terms-hero.webp') }}" alt="Contract Background" class="w-full h-full object-cover scale-105"></img><div class="absolute inset-0 bg-[#001a3d]/60 flex flex-col justify-center items-center text-center p-6 backdrop-blur-[2px]"><h3 class="text-blue-400 text-xs md:text-sm font-bold uppercase tracking-[0.2em] mb-3">Our Terms</h3><h1 class="text-white text-2xl md:text-5xl font-black max-w-4xl leading-tight">Terms of Service <span class="md:block">for Sortiq Solutions</span></h1><div class="w-20 h-1.5 bg-[#ff6600] mt-6"></div></div></div><main class="max-w-4xl mx-auto px-5 sm:px-8 py-12 md:py-24"><div class="prose prose-blue max-w-none"><div class="mb-12 md:mb-16 text-left group"><h2 class="text-[#001a3d] text-xl md:text-2xl font-extrabold uppercase tracking-tight mb-2 transition-colors group-hover:text-blue-600">Account Terms</h2><div class="w-12 h-1 bg-[#ff6600] mb-8"></div><ul class="space-y-6"><li class="flex gap-4 md:gap-6 text-gray-600 text-sm md:text-[15px] leading-relaxed border-l-2 border-transparent hover:border-blue-100 pl-2 transition-all"><span class="font-bold text-blue-600 min-w-[20px]">1.</span><p class="flex-1">You must be 18 years or older or the age of majority in your jurisdiction to use Sortiq Solutions' services.</p></li><li class="flex gap-4 md:gap-6 text-gray-600 text-sm md:text-[15px] leading-relaxed border-l-2 border-transparent hover:border-blue-100 pl-2 transition-all"><span class="font-bold text-blue-600 min-w-[20px]">2.</span><p class="flex-1">To access our services, you must register for a Sortiq Solutions account (&quot;Account&quot;) by providing accurate details such as your full legal name, current address, phone number, valid email address, and any other required information. Sortiq Solutions reserves the right to decline or cancel an account at its sole discretion.</p></li><li class="flex gap-4 md:gap-6 text-gray-600 text-sm md:text-[15px] leading-relaxed border-l-2 border-transparent hover:border-blue-100 pl-2 transition-all"><span class="font-bold text-blue-600 min-w-[20px]">3.</span><p class="flex-1">The email address you provide will serve as the primary communication method with Sortiq Solutions.</p></li><li class="flex gap-4 md:gap-6 text-gray-600 text-sm md:text-[15px] leading-relaxed border-l-2 border-transparent hover:border-blue-100 pl-2 transition-all"><span class="font-bold text-blue-600 min-w-[20px]">4.</span><p class="flex-1">It is your responsibility to keep your password secure. Sortiq Solutions is not liable for any loss or damage resulting from the failure to secure your Account or password.</p></li><li class="flex gap-4 md:gap-6 text-gray-600 text-sm md:text-[15px] leading-relaxed border-l-2 border-transparent hover:border-blue-100 pl-2 transition-all"><span class="font-bold text-blue-600 min-w-[20px]">5.</span><p class="flex-1">You are accountable for all activity and content (e.g., images, videos, text, code, or data) associated with your Account (&quot;Materials&quot;).</p></li><li class="flex gap-4 md:gap-6 text-gray-600 text-sm md:text-[15px] leading-relaxed border-l-2 border-transparent hover:border-blue-100 pl-2 transition-all"><span class="font-bold text-blue-600 min-w-[20px]">6.</span><p class="flex-1">Any breach of the Terms of Service, as determined solely by Sortiq Solutions, may result in immediate termination of your services.</p></li></ul></div><div class="mb-12 md:mb-16 text-left group"><h2 class="text-[#001a3d] text-xl md:text-2xl font-extrabold uppercase tracking-tight mb-2 transition-colors group-hover:text-blue-600">Account Activation</h2><div class="w-12 h-1 bg-[#ff6600] mb-8"></div><ul class="space-y-6"><li class="flex gap-4 md:gap-6 text-gray-600 text-sm md:text-[15px] leading-relaxed border-l-2 border-transparent hover:border-blue-100 pl-2 transition-all"><span class="font-bold text-blue-600 min-w-[20px]">1.</span><p class="flex-1">The person registering for the services will be deemed the &quot;Account Owner&quot; and the authorized party for all interactions with Sortiq Solutions under these Terms.</p></li><li class="flex gap-4 md:gap-6 text-gray-600 text-sm md:text-[15px] leading-relaxed border-l-2 border-transparent hover:border-blue-100 pl-2 transition-all"><span class="font-bold text-blue-600 min-w-[20px]">2.</span><p class="flex-1">If you are creating an account on behalf of your employer, your employer will be the &quot;Account Owner.&quot; By signing up, you confirm that you are authorized to bind your employer to these Terms of Service.</p></li><li class="flex gap-4 md:gap-6 text-gray-600 text-sm md:text-[15px] leading-relaxed border-l-2 border-transparent hover:border-blue-100 pl-2 transition-all"><span class="font-bold text-blue-600 min-w-[20px]">3.</span><p class="flex-1">Upon completion of sign up for the Service, Upturn will create a PayPal Express Checkout account on your behalf, using your email address. Depending on your location, Upturn may also create a Upturn Payments account on your behalf.</p></li><li class="flex gap-4 md:gap-6 text-gray-600 text-sm md:text-[15px] leading-relaxed border-l-2 border-transparent hover:border-blue-100 pl-2 transition-all"><span class="font-bold text-blue-600 min-w-[20px]">4.</span><p class="flex-1">Upon account setup, Sortiq Solutions may assist in creating accounts with third-party services such as payment gateways. It is your responsibility to activate and manage these accounts. If you do not wish to use these services, you must deactivate them.</p></li></ul></div></div><div class="mt-16 pt-12 border-t border-gray-100 flex flex-col items-center"><p class="text-gray-400 text-xs font-bold uppercase tracking-widest mb-6">Connect With Us</p><div class="flex flex-wrap justify-center gap-3 md:gap-4"><a href="https://www.facebook.com/SortiqSolutions/" target="_blank" rel="noopener noreferrer" aria-label="Facebook" class="bg-gray-50 text-[#001a3d] p-3.5 rounded-full hover:bg-[#ff6600] hover:text-white hover:-translate-y-1 transition-all duration-300 shadow-sm border border-gray-100"><span class="text-lg"><iconify-icon icon="fa6-brands:facebook-f" width="16" height="16" class=""></iconify-icon></span></a><a href="https://www.linkedin.com/company/sortiq-solutions/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" class="bg-gray-50 text-[#001a3d] p-3.5 rounded-full hover:bg-[#ff6600] hover:text-white hover:-translate-y-1 transition-all duration-300 shadow-sm border border-gray-100"><span class="text-lg"><iconify-icon icon="fa6-brands:linkedin-in" width="16" height="16" class=""></iconify-icon></span></a><a href="https://www.youtube.com/@SortiqSolutions" target="_blank" rel="noopener noreferrer" aria-label="YouTube" class="bg-gray-50 text-[#001a3d] p-3.5 rounded-full hover:bg-[#ff6600] hover:text-white hover:-translate-y-1 transition-all duration-300 shadow-sm border border-gray-100"><span class="text-lg"><iconify-icon icon="fa6-brands:youtube" width="16" height="16" class=""></iconify-icon></span></a><a href="https://www.instagram.com/sortiqsolutions/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" class="bg-gray-50 text-[#001a3d] p-3.5 rounded-full hover:bg-[#ff6600] hover:text-white hover:-translate-y-1 transition-all duration-300 shadow-sm border border-gray-100"><span class="text-lg"><iconify-icon icon="fa6-brands:instagram" width="16" height="16" class=""></iconify-icon></span></a><a href="https://x.com/SortiqSolutions" target="_blank" rel="noopener noreferrer" aria-label="Twitter" class="bg-gray-50 text-[#001a3d] p-3.5 rounded-full hover:bg-[#ff6600] hover:text-white hover:-translate-y-1 transition-all duration-300 shadow-sm border border-gray-100"><span class="text-lg"><iconify-icon icon="fa6-brands:x-twitter" width="16" height="16" class=""></iconify-icon></span></a><a href="https://in.pinterest.com/sortiqsolutions/" target="_blank" rel="noopener noreferrer" aria-label="Pinterest" class="bg-gray-50 text-[#001a3d] p-3.5 rounded-full hover:bg-[#ff6600] hover:text-white hover:-translate-y-1 transition-all duration-300 shadow-sm border border-gray-100"><span class="text-lg"><iconify-icon icon="fa6-brands:pinterest-p" width="16" height="16" class=""></iconify-icon></span></a><a href="https://medium.com/@sortiqsolutions" target="_blank" rel="noopener noreferrer" aria-label="Medium" class="bg-gray-50 text-[#001a3d] p-3.5 rounded-full hover:bg-[#ff6600] hover:text-white hover:-translate-y-1 transition-all duration-300 shadow-sm border border-gray-100"><span class="text-lg"><iconify-icon icon="fa6-brands:medium" width="16" height="16" class=""></iconify-icon></span></a></div></div></main>
+<main class="font-raleway">
+ <div class="w-full font-sans bg-white antialiased">
+  <div class="relative w-full h-[220px] md:h-[350px] overflow-hidden">
+   <img src="{{ asset('frontend-assets/media/pages/terms/terms-hero.webp') }}" alt="Contract Background" class="w-full h-full object-cover scale-105"></img>
+   <div class="absolute inset-0 bg-[#001a3d]/60 flex flex-col justify-center items-center text-center p-6 backdrop-blur-[2px]">
+    <h3 class="text-blue-400 text-xs md:text-sm font-bold uppercase tracking-[0.2em] mb-3">Our Terms</h3>
+    <h1 class="text-white text-2xl md:text-5xl font-black max-w-4xl leading-tight">Terms of Service <span class="md:block">for Sortiq Solutions</span>
+    </h1>
+    <div class="w-20 h-1.5 bg-[#ff6600] mt-6"></div>
+   </div>
+  </div>
+  <main class="max-w-4xl mx-auto px-5 sm:px-8 py-12 md:py-24">
+   <div class="prose prose-blue max-w-none">
+    <div class="mb-12 md:mb-16 text-left group">
+     <h2 class="text-[#001a3d] text-xl md:text-2xl font-extrabold uppercase tracking-tight mb-2 transition-colors group-hover:text-blue-600">Account Terms</h2>
+     <div class="w-12 h-1 bg-[#ff6600] mb-8"></div>
+     <ul class="space-y-6">
+      <li class="flex gap-4 md:gap-6 text-gray-600 text-sm md:text-[15px] leading-relaxed border-l-2 border-transparent hover:border-blue-100 pl-2 transition-all">
+       <span class="font-bold text-blue-600 min-w-[20px]">1.</span>
+       <p class="flex-1">You must be 18 years or older or the age of majority in your jurisdiction to use Sortiq Solutions' services.</p>
+      </li>
+      <li class="flex gap-4 md:gap-6 text-gray-600 text-sm md:text-[15px] leading-relaxed border-l-2 border-transparent hover:border-blue-100 pl-2 transition-all">
+       <span class="font-bold text-blue-600 min-w-[20px]">2.</span>
+       <p class="flex-1">To access our services, you must register for a Sortiq Solutions account (&quot;Account&quot;) by providing accurate details such as your full legal name, current address, phone number, valid email address, and any other required information. Sortiq Solutions reserves the right to decline or cancel an account at its sole discretion.</p>
+      </li>
+      <li class="flex gap-4 md:gap-6 text-gray-600 text-sm md:text-[15px] leading-relaxed border-l-2 border-transparent hover:border-blue-100 pl-2 transition-all">
+       <span class="font-bold text-blue-600 min-w-[20px]">3.</span>
+       <p class="flex-1">The email address you provide will serve as the primary communication method with Sortiq Solutions.</p>
+      </li>
+      <li class="flex gap-4 md:gap-6 text-gray-600 text-sm md:text-[15px] leading-relaxed border-l-2 border-transparent hover:border-blue-100 pl-2 transition-all">
+       <span class="font-bold text-blue-600 min-w-[20px]">4.</span>
+       <p class="flex-1">It is your responsibility to keep your password secure. Sortiq Solutions is not liable for any loss or damage resulting from the failure to secure your Account or password.</p>
+      </li>
+      <li class="flex gap-4 md:gap-6 text-gray-600 text-sm md:text-[15px] leading-relaxed border-l-2 border-transparent hover:border-blue-100 pl-2 transition-all">
+       <span class="font-bold text-blue-600 min-w-[20px]">5.</span>
+       <p class="flex-1">You are accountable for all activity and content (e.g., images, videos, text, code, or data) associated with your Account (&quot;Materials&quot;).</p>
+      </li>
+      <li class="flex gap-4 md:gap-6 text-gray-600 text-sm md:text-[15px] leading-relaxed border-l-2 border-transparent hover:border-blue-100 pl-2 transition-all">
+       <span class="font-bold text-blue-600 min-w-[20px]">6.</span>
+       <p class="flex-1">Any breach of the Terms of Service, as determined solely by Sortiq Solutions, may result in immediate termination of your services.</p>
+      </li>
+     </ul>
+    </div>
+    <div class="mb-12 md:mb-16 text-left group">
+     <h2 class="text-[#001a3d] text-xl md:text-2xl font-extrabold uppercase tracking-tight mb-2 transition-colors group-hover:text-blue-600">Account Activation</h2>
+     <div class="w-12 h-1 bg-[#ff6600] mb-8"></div>
+     <ul class="space-y-6">
+      <li class="flex gap-4 md:gap-6 text-gray-600 text-sm md:text-[15px] leading-relaxed border-l-2 border-transparent hover:border-blue-100 pl-2 transition-all">
+       <span class="font-bold text-blue-600 min-w-[20px]">1.</span>
+       <p class="flex-1">The person registering for the services will be deemed the &quot;Account Owner&quot; and the authorized party for all interactions with Sortiq Solutions under these Terms.</p>
+      </li>
+      <li class="flex gap-4 md:gap-6 text-gray-600 text-sm md:text-[15px] leading-relaxed border-l-2 border-transparent hover:border-blue-100 pl-2 transition-all">
+       <span class="font-bold text-blue-600 min-w-[20px]">2.</span>
+       <p class="flex-1">If you are creating an account on behalf of your employer, your employer will be the &quot;Account Owner.&quot; By signing up, you confirm that you are authorized to bind your employer to these Terms of Service.</p>
+      </li>
+      <li class="flex gap-4 md:gap-6 text-gray-600 text-sm md:text-[15px] leading-relaxed border-l-2 border-transparent hover:border-blue-100 pl-2 transition-all">
+       <span class="font-bold text-blue-600 min-w-[20px]">3.</span>
+       <p class="flex-1">Upon completion of sign up for the Service, Upturn will create a PayPal Express Checkout account on your behalf, using your email address. Depending on your location, Upturn may also create a Upturn Payments account on your behalf.</p>
+      </li>
+      <li class="flex gap-4 md:gap-6 text-gray-600 text-sm md:text-[15px] leading-relaxed border-l-2 border-transparent hover:border-blue-100 pl-2 transition-all">
+       <span class="font-bold text-blue-600 min-w-[20px]">4.</span>
+       <p class="flex-1">Upon account setup, Sortiq Solutions may assist in creating accounts with third-party services such as payment gateways. It is your responsibility to activate and manage these accounts. If you do not wish to use these services, you must deactivate them.</p>
+      </li>
+     </ul>
+    </div>
+   </div>
+   <div class="mt-16 pt-12 border-t border-gray-100 flex flex-col items-center">
+    <p class="text-gray-400 text-xs font-bold uppercase tracking-widest mb-6">Connect With Us</p>
+    <div class="sq-footer-socials terms-socials" style="display:flex;align-items:center;justify-content:center;gap:6px;flex-wrap:wrap;">
+      <a href="https://www.facebook.com/SortiqSolutions/" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><iconify-icon icon="fa6-brands:facebook-f" width="13" height="13"></iconify-icon></a>
+      <a href="https://www.linkedin.com/company/sortiq-solutions/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><iconify-icon icon="fa6-brands:linkedin-in" width="13" height="13"></iconify-icon></a>
+      <a href="https://www.youtube.com/@SortiqSolutions" target="_blank" rel="noopener noreferrer" aria-label="YouTube"><iconify-icon icon="fa6-brands:youtube" width="13" height="13"></iconify-icon></a>
+      <a href="https://www.instagram.com/sortiqsolutions/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><iconify-icon icon="fa6-brands:instagram" width="13" height="13"></iconify-icon></a>
+      <a href="https://x.com/SortiqSolutions" target="_blank" rel="noopener noreferrer" aria-label="Twitter"><iconify-icon icon="fa6-brands:x-twitter" width="13" height="13"></iconify-icon></a>
+      <a href="https://in.pinterest.com/sortiqsolutions/" target="_blank" rel="noopener noreferrer" aria-label="Pinterest"><iconify-icon icon="fa6-brands:pinterest-p" width="13" height="13"></iconify-icon></a>
+      <a href="https://medium.com/@sortiqsolutions" target="_blank" rel="noopener noreferrer" aria-label="Medium"><iconify-icon icon="fa6-brands:medium" width="13" height="13"></iconify-icon></a>
+    </div>
+   </div>
+  </main>
+ </div>
+</main>
 @endsection
