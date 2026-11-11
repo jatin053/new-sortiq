@@ -433,6 +433,73 @@ const initForms = () => {
         return;
       }
 
+      // Validate phone number against selected country
+      const phoneInput = form.querySelector('input[name="phone"]');
+      if (phoneInput && phoneInput.value.trim()) {
+        const rawDigits = phoneInput.value.replace(/\D+/g, "");
+        const iti = window.intlTelInputGlobals ? window.intlTelInputGlobals.getInstance(phoneInput) : null;
+        const countryData = iti ? iti.getSelectedCountryData() : null;
+        const hiddenCountry = form.querySelector('input[name="country_code"]');
+        const dialCode = (countryData?.dialCode || hiddenCountry?.value || "91").toString().replace(/\D+/g, "");
+        const countryName = countryData?.name ? countryData.name.replace(/\s*\(.*?\)\s*/g, "").trim() : "selected country";
+
+        if (hiddenCountry) {
+          hiddenCountry.value = "+" + dialCode;
+        }
+
+        // 1. India (+91)
+        if (dialCode === "91") {
+          if (rawDigits.length !== 10 || !/^[6-9]\d{9}$/.test(rawDigits)) {
+            showFormMessage(form, "Please enter a valid 10-digit Indian phone number starting with 6, 7, 8, or 9.", "error");
+            phoneInput.focus();
+            return;
+          }
+        } else {
+          // 2. Validate using intlTelInput library if ready
+          if (iti && typeof iti.isValidNumber === "function") {
+            if (!iti.isValidNumber()) {
+              showFormMessage(form, `The phone number does not match ${countryName} (+${dialCode}). Please enter a valid number.`, "error");
+              phoneInput.focus();
+              return;
+            }
+          }
+
+          // 3. Known country phone lengths fallback
+          const knownLengths = {
+            "1": [10], "7": [10], "20": [10], "27": [9], "30": [10], "31": [9], "32": [9],
+            "33": [9], "34": [9], "36": [9], "39": [9, 10], "40": [9], "41": [9], "43": [10, 11],
+            "44": [10, 11], "45": [8], "46": [9], "47": [8], "48": [9], "49": [10, 11], "51": [9],
+            "52": [10], "54": [10], "55": [10, 11], "56": [9], "57": [10], "60": [9, 10],
+            "61": [9], "62": [10, 11, 12], "63": [10], "64": [8, 9, 10], "65": [8], "66": [9],
+            "81": [10], "82": [9, 10], "84": [9, 10], "86": [11], "90": [10], "92": [10],
+            "93": [9], "94": [9], "95": [8, 9, 10], "98": [10], "212": [9], "213": [9],
+            "216": [8], "233": [9], "234": [10], "254": [9], "351": [9], "352": [9], "353": [9],
+            "354": [7], "355": [9], "356": [8], "357": [8], "358": [9, 10], "359": [8, 9],
+            "370": [8], "371": [8], "372": [7, 8], "380": [9], "381": [8, 9], "385": [8, 9],
+            "420": [9], "421": [9], "852": [8], "880": [10], "886": [9], "961": [7, 8],
+            "962": [9], "964": [10], "965": [8], "966": [9], "968": [8], "971": [9],
+            "972": [9], "973": [8], "974": [8], "977": [10]
+          };
+
+          if (knownLengths[dialCode] && !knownLengths[dialCode].includes(rawDigits.length)) {
+            const expected = knownLengths[dialCode].join(" or ");
+            showFormMessage(form, `The phone number does not match ${countryName} (+${dialCode}). It must be ${expected} digits.`, "error");
+            phoneInput.focus();
+            return;
+          }
+
+          if (rawDigits.length < 6 || rawDigits.length > 15) {
+            showFormMessage(form, `Please enter a valid phone number for ${countryName} (+${dialCode}).`, "error");
+            phoneInput.focus();
+            return;
+          }
+        }
+      } else if (phoneInput && phoneInput.hasAttribute("required")) {
+        showFormMessage(form, "Please enter your phone number.", "error");
+        phoneInput.focus();
+        return;
+      }
+
       setButtonLoading(form, true, "Sending...");
 
       try {

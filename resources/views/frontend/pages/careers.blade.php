@@ -4382,31 +4382,20 @@ a  {
 
       });
 
+      var careerForm = phoneInput.closest('form');
+      if (careerForm) {
+        careerForm.addEventListener('submit', function() {
+          var hiddenCode = careerForm.querySelector('input[name="country_code"]');
+          if (hiddenCode) {
+            var instance = window.intlTelInputGlobals.getInstance(phoneInput);
+            if (instance) {
+              hiddenCode.value = "+" + instance.getSelectedCountryData().dialCode;
+            }
+          }
+        });
+      }
+
     }
-
-
-
-    document.querySelectorAll('.career-form').forEach(function(form) {
-
-      form.addEventListener('submit', function() {
-
-        const submitBtn = form.querySelector('.submit-btn');
-
-        if (submitBtn) {
-
-          submitBtn.disabled = true;
-
-          submitBtn.style.opacity = '0.7';
-
-          submitBtn.style.cursor = 'not-allowed';
-
-          submitBtn.innerText = 'Sending...';
-
-        }
-
-      });
-
-    });
 
   });
 

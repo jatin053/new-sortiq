@@ -2220,7 +2220,7 @@
                   </label>
                   <div class="sq-input-wrapper">
                     <iconify-icon icon="fa6-solid:user" class="sq-input-icon"></iconify-icon>
-                    <input id="client_name" name="name" type="text" placeholder="e.g. John Doe" class="sq-form-control" required>
+                    <input id="client_name" name="name" type="text" placeholder="Enter Name" class="sq-form-control" required>
                   </div>
                 </div>
 
@@ -2230,7 +2230,7 @@
                   </label>
                   <div class="sq-input-wrapper">
                     <iconify-icon icon="fa6-solid:envelope" class="sq-input-icon"></iconify-icon>
-                    <input id="client_email" name="email" type="email" placeholder="john@company.com" class="sq-form-control" required>
+                    <input id="client_email" name="email" type="email" placeholder="Enter Email" class="sq-form-control" required>
                   </div>
                 </div>
               </div>

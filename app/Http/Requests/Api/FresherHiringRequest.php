@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Api;
 
+use App\Rules\ValidPhoneNumber;
 use Illuminate\Foundation\Http\FormRequest;
 
 class FresherHiringRequest extends FormRequest
@@ -36,7 +37,7 @@ class FresherHiringRequest extends FormRequest
             'name' => 'required|string|max:120',
             'email' => 'required|email|max:160',
             'country_code' => 'nullable|string|max:10',
-            'phone' => 'nullable|digits_between:7,15',
+            'phone' => ['nullable', 'string', new ValidPhoneNumber],
             'institute' => 'nullable|string|max:255',
             'technology' => 'nullable|string|max:150',
             'subject' => 'nullable|string|max:255',

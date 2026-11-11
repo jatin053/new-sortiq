@@ -790,12 +790,12 @@
         <div class="ask-form-row">
           <div class="ask-form-group">
             <label class="ask-form-label">Your name</label>
-            <input name="name" type="text" placeholder="e.g. John Doe" required class="ask-form-input">
+            <input name="name" type="text" placeholder="Enter Name" required class="ask-form-input">
           </div>
 
           <div class="ask-form-group">
             <label class="ask-form-label">Your email</label>
-            <input name="email" type="email" placeholder="name@company.com" required class="ask-form-input">
+            <input name="email" type="email" placeholder="Enter Email" required class="ask-form-input">
           </div>
         </div>
 

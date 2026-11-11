@@ -530,11 +530,11 @@
       <p class="sq-sub">Sortiq Solutions Pvt. Ltd. &bull; Protecting Your Information &amp; Personal Data</p>
       <div class="sq-privacy-divider"></div>
 
-      <div class="sq-privacy-meta-bar">
+      <!-- <div class="sq-privacy-meta-bar">
         <span><iconify-icon icon="lucide:calendar-days" width="14" height="14"></iconify-icon> Effective Date: May 15, 2026</span>
         <span>&bull;</span>
         <span><iconify-icon icon="lucide:shield" width="14" height="14"></iconify-icon> Compliant with Global Privacy Best Practices</span>
-      </div>
+      </div> -->
     </div>
   </header>
 

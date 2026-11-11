@@ -7,6 +7,7 @@ use App\Mail\ContactMessageNotification;
 use App\Models\ContactMessage;
 use App\Models\Page;
 use App\Models\SiteLayoutSetting;
+use App\Rules\ValidPhoneNumber;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Log;
@@ -74,7 +75,7 @@ class AdsLandingController extends Controller
         $validated = $request->validate([
             'full_name' => 'required|string|max:120',
             'email' => 'required|email|max:160',
-            'phone' => 'required|string|max:25',
+            'phone' => ['required', 'string', new ValidPhoneNumber],
             'technology' => 'required|string|max:120',
             'message' => 'required|string|max:3000',
         ]);

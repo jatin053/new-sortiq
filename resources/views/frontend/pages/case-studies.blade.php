@@ -597,7 +597,7 @@
               <label for="csName">Your Name <span>*</span></label>
               <div class="cs-input-box">
                 <iconify-icon icon="lucide:user" width="17" height="17"></iconify-icon>
-                <input type="text" id="csName" name="name" placeholder="John Doe" autocomplete="name" required>
+                <input type="text" id="csName" name="name" placeholder="Enter Name" autocomplete="name" required>
               </div>
             </div>
 
@@ -685,6 +685,18 @@ document.addEventListener("DOMContentLoaded", function() {
     feedback.style.display = "none";
     feedback.className = "cs-form-feedback";
     feedback.innerHTML = "";
+
+    const phoneInput = form.querySelector('#csPhone');
+    if (phoneInput && phoneInput.value.trim()) {
+      const digits = phoneInput.value.replace(/\D+/g, "");
+      if (digits.length !== 10 || !/^[6-9]\d{9}$/.test(digits)) {
+        feedback.style.display = "block";
+        feedback.className = "cs-form-feedback error";
+        feedback.innerHTML = "Please enter a valid 10-digit Indian phone number starting with 6, 7, 8, or 9.";
+        phoneInput.focus();
+        return;
+      }
+    }
 
     submitBtn.disabled = true;
     const originalText = submitBtn.innerHTML;

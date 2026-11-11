@@ -328,6 +328,7 @@
               return 'Enter Phone No.';
             },
             dropdownContainer: document.body,
+            utilsScript: 'https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/18.2.1/js/utils.js',
           });
 
           const updatePhoneLayout = function () {

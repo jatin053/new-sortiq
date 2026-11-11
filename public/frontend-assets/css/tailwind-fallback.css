@@ -1718,7 +1718,7 @@
 
     .border {
         border-style: var(--tw-border-style);
-        border-width: 1px
+        border-width: 0px
     }
 
     .border-0 {
@@ -1914,7 +1914,7 @@
     }
 
     .bg-\[\#001a3d\] {
-        background-color: #001a3d
+        background-color: #ff771a
     }
 
     .bg-\[\#001a3d\]\/60 {
@@ -3808,7 +3808,7 @@
         }
 
         .hover\:bg-\[\#ff6600\]:hover {
-            background-color: #f60
+            background-color: #00142e
         }
 
         .hover\:bg-blue-600:hover {

@@ -569,6 +569,17 @@ document.addEventListener("DOMContentLoaded", function() {
   form.addEventListener("submit", function(e) {
     e.preventDefault();
     msgBox.innerHTML = "";
+
+    const phoneInput = form.querySelector('input[name="phone"]');
+    if (phoneInput && phoneInput.value.trim()) {
+      const digits = phoneInput.value.replace(/\D+/g, "");
+      if (digits.length !== 10 || !/^[6-9]\d{9}$/.test(digits)) {
+        msgBox.innerHTML = "<span style='color: red;'>Please enter a valid 10-digit Indian phone number starting with 6, 7, 8, or 9.</span>";
+        phoneInput.focus();
+        return;
+      }
+    }
+
     submitBtn.disabled = true;
     submitBtn.textContent = "Submitting...";
 

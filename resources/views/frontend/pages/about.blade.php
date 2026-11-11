@@ -1334,15 +1334,6 @@ By consistently delivering reliable, high-quality solutions, we focus on buildin
       phoneInputField.placeholder = 'Enter Phone No.';
       phoneInputField.setAttribute('placeholder', 'Enter Phone No.');
     }
-
-    if (form) {
-      form.addEventListener('submit', function(event) {
-        if (phoneInput && !phoneInput.isValidNumber()) {
-          event.preventDefault();
-          alert('Please enter a valid phone number.');
-        }
-      });
-    }
   });
 
 })();

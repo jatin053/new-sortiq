@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Api;
 
+use App\Rules\ValidPhoneNumber;
 use Illuminate\Foundation\Http\FormRequest;
 
 class ContactMessageRequest extends FormRequest
@@ -34,12 +35,15 @@ class ContactMessageRequest extends FormRequest
     public function rules(): array
     {
         $isCaseStudy = $this->input('type') === 'case-study';
+        $phoneRules = $isCaseStudy
+            ? ['required', 'string', new ValidPhoneNumber]
+            : ['nullable', 'string', new ValidPhoneNumber];
 
         return [
             'name' => ['required', 'string', 'max:120'],
             'email' => ['required', 'email', 'max:160'],
             'country_code' => ['nullable', 'string', 'max:10'],
-            'phone' => $isCaseStudy ? ['required', 'string', 'min:7', 'max:25'] : ['nullable', 'string', 'max:25'],
+            'phone' => $phoneRules,
             'subject' => ['nullable', 'string', 'max:160'],
             'message' => ['nullable', 'string', 'max:3000'],
             'type' => ['nullable', 'string', 'max:30'],

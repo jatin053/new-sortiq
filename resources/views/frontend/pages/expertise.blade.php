@@ -659,17 +659,5 @@
          }
       });
     }
-
-    document.querySelectorAll('.sq-form').forEach(function(form) {
-      form.addEventListener('submit', function() {
-        const submitBtn = form.querySelector('button[type="submit"]');
-        if (submitBtn) {
-          submitBtn.disabled = true;
-          submitBtn.style.opacity = '0.7';
-          submitBtn.style.cursor = 'not-allowed';
-          submitBtn.innerText = 'Sending...';
-        }
-      });
-    });
 </script>
 @endpush
