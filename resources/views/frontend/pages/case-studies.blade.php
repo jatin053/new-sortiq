@@ -605,7 +605,7 @@
               <label for="csPhone">Your Phone <span>*</span></label>
               <div class="cs-input-box">
                 <iconify-icon icon="lucide:phone" width="17" height="17"></iconify-icon>
-                <input type="tel" id="csPhone" name="phone" placeholder="+91 9646522110" autocomplete="tel" required>
+                <input type="tel" id="csPhone" name="phone" placeholder="Enter Phone No." autocomplete="tel" required>
               </div>
             </div>
           </div>

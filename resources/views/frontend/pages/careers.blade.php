@@ -4204,7 +4204,7 @@ a  {
 
           <div style="position: relative; display: block; grid-column: auto;">
 
-            <input id="sq-phone" name="phone" type="tel" placeholder="Enter Your Phone Number" required>
+            <input id="sq-phone" name="phone" type="tel" placeholder="Enter Phone No." required>
 
           </div>
 
@@ -4336,9 +4336,21 @@ a  {
 
         initialCountry: "in",
 
+        autoPlaceholder: "off",
+
+        customPlaceholder: function() {
+
+          return "Enter Phone No.";
+
+        },
+
         utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/18.2.1/js/utils.js"
 
       });
+
+      phoneInput.placeholder = "Enter Phone No.";
+
+      phoneInput.setAttribute("placeholder", "Enter Phone No.");
 
 
 
@@ -4351,6 +4363,10 @@ a  {
       
 
       phoneInput.addEventListener('countrychange', function() {
+
+         phoneInput.placeholder = "Enter Phone No.";
+
+         phoneInput.setAttribute("placeholder", "Enter Phone No.");
 
          var form = phoneInput.closest('form');
 

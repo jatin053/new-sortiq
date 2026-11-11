@@ -53,7 +53,7 @@
 
               <div class="contact-field-grid">
                 <div class="contact-field contact-phone-field">
-                  <input id="contact-phone" name="phone" type="tel" inputmode="numeric" placeholder="Enter Your Phone Number" autocomplete="tel-national" required>
+                  <input id="contact-phone" name="phone" type="tel" inputmode="numeric" placeholder="Enter Phone No." autocomplete="tel-national" required>
                 </div>
 
                 <label class="contact-field">
@@ -494,7 +494,7 @@
 
       .contact-map {
         width: 100%;
-        /* padding: 10px 12px 0; */
+        padding: 10px 12px 0; 
         background: #fff;
         padding-bottom:20px !important;
       }
@@ -595,8 +595,15 @@
     if (phoneInputField && window.intlTelInput) {
       const phoneInput = window.intlTelInput(phoneInputField, {
         initialCountry: "in",
+        autoPlaceholder: "off",
+        customPlaceholder: function() {
+          return "Enter Phone No.";
+        },
         utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/18.2.1/js/utils.js",
       });
+
+      phoneInputField.placeholder = "Enter Phone No.";
+      phoneInputField.setAttribute("placeholder", "Enter Phone No.");
 
       // RESTRICT TO NUMBERS ONLY
       phoneInputField.addEventListener('input', function(e) {
@@ -604,6 +611,8 @@
       });
 
       phoneInputField.addEventListener("countrychange", function() {
+        phoneInputField.placeholder = "Enter Phone No.";
+        phoneInputField.setAttribute("placeholder", "Enter Phone No.");
         if (countryCodeField) {
           countryCodeField.value = "+" + window.intlTelInputGlobals.getInstance(phoneInputField).getSelectedCountryData().dialCode;
         }

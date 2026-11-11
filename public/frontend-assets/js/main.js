@@ -303,6 +303,10 @@ const initPhoneInputs = () => {
     input.setAttribute("inputmode", "numeric");
     input.setAttribute("autocomplete", "tel-national");
     input.setAttribute("pattern", "[0-9]*");
+    if (!input.placeholder || input.placeholder.includes('081234') || input.placeholder.includes('+91')) {
+      input.placeholder = "Enter Phone No.";
+      input.setAttribute("placeholder", "Enter Phone No.");
+    }
     input.addEventListener("input", sanitize);
     input.addEventListener("paste", () => window.setTimeout(sanitize, 0));
   });
@@ -409,7 +413,6 @@ const serializeContactForm = (form) => {
 
 const initForms = () => {
   $$("form").forEach((form) => {
-    // Only target frontend forms submitting to api/contact-messages
     const action = form.getAttribute("action") || "";
     const isFrontendForm =
       form.classList.contains("contact-form") ||
@@ -947,7 +950,7 @@ const initFaqPage = () => {
       if (!panel) return;
 
       const expanded = button.getAttribute("aria-expanded") === "true";
-      
+
       // Reset all buttons
       buttons.forEach((item) => {
         item.setAttribute("aria-expanded", "false");

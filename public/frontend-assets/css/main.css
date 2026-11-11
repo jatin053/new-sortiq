@@ -1,11 +1,50 @@
 /* Full country flag/code selector used by the fresher modal. */
 .fresher-connect-phone-field {
+  position: relative;
   overflow: visible !important;
   z-index: 30;
+  min-height: 33px;
 }
-.fresher-connect-phone-field .iti,
-.fresher-connect-phone-field .iti input { width: 100%; }
-.fresher-connect-phone-field .iti input { padding-left: 58px !important; }
+.fresher-connect-phone-field .iti {
+  width: 100%;
+  height: 100%;
+  min-height: 33px;
+  display: flex;
+  align-items: center;
+}
+.fresher-connect-phone-field .iti__selected-flag {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  padding: 0 8px !important;
+  border-right: 1px solid #d6d6d6;
+  background: #f0f3f6;
+  border-top-left-radius: 3px;
+  border-bottom-left-radius: 3px;
+  gap: 4px;
+}
+.fresher-connect-phone-field .iti input {
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 31px;
+  border: 0 !important;
+  outline: 0 !important;
+  background: transparent !important;
+  color: #001a3d !important;
+  font-size: 13px !important;
+  font-style: normal;
+  font-weight: 500;
+  padding-left: 80px !important;
+  padding-right: 8px !important;
+  box-sizing: border-box !important;
+}
+.fresher-connect-phone-field .iti input::placeholder {
+  color: #9aa0a6 !important;
+  font-size: 12.5px !important;
+  font-style: italic !important;
+  font-weight: 400 !important;
+  opacity: 1 !important;
+}
 .iti--container,
 .iti__country-container,
 .iti__dropdown-content { z-index: 10050 !important; }
@@ -687,7 +726,7 @@ body.mobile-menu-open #chatbot-whatsapp {
 }
 
 .fresher-connect-phone-field input {
-  padding-left: 58px;
+  padding-left: 84px;
 }
 
 .fresher-connect-file {

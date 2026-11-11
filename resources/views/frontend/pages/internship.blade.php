@@ -68,7 +68,7 @@
                             <!-- Phone -->
                             <div class="phone-wrapper">
                                 <input id="internship-phone" name="phone" type="tel" inputmode="tel"
-                                    placeholder="Enter Your Phone Number" autocomplete="tel-national" required>
+                                    placeholder="Enter Phone No." autocomplete="tel-national" required>
                                 <input type="hidden" name="country_code" value="+91">
                             </div>
 
@@ -307,12 +307,20 @@ document.addEventListener('DOMContentLoaded', function () {
         initialCountry: 'in',
         separateDialCode: true,
         nationalMode: true,
-        autoPlaceholder: 'aggressive',
+        autoPlaceholder: 'off',
+        customPlaceholder: function() {
+            return 'Enter Phone No.';
+        },
         dropdownContainer: document.body,
         utilsScript: 'https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/18.2.1/js/utils.js',
     });
 
+    phoneField.placeholder = 'Enter Phone No.';
+    phoneField.setAttribute('placeholder', 'Enter Phone No.');
+
     const syncCountryCode = function () {
+        phoneField.placeholder = 'Enter Phone No.';
+        phoneField.setAttribute('placeholder', 'Enter Phone No.');
         const country = phonePicker.getSelectedCountryData();
         countryCodeField.value = country?.dialCode ? '+' + country.dialCode : '';
     };

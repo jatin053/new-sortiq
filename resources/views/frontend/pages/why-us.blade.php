@@ -634,7 +634,7 @@
 
               <div class="sq-form-row">
                 <div class="sq-phone-field">
-                  <input class="sq-input" id="sq-phone" name="phone" type="tel" placeholder="Enter Your Phone Number" required>
+                  <input class="sq-input" id="sq-phone" name="phone" type="tel" placeholder="Enter Phone No." required>
                 </div>
                 <label class="sq-field">
                   <iconify-icon icon="fa6-solid:list-ul" width="16" height="16"></iconify-icon>
@@ -755,8 +755,15 @@ const phoneInput = document.querySelector("#sq-phone");
 if (phoneInput && window.intlTelInput) {
   window.intlTelInput(phoneInput, {
     initialCountry: "in",
+    autoPlaceholder: "off",
+    customPlaceholder: function() {
+      return "Enter Phone No.";
+    },
     utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/18.2.1/js/utils.js"
   });
+
+  phoneInput.placeholder = "Enter Phone No.";
+  phoneInput.setAttribute("placeholder", "Enter Phone No.");
   
   // RESTRICT TO NUMBERS ONLY
   phoneInput.addEventListener('input', function(e) {
@@ -764,6 +771,8 @@ if (phoneInput && window.intlTelInput) {
   });
 
   phoneInput.addEventListener('countrychange', function() {
+     phoneInput.placeholder = "Enter Phone No.";
+     phoneInput.setAttribute("placeholder", "Enter Phone No.");
      var form = phoneInput.closest('form');
      var hiddenCode = form ? form.querySelector('input[name="country_code"]') : null;
      if (hiddenCode) {

@@ -278,7 +278,7 @@
 
             <div class="fresher-connect-grid">
               <div class="fresher-connect-field fresher-connect-phone-field">
-                <input id="fresher-phone" name="phone" type="tel" placeholder="Enter Your Phone Number" autocomplete="tel-national" required>
+                <input id="fresher-phone" name="phone" type="tel" placeholder="Enter Phone No." autocomplete="tel-national" required>
               </div>
 
               <label class="fresher-connect-field">
@@ -323,11 +323,27 @@
             initialCountry: 'in',
             separateDialCode: true,
             nationalMode: true,
-            autoPlaceholder: 'aggressive',
+            autoPlaceholder: 'off',
+            customPlaceholder: function () {
+              return 'Enter Phone No.';
+            },
             dropdownContainer: document.body,
           });
 
+          const updatePhoneLayout = function () {
+            phoneInput.placeholder = 'Enter Phone No.';
+            phoneInput.setAttribute('placeholder', 'Enter Phone No.');
+            const flag = phoneInput.closest('.iti')?.querySelector('.iti__selected-flag');
+            if (flag) {
+              const flagWidth = flag.offsetWidth;
+              if (flagWidth > 0) {
+                phoneInput.style.setProperty('padding-left', (flagWidth + 8) + 'px', 'important');
+              }
+            }
+          };
+
           const syncCountryCode = function () {
+            updatePhoneLayout();
             const selectedCountry = phonePicker.getSelectedCountryData();
             countryCodeInput.value = selectedCountry?.dialCode
               ? '+' + selectedCountry.dialCode
@@ -337,6 +353,13 @@
           phoneInput.addEventListener('countrychange', syncCountryCode);
           form.addEventListener('submit', syncCountryCode);
           syncCountryCode();
+
+          document.querySelectorAll('[data-open-fresher]').forEach(function (btn) {
+            btn.addEventListener('click', function () {
+              setTimeout(updatePhoneLayout, 50);
+              setTimeout(updatePhoneLayout, 200);
+            });
+          });
         });
       </script>
       <script src="{{ $versionedAsset('frontend-assets/js/main.js') }}" defer></script>

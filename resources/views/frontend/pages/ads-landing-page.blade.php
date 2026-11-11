@@ -395,7 +395,7 @@
                 </div>
 
                 <div class="col-md-6">
-                  <input type="tel" name="phone" placeholder="Phone Number" autocomplete="tel" required>
+                  <input type="tel" name="phone" placeholder="Enter Phone No." autocomplete="tel" required>
                 </div>
 
                 <div class="col-md-6">

@@ -124,6 +124,16 @@
     font-size: 17px;
   }
 }
+
+#video-gallery-ajax-wrapper {
+  transition: opacity 0.25s ease, transform 0.25s ease;
+  min-height: 400px;
+}
+
+#video-gallery-ajax-wrapper.is-loading {
+  opacity: 0.45;
+  pointer-events: none;
+}
 </style>
 @endpush
 
@@ -134,65 +144,143 @@
       <p>Explore our latest video content</p>
     </section>
 
-    <section class="video-gallery-container" aria-label="Video gallery">
-      @forelse ($videos as $video)
-        @php
-          $url = $video->playback_url;
-          $isFile = $video->playback_type === 'file';
-          if (!$isFile) {
-              if (str_contains($url, 'youtube.com/watch?v=')) {
-                  $parts = explode('v=', $url);
-                  if (count($parts) > 1) {
-                      $videoId = explode('&', $parts[1])[0];
-                      $url = 'https://www.youtube.com/embed/' . $videoId;
-                  }
-              } elseif (str_contains($url, 'youtu.be/')) {
-                  $parts = explode('youtu.be/', $url);
-                  if (count($parts) > 1) {
-                      $videoId = explode('?', $parts[1])[0];
-                      $url = 'https://www.youtube.com/embed/' . $videoId;
-                  }
-              }
-          }
-        @endphp
-        <div class="video-gallery-box">
-          @if ($isFile)
-            <video src="{{ $url }}" title="{{ $video->title }}" controls preload="metadata"></video>
-          @else
-            <iframe
-              src="{{ $url }}{{ str_contains($url, '?') ? '&' : '?' }}rel=0&modestbranding=1"
-              title="{{ $video->title }}"
-              loading="lazy"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              allowfullscreen
-            ></iframe>
+    <div id="video-gallery-ajax-wrapper">
+      <section class="video-gallery-container" aria-label="Video gallery">
+        @forelse ($videos as $video)
+          @php
+            $url = $video->playback_url;
+            $isFile = $video->playback_type === 'file';
+            if (!$isFile) {
+                if (str_contains($url, 'youtube.com/watch?v=')) {
+                    $parts = explode('v=', $url);
+                    if (count($parts) > 1) {
+                        $videoId = explode('&', $parts[1])[0];
+                        $url = 'https://www.youtube.com/embed/' . $videoId;
+                    }
+                } elseif (str_contains($url, 'youtu.be/')) {
+                    $parts = explode('youtu.be/', $url);
+                    if (count($parts) > 1) {
+                        $videoId = explode('?', $parts[1])[0];
+                        $url = 'https://www.youtube.com/embed/' . $videoId;
+                    }
+                }
+            }
+          @endphp
+          <div class="video-gallery-box">
+            @if ($isFile)
+              <video src="{{ $url }}" title="{{ $video->title }}" controls preload="metadata"></video>
+            @else
+              <iframe
+                src="{{ $url }}{{ str_contains($url, '?') ? '&' : '?' }}rel=0&modestbranding=1"
+                title="{{ $video->title }}"
+                loading="lazy"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen
+              ></iframe>
+            @endif
+          </div>
+        @empty
+          <p style="grid-column: 1/-1; text-align: center;">No videos found.</p>
+        @endforelse
+      </section>
+
+      <div class="video-gallery-pagination">
+          @if ($videos->lastPage() > 1)
+              @if ($videos->currentPage() > 1)
+                  <a href="{{ $videos->previousPageUrl() }}" aria-label="Previous video page">←</a>
+              @endif
+
+              @for ($i = 1; $i <= $videos->lastPage(); $i++)
+                  @if ($i == $videos->currentPage())
+                      <span class="current" aria-current="page">{{ $i }}</span>
+                  @else
+                      <a href="{{ $videos->url($i) }}" aria-label="Video page {{ $i }}">
+                          {{ $i }}
+                      </a>
+                  @endif
+              @endfor
+
+              @if ($videos->hasMorePages())
+                  <a href="{{ $videos->nextPageUrl() }}" aria-label="Next video page">→</a>
+              @endif
           @endif
-        </div>
-      @empty
-        <p style="grid-column: 1/-1; text-align: center;">No videos found.</p>
-      @endforelse
-    </section>
-
-    <div class="video-gallery-pagination">
-        @if ($videos->lastPage() > 1)
-            @if ($videos->currentPage() > 1)
-                <a href="{{ $videos->previousPageUrl() }}" aria-label="Previous video page">←</a>
-            @endif
-
-            @for ($i = 1; $i <= $videos->lastPage(); $i++)
-                @if ($i == $videos->currentPage())
-                    <span class="current" aria-current="page">{{ $i }}</span>
-                @else
-                    <a href="{{ $videos->url($i) }}" aria-label="Video page {{ $i }}">
-                        {{ $i }}
-                    </a>
-                @endif
-            @endfor
-
-            @if ($videos->hasMorePages())
-                <a href="{{ $videos->nextPageUrl() }}" aria-label="Next video page">→</a>
-            @endif
-        @endif
+      </div>
     </div>
 </main>
 @endsection
+
+@push('scripts')
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const wrapper = document.getElementById('video-gallery-ajax-wrapper');
+  if (!wrapper) return;
+
+  let isLoading = false;
+
+  async function loadVideoPage(url, pushState = true) {
+    if (isLoading) return;
+    isLoading = true;
+    wrapper.classList.add('is-loading');
+
+    try {
+      const response = await fetch(url, {
+        headers: {
+          'X-Requested-With': 'XMLHttpRequest'
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error('Network response not ok: ' + response.status);
+      }
+
+      const html = await response.text();
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(html, 'text/html');
+      const newContent = doc.getElementById('video-gallery-ajax-wrapper');
+
+      if (newContent) {
+        wrapper.innerHTML = newContent.innerHTML;
+
+        if (pushState) {
+          window.history.pushState({ url: url }, '', url);
+        }
+
+        // Smooth scroll back to top of video gallery if scrolled down
+        const banner = document.querySelector('.video-gallery-banner');
+        if (banner) {
+          const bannerBottom = banner.getBoundingClientRect().bottom + window.scrollY;
+          if (window.scrollY > bannerBottom) {
+            window.scrollTo({ top: bannerBottom - 10, behavior: 'smooth' });
+          }
+        }
+      } else {
+        window.location.href = url;
+      }
+    } catch (err) {
+      console.error('AJAX video pagination error:', err);
+      window.location.href = url;
+    } finally {
+      wrapper.classList.remove('is-loading');
+      isLoading = false;
+    }
+  }
+
+  // Intercept pagination clicks via event delegation
+  wrapper.addEventListener('click', function (e) {
+    const link = e.target.closest('.video-gallery-pagination a');
+    if (!link) return;
+
+    e.preventDefault();
+    const targetUrl = link.getAttribute('href');
+    if (targetUrl) {
+      loadVideoPage(targetUrl, true);
+    }
+  });
+
+  // Handle browser Back and Forward buttons smoothly
+  window.addEventListener('popstate', function () {
+    loadVideoPage(window.location.href, false);
+  });
+});
+</script>
+@endpush

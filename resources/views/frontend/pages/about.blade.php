@@ -1212,7 +1212,7 @@ By consistently delivering reliable, high-quality solutions, we focus on buildin
 
               <div class="sq-field sq-phone-field">
 
-                <input class="sq-input" id="sq-phone" name="phone" type="tel" placeholder="Enter Your Phone Number" required>
+                <input class="sq-input" id="sq-phone" name="phone" type="tel" placeholder="Enter Phone No." required>
 
               </div>
 
@@ -1324,9 +1324,15 @@ By consistently delivering reliable, high-quality solutions, we focus on buildin
         initialCountry: 'in',
         separateDialCode: true,
         nationalMode: true,
+        autoPlaceholder: 'off',
+        customPlaceholder: function() {
+          return 'Enter Phone No.';
+        },
         dropdownContainer: document.body,
         utilsScript: 'https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/18.2.1/js/utils.js'
       });
+      phoneInputField.placeholder = 'Enter Phone No.';
+      phoneInputField.setAttribute('placeholder', 'Enter Phone No.');
     }
 
     if (form) {

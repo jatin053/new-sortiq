@@ -4136,6 +4136,42 @@ BOTTOM USERS â€“ blurred sides, active center
 
 }
 
+/* Testimonials Pagination Dots */
+.hm-ts-pagination-dots {
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 24px;
+  position: relative;
+  z-index: 5;
+}
+
+.hm-ts-bullet {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #cbd5e1;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  outline: none;
+}
+
+.hm-ts-bullet:hover {
+  background: #94a3b8;
+  transform: scale(1.15);
+}
+
+.hm-ts-bullet.active {
+  width: 28px;
+  height: 10px;
+  border-radius: 9999px;
+  background: #ff4f00 !important;
+  box-shadow: 0 2px 8px rgba(255, 79, 0, 0.35);
+}
+
 
 
 /*========================

@@ -1863,15 +1863,9 @@
               </div>
 
               <div class="sq-card-actions">
-                <button type="button" 
-                  class="sq-btn-blueprint sq-blueprint-trigger"
-                  data-name="CampusEdge Pro"
-                  data-tag="Education &amp; Campus Management"
-                  data-desc="Campus ERP for schools, colleges and coaching institutes. It runs admissions, fees, attendance, exams and staff records in one system, with portals for students, parents and teachers."
-                  data-stack="Laravel 11, React, PostgreSQL, REST API"
-                  data-features="Online admissions, student records and fee collection with receipts;Attendance, timetables, exam results and report cards;Student, parent and teacher portals with instant notices;Staff payroll and role-based access with audit trails">
+                <a href="https://campusedgepro.com/" target="_blank" rel="noopener noreferrer" class="sq-btn-blueprint">
                   View Blueprint
-                </button>
+                </a>
                 <a href="#request-demo" class="sq-btn-demo" onclick="preselectProduct('CampusEdge Pro')">
                   Request Demo
                 </a>
@@ -1930,15 +1924,9 @@
               </div>
 
               <div class="sq-card-actions">
-                <button type="button" 
-                  class="sq-btn-blueprint sq-blueprint-trigger"
-                  data-name="Blogerzworld"
-                  data-tag="Listings &amp; Content Platform"
-                  data-desc="A listing and blog platform where only approved listings, stories and comments reach the public site. Visitors browse by category, while your team reviews and publishes from one admin panel."
-                  data-stack="Laravel 11, Tailwind CSS, MySQL, REST API"
-                  data-features="Simple flow to post listings and share blog stories;Approval workflow for listings, blogs and comments;Organized categories for easy browsing by topic;Central admin control for moderation and visibility">
+                <a href="https://blogerzworld.sortiqsolutions.com/home" target="_blank" rel="noopener noreferrer" class="sq-btn-blueprint">
                   View Blueprint
-                </button>
+                </a>
                 <a href="#request-demo" class="sq-btn-demo" onclick="preselectProduct('Blogerzworld')">
                   Request Demo
                 </a>
@@ -2137,7 +2125,6 @@
     </div>
   </section>
 
-  {{-- 6. REQUEST A PRODUCT DEMO / INQUIRY SECTION (SCREENSHOT 1 & 2 RESPONSIVE FIX) --}}
   <section class="sq-demo-section" id="request-demo" aria-labelledby="demo-form-title">
     <div class="sq-container">
       <div class="sq-demo-layout">
@@ -2254,7 +2241,7 @@
                   Phone Number (WhatsApp Preferred) <span class="req">*</span>
                 </label>
                 <div class="sq-phone-wrap">
-                  <input id="product-phone" name="phone" type="tel" placeholder="Enter phone number" required autocomplete="tel-national">
+                  <input id="product-phone" name="phone" type="tel" placeholder="Enter Phone No." required autocomplete="tel-national">
                 </div>
               </div>
 
@@ -2277,7 +2264,7 @@
               </button>
 
               <div style="text-align: center; margin-top: 12px; font-size: 11px; color: #94a3b8; line-height: 1.4;">
-                🔒 Guaranteed confidential. We sign Non-Disclosure Agreements (NDA) prior to technical calls.
+                ðŸ”’ Guaranteed confidential. We sign Non-Disclosure Agreements (NDA) prior to technical calls.
               </div>
             </form>
           </div>
@@ -2393,73 +2380,6 @@
     </div>
   </section>
 
-  {{-- 9. INTERACTIVE ARCHITECTURE BLUEPRINT MODAL --}}
-  <div id="blueprint-modal" class="sq-modal-blueprint" role="dialog" aria-modal="true" aria-labelledby="modal-prod-title">
-    <div class="sq-modal-backdrop" onclick="closeBlueprintModal()"></div>
-    
-    <div class="sq-modal-content">
-      <div class="sq-modal-header">
-        <div>
-          <span id="modal-prod-tag" style="font-size: 11px; font-weight: 700; text-transform: uppercase; color: #ff944d; background: rgba(255, 255, 255, 0.1); padding: 3px 10px; border-radius: 9999px;">
-            Architecture Blueprint
-          </span>
-          <h3 id="modal-prod-title" class="sq-font-title" style="font-size: 20px; font-weight: 800; color: #ffffff; margin: 6px 0 0 0;">
-            Product Architecture
-          </h3>
-        </div>
-        <button type="button" onclick="closeBlueprintModal()" class="sq-modal-close-btn" aria-label="Close modal">
-          <iconify-icon icon="lucide:x"></iconify-icon>
-        </button>
-      </div>
-
-      <div class="sq-modal-body">
-        <div style="margin-bottom: 20px;">
-          <div style="font-size: 11px; font-weight: 800; text-transform: uppercase; color: #94a3b8; margin-bottom: 6px;">Executive Summary</div>
-          <p id="modal-prod-desc" style="font-size: 13.5px; color: #334155; line-height: 1.55; margin: 0;"></p>
-        </div>
-
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px;">
-          <div style="background: #f8fafc; padding: 12px 14px; border-radius: 12px; border: 1px solid #e2e8f0;">
-            <div style="font-size: 10.5px; font-weight: 800; text-transform: uppercase; color: #64748b; margin-bottom: 4px; display: flex; align-items: center; gap: 6px;">
-              <iconify-icon icon="lucide:layers" style="color: #ff6600;"></iconify-icon>
-              <span>Recommended Stack</span>
-            </div>
-            <div id="modal-prod-stack" style="font-size: 13px; font-weight: 700; color: #00173e;"></div>
-          </div>
-
-          <div style="background: #f8fafc; padding: 12px 14px; border-radius: 12px; border: 1px solid #e2e8f0;">
-            <div style="font-size: 10.5px; font-weight: 800; text-transform: uppercase; color: #64748b; margin-bottom: 4px; display: flex; align-items: center; gap: 6px;">
-              <iconify-icon icon="lucide:shield" style="color: #059669;"></iconify-icon>
-              <span>Compliance &amp; Security</span>
-            </div>
-            <div style="font-size: 13px; font-weight: 700; color: #00173e;">
-              AES-256 DB Encryption, RBAC, ISO 9001:2015 QA
-            </div>
-          </div>
-        </div>
-
-        <div style="margin-bottom: 22px;">
-          <div style="font-size: 11px; font-weight: 800; text-transform: uppercase; color: #94a3b8; margin-bottom: 8px;">Key Architectural Modules</div>
-          <div id="modal-prod-features" style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;"></div>
-        </div>
-
-        <div style="padding-top: 16px; border-top: 1px solid #e2e8f0; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;">
-          <div style="font-size: 12px; color: #64748b;">
-            Need this tailored for your company's infrastructure?
-          </div>
-          <div style="display: flex; align-items: center; gap: 8px;">
-            <button type="button" onclick="closeBlueprintModal()" class="sq-btn-blueprint" style="padding: 8px 16px;">
-              Close
-            </button>
-            <a id="modal-demo-btn" href="#request-demo" onclick="closeBlueprintModal()" class="sq-btn-demo" style="padding: 9px 18px;">
-              Schedule Architecture Call
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
 </main>
 @endsection
 
@@ -2555,11 +2475,19 @@
         initialCountry: 'in',
         separateDialCode: true,
         autoPlaceholder: 'off', // Prevents fake number ghosting over input
+        customPlaceholder: function() {
+          return 'Enter Phone No.';
+        },
         dropdownContainer: document.body,
         utilsScript: 'https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/18.2.1/js/utils.js',
       });
 
+      phoneInput.placeholder = 'Enter Phone No.';
+      phoneInput.setAttribute('placeholder', 'Enter Phone No.');
+
       const syncPhoneCode = function () {
+        phoneInput.placeholder = 'Enter Phone No.';
+        phoneInput.setAttribute('placeholder', 'Enter Phone No.');
         const countryData = phonePicker.getSelectedCountryData();
         if (countryCodeInput && countryData && countryData.dialCode) {
           countryCodeInput.value = '+' + countryData.dialCode;
@@ -2571,14 +2499,6 @@
       syncPhoneCode();
     }
   });
-
-  function closeBlueprintModal() {
-    const modal = document.getElementById('blueprint-modal');
-    if (modal) {
-      modal.classList.remove('is-open');
-      document.body.style.overflow = '';
-    }
-  }
 
   function preselectProduct(productName) {
     const select = document.getElementById('product_select');

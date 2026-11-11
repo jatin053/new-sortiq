@@ -576,7 +576,7 @@
                     <!-- Phone -->
                     <div class="phone-wrapper">
 
-                        <input id="fresher-hiring-phone" type="tel" name="phone" placeholder="Enter Your Phone Number" autocomplete="tel" required>
+                        <input id="fresher-hiring-phone" type="tel" name="phone" placeholder="Enter Phone No." autocomplete="tel" required>
                         <input type="hidden" name="country_code" value="+91">
 
                     </div>
@@ -659,12 +659,20 @@
             initialCountry: 'in',
             separateDialCode: true,
             nationalMode: true,
-            autoPlaceholder: 'aggressive',
+            autoPlaceholder: 'off',
+            customPlaceholder: function() {
+                return 'Enter Phone No.';
+            },
             dropdownContainer: document.body,
             utilsScript: 'https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/18.2.1/js/utils.js'
         });
 
+        phoneInput.placeholder = 'Enter Phone No.';
+        phoneInput.setAttribute('placeholder', 'Enter Phone No.');
+
         const syncCountryCode = function(){
+            phoneInput.placeholder = 'Enter Phone No.';
+            phoneInput.setAttribute('placeholder', 'Enter Phone No.');
             const country = phonePicker.getSelectedCountryData();
             countryCodeInput.value = country?.dialCode ? '+' + country.dialCode : '';
         };
