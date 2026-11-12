@@ -111,7 +111,7 @@
         font-weight:800;
         color:#fff;
         letter-spacing:1px;
-        margin-bottom:0;
+        margin-bottom:10px;
     }
 
     /* Fields */
@@ -403,7 +403,7 @@
 
         .connect-heading{
             font-size:24px !important;
-            margin-bottom:0 !important;
+            margin-bottom:20px !important;
         }
 
         .modal-close-btn{

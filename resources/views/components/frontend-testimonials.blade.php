@@ -54,6 +54,13 @@
         @endforeach
       </div>
     </div>
+
+    <!-- PAGINATION DOTS -->
+    <div class="hm-ts-pagination-dots" role="tablist" aria-label="Testimonial pagination">
+      @foreach($testimonials as $index => $testimonial)
+        <button type="button" class="hm-ts-bullet {{ $index === 0 ? 'active' : '' }}" aria-label="Slide {{ $index + 1 }}"></button>
+      @endforeach
+    </div>
   </div>
 </section>
 
@@ -84,6 +91,28 @@ document.addEventListener("DOMContentLoaded", function() {
     return allCards[0].offsetWidth + margin;
   }
 
+  function updateSliderHeight(animate) {
+    if (!slider) return;
+    var activeCard = allCards[current];
+    if (!activeCard) return;
+
+    var cardHeight = activeCard.offsetHeight;
+    if (!cardHeight) {
+      var quote = activeCard.querySelector(".hm-ts-quote");
+      if (quote) {
+        var cs = window.getComputedStyle(activeCard);
+        var padTop = parseFloat(cs.paddingTop || 0);
+        var padBottom = parseFloat(cs.paddingBottom || 0);
+        cardHeight = quote.offsetHeight + padTop + padBottom;
+      }
+    }
+
+    if (cardHeight > 0) {
+      slider.style.transition = animate ? "height 0.4s ease" : "none";
+      slider.style.height = cardHeight + "px";
+    }
+  }
+
   function moveSlide(index, animate = true) {
     if (isTransitioning && animate) return;
     if (animate) isTransitioning = true;
@@ -98,6 +127,9 @@ document.addEventListener("DOMContentLoaded", function() {
     
     track.style.transition = animate ? "transform .85s cubic-bezier(.16, 1, .3, 1)" : "none";
     track.style.transform = "translateX(" + mainTranslateX + "px)";
+
+    // Auto-set slider height to active card/paragraph height
+    updateSliderHeight(animate);
 
     // Update active states
     var realIdx = (current - 1 + totalReal) % totalReal;
@@ -136,6 +168,14 @@ document.addEventListener("DOMContentLoaded", function() {
       dotsContainer.style.width = "auto";
       dotsContainer.style.margin = "auto";
     }
+
+    // Sync pagination bullets
+    var bullets = document.querySelectorAll(".hm-ts-bullet");
+    if (bullets.length) {
+      bullets.forEach(function(b, idx) {
+        b.classList.toggle("active", idx === realIdx);
+      });
+    }
   }
 
   // Handle seamless snap-back at the end of transition
@@ -154,12 +194,21 @@ document.addEventListener("DOMContentLoaded", function() {
     });
   });
 
+  var bullets = document.querySelectorAll(".hm-ts-bullet");
+  bullets.forEach(function(bullet, idx) {
+    bullet.addEventListener("click", function() {
+      moveSlide(idx + 1);
+    });
+  });
+
   window.addEventListener("resize", function() {
     moveSlide(current, false);
   });
 
   // Initial call
   moveSlide(1, false);
+  setTimeout(function() { updateSliderHeight(false); }, 150);
+  window.addEventListener("load", function() { updateSliderHeight(false); });
 
   // Auto-play
   setInterval(function() {

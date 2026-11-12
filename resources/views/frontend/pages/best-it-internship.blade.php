@@ -47,7 +47,7 @@
                fetchpriority="high"
                width="546"
                height="364"
-               onerror="this.onerror=null;this.src='{{ asset('frontend-assets/media/pages/internship/internship-hero.webp') }}';">
+               onerror="this.onerror=null;this.src='{{                     asset('frontend-assets/media/pages/internship/internship-hero.webp') }}';">
         </picture>
       </div>
     </div>
@@ -143,6 +143,12 @@
           @endforeach
         </div>
       </div>
+
+      <div class="hm-ts-pagination-dots" role="tablist" aria-label="Testimonials pagination">
+        @foreach ($testimonialsList as $index => $testimonial)
+          <button type="button" class="hm-ts-bullet {{ $index === 0 ? 'active' : '' }}" aria-label="Slide {{ $index + 1 }}"></button>
+        @endforeach
+      </div>
     @endif
   </section>
 
@@ -185,6 +191,26 @@ document.addEventListener("DOMContentLoaded", function() {
     return allCards[0].offsetWidth + margin;
   }
 
+  function updateSliderHeight(animate) {
+    if (!slider) return;
+    var activeCard = allCards[current];
+    if (!activeCard) return;
+    var cardHeight = activeCard.offsetHeight;
+    if (!cardHeight) {
+      var quote = activeCard.querySelector(".hm-ts-quote");
+      if (quote) {
+        var cs = window.getComputedStyle(activeCard);
+        var padTop = parseFloat(cs.paddingTop || 0);
+        var padBottom = parseFloat(cs.paddingBottom || 0);
+        cardHeight = quote.offsetHeight + padTop + padBottom;
+      }
+    }
+    if (cardHeight > 0) {
+      slider.style.transition = animate ? "height 0.4s ease" : "none";
+      slider.style.height = cardHeight + "px";
+    }
+  }
+
   function moveSlide(index, animate) {
     if (animate === undefined) animate = true;
     if (isTransitioning && animate) return;
@@ -196,6 +222,7 @@ document.addEventListener("DOMContentLoaded", function() {
     var tx = (sliderWidth / 2) - (cardWidth / 2) - (current * step);
     track.style.transition = animate ? "transform .85s cubic-bezier(.16, 1, .3, 1)" : "none";
     track.style.transform = "translateX(" + tx + "px)";
+    updateSliderHeight(animate);
     var realIdx = (current - 1 + totalReal) % totalReal;
     allCards.forEach(function(c, i) { c.classList.toggle("active", i === current); });
     thumbs.forEach(function(t, i) {
@@ -217,6 +244,12 @@ document.addEventListener("DOMContentLoaded", function() {
       dc.style.width = "auto"; 
       dc.style.margin = "auto"; 
     }
+    var bullets = document.querySelectorAll(".hm-ts-bullet");
+    if (bullets.length) {
+      bullets.forEach(function(b, i) {
+        b.classList.toggle("active", i === realIdx);
+      });
+    }
   }
 
   track.addEventListener("transitionend", function() {
@@ -227,6 +260,15 @@ document.addEventListener("DOMContentLoaded", function() {
 
   thumbs.forEach(function(t, i) {
     t.addEventListener("click", function() {
+      clearInterval(autoPlay);
+      moveSlide(i + 1);
+      autoPlay = setInterval(next, 4500);
+    });
+  });
+
+  var bullets = document.querySelectorAll(".hm-ts-bullet");
+  bullets.forEach(function(b, i) {
+    b.addEventListener("click", function() {
       clearInterval(autoPlay);
       moveSlide(i + 1);
       autoPlay = setInterval(next, 4500);

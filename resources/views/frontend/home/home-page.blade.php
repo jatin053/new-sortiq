@@ -1010,17 +1010,26 @@
         .hm-testimonials-section .hm-ts-card {
           position: relative;
           overflow: visible !important;
-          padding: 26px 24px 52px !important;
+          padding: 24px 24px 48px !important;
           border: 0 !important;
           border-radius: 0 !important;
           background: #fff !important;
           box-shadow: none !important;
+          flex: 0 0 100% !important;
+          width: 100% !important;
+          min-width: 100% !important;
+          height: auto !important;
+          box-sizing: border-box !important;
+          transform: none !important;
+        }
+        .hm-testimonials-section .hm-ts-card.active {
+          transform: none !important;
         }
         .hm-testimonials-section .hm-ts-stars {
           display: none !important;
         }
         .hm-testimonials-section .hm-ts-quote {
-          max-width: 1180px;
+          max-width: 1120px !important;
           margin: 0 auto !important;
           color: #171717 !important;
           font-size: clamp(16px, 1.35vw, 20px) !important;
@@ -1029,6 +1038,8 @@
           line-height: 1.65 !important;
           text-align: center !important;
           opacity: 1 !important;
+          display: block !important;
+          min-height: 0 !important;
         }
         .hm-testimonials-section .hm-ts-card::before {
           content: "";
@@ -1053,7 +1064,7 @@
           transform: translateX(-50%) rotate(-45deg);
         }
         .hm-testimonials-section {
-          min-height: 440px;
+          min-height: 0 !important;
           padding: 54px 0 58px !important;
           background: #fff !important;
         }
@@ -1084,22 +1095,13 @@
         .hm-testimonials-section .hm-ts-slider {
           width: 100%;
           overflow: hidden;
+          position: relative;
+          transition: height 0.4s ease;
         }
         .hm-testimonials-section .hm-ts-track {
           display: flex;
-          align-items: stretch;
-        }
-        .hm-testimonials-section .hm-ts-card {
-          flex: 0 0 100% !important;
-          width: 100% !important;
-          min-width: 100% !important;
-        }
-        .hm-testimonials-section .hm-ts-quote {
-          max-width: 1120px !important;
-          min-height: 88px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
+          align-items: flex-start !important;
+          will-change: transform;
         }
         .hm-testimonials-section .hm-ts-dots-container {
           margin-top: 20px !important;
@@ -1133,10 +1135,11 @@
           border-color: #ff5a00 !important;
         }
         @media (max-width: 767px) {
-          .hm-testimonials-section { min-height: 0; padding: 42px 0 !important; }
+          .hm-testimonials-section { min-height: 0 !important; padding: 36px 0 !important; }
           .hm-testimonials-section .hm-ts-inner { padding: 0 16px; }
-          .hm-testimonials-section .hm-ts-card { padding: 20px 8px 48px !important; }
-          .hm-testimonials-section .hm-ts-quote { min-height: 0; font-size: 16px !important; }
+          .hm-testimonials-section .hm-ts-track { align-items: flex-start !important; }
+          .hm-testimonials-section .hm-ts-card { padding: 14px 8px 44px !important; height: auto !important; }
+          .hm-testimonials-section .hm-ts-quote { min-height: 0 !important; font-size: 16px !important; line-height: 1.6 !important; }
           .hm-testimonials-section .hm-ts-dots { gap: 16px !important; }
           .hm-testimonials-section .hm-ts-thumb span { display: none; }
         }
@@ -1818,6 +1821,13 @@
         </button>
       @endforeach
       </div>
+    </div>
+
+    <!-- PAGINATION DOTS -->
+    <div class="hm-ts-pagination-dots" role="tablist" aria-label="Testimonial pagination">
+      @foreach($homeReviews as $index => $testimonial)
+        <button type="button" class="hm-ts-bullet {{ $index === 0 ? 'active' : '' }}" aria-label="Slide {{ $index + 1 }}"></button>
+      @endforeach
     </div>
   </div>
 
@@ -2707,6 +2717,28 @@
       return allCards[0].offsetWidth + margin;
     }
 
+    function updateSliderHeight(animate) {
+      if (!slider) return;
+      var activeCard = allCards[current];
+      if (!activeCard) return;
+
+      var cardHeight = activeCard.offsetHeight;
+      if (!cardHeight) {
+        var quote = activeCard.querySelector(".hm-ts-quote");
+        if (quote) {
+          var cs = window.getComputedStyle(activeCard);
+          var padTop = parseFloat(cs.paddingTop || 0);
+          var padBottom = parseFloat(cs.paddingBottom || 0);
+          cardHeight = quote.offsetHeight + padTop + padBottom;
+        }
+      }
+
+      if (cardHeight > 0) {
+        slider.style.transition = animate ? "height 0.4s ease" : "none";
+        slider.style.height = cardHeight + "px";
+      }
+    }
+
     function moveSlide(index, animate = true) {
       if (isTransitioning && animate) return;
       if (animate) isTransitioning = true;
@@ -2721,6 +2753,9 @@
       
       track.style.transition = animate ? "transform .85s cubic-bezier(.16, 1, .3, 1)" : "none";
       track.style.transform = "translateX(" + mainTranslateX + "px)";
+
+      // Auto-set slider height to the exact active card/paragraph height
+      updateSliderHeight(animate);
 
       // Update active states
       var realIdx = (current - 1 + totalReal) % totalReal;
@@ -2759,6 +2794,14 @@
         dotsContainer.style.width = "auto";
         dotsContainer.style.margin = "auto";
       }
+
+      // Sync pagination bullets
+      var bullets = document.querySelectorAll(".hm-ts-bullet");
+      if (bullets.length) {
+        bullets.forEach(function(b, idx) {
+          b.classList.toggle("active", idx === realIdx);
+        });
+      }
     }
 
     // Handle seamless snap-back at the end of transition
@@ -2777,12 +2820,21 @@
       });
     });
 
+    var bullets = document.querySelectorAll(".hm-ts-bullet");
+    bullets.forEach(function(bullet, idx) {
+      bullet.addEventListener("click", function() {
+        moveSlide(idx + 1);
+      });
+    });
+
     window.addEventListener("resize", function() {
       moveSlide(current, false);
     });
 
     // Initial call
     moveSlide(1, false);
+    setTimeout(function() { updateSliderHeight(false); }, 150);
+    window.addEventListener("load", function() { updateSliderHeight(false); });
 
     // Auto-play
     setInterval(function() {

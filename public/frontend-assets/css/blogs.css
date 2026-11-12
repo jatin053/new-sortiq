@@ -16,7 +16,7 @@
     padding-left: 1.5rem;
     padding-right: 1.5rem;
     padding-top: 2rem;
-    /*padding-bottom: 4rem;*/
+    padding-bottom: 2rem;
     display: flex;
     flex-direction: column;
     gap: 2.5rem;
@@ -356,7 +356,7 @@
     display: flex;
     flex-wrap: wrap;
     gap: 0.5rem;
-    margin-top: 3rem;
+    margin-top: 2rem;
     justify-content: center;
     align-items: center;
 }
@@ -632,6 +632,7 @@
 }
 
 @media (max-width: 767px) {
+
     .blog-single-content h1,
     .blog-single-content h1 * {
         font-size: 1.7rem !important;

@@ -20,8 +20,14 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   }
 
-  /* ── Testimonials auto-play (works for all service pages) ── */
+  /* ── Testimonials auto-play & pagination dots (works for all service pages) ── */
   setTimeout(function () {
+    if (typeof window.initTestimonialPaginationDots === 'function') {
+      window.initTestimonialPaginationDots();
+    }
+    if (typeof window.initHmTestimonialSliderAutoHeight === 'function') {
+      window.initHmTestimonialSliderAutoHeight();
+    }
     var dotsEl = document.querySelector('.hm-ts-dots');
     var sliderEl = document.querySelector('.hm-ts-slider');
     if (!dotsEl || !sliderEl) return;

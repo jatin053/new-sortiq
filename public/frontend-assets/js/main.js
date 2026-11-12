@@ -1059,6 +1059,106 @@ const initFaqPage = () => {
   });
 };
 
+const initTestimonialPaginationDots = () => {
+  const containers = document.querySelectorAll(".hm-ts-dots-container");
+
+  containers.forEach((container) => {
+    const dotsTrack = container.querySelector(".hm-ts-dots");
+    if (!dotsTrack) return;
+
+    const thumbs = Array.from(dotsTrack.querySelectorAll(".hm-ts-thumb"));
+    if (thumbs.length <= 1) return;
+
+    // Check if pagination container already exists right after container or in parent
+    let paginationDots = container.parentElement.querySelector(".hm-ts-pagination-dots");
+    if (!paginationDots) {
+      paginationDots = document.createElement("div");
+      paginationDots.className = "hm-ts-pagination-dots";
+      paginationDots.setAttribute("role", "tablist");
+      paginationDots.setAttribute("aria-label", "Testimonial pagination");
+      container.parentNode.insertBefore(paginationDots, container.nextSibling);
+    }
+
+    let bullets = Array.from(paginationDots.querySelectorAll(".hm-ts-bullet"));
+    if (bullets.length !== thumbs.length) {
+      paginationDots.innerHTML = "";
+      thumbs.forEach((thumb, idx) => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "hm-ts-bullet" + (thumb.classList.contains("active") ? " active" : "");
+        btn.setAttribute("aria-label", "Go to slide " + (idx + 1));
+        btn.addEventListener("click", (e) => {
+          e.preventDefault();
+          thumb.click();
+        });
+        paginationDots.appendChild(btn);
+      });
+      bullets = Array.from(paginationDots.querySelectorAll(".hm-ts-bullet"));
+    } else {
+      bullets.forEach((btn, idx) => {
+        btn.onclick = (e) => {
+          e.preventDefault();
+          thumbs[idx]?.click();
+        };
+      });
+    }
+
+    const syncBullets = () => {
+      let activeIdx = thumbs.findIndex((t) => t.classList.contains("active"));
+      if (activeIdx === -1) activeIdx = 0;
+      bullets.forEach((b, idx) => {
+        b.classList.toggle("active", idx === activeIdx);
+      });
+    };
+
+    syncBullets();
+
+    const observer = new MutationObserver(syncBullets);
+    thumbs.forEach((thumb) => {
+      observer.observe(thumb, { attributes: true, attributeFilter: ["class"] });
+    });
+  });
+};
+
+window.initTestimonialPaginationDots = initTestimonialPaginationDots;
+
+const initHmTestimonialSliderAutoHeight = () => {
+  const sliders = document.querySelectorAll(".hm-ts-slider");
+  sliders.forEach((slider) => {
+    const track = slider.querySelector(".hm-ts-track");
+    if (!track) return;
+
+    slider.style.transition = "height 0.4s ease";
+
+    const syncHeight = (smooth = true) => {
+      const activeCard = track.querySelector(".hm-ts-card.active") || track.querySelector(".hm-ts-card");
+      if (!activeCard) return;
+      let h = activeCard.offsetHeight;
+      if (!h) {
+        const quote = activeCard.querySelector(".hm-ts-quote");
+        if (quote) {
+          const cs = window.getComputedStyle(activeCard);
+          h = quote.offsetHeight + parseFloat(cs.paddingTop || 0) + parseFloat(cs.paddingBottom || 0);
+        }
+      }
+      if (h > 0) {
+        slider.style.transition = smooth ? "height 0.4s ease" : "none";
+        slider.style.height = h + "px";
+      }
+    };
+
+    syncHeight(false);
+    setTimeout(() => syncHeight(false), 200);
+
+    const observer = new MutationObserver(() => syncHeight(true));
+    observer.observe(track, { attributes: true, subtree: true, attributeFilter: ["class"] });
+
+    window.addEventListener("resize", () => syncHeight(false));
+  });
+};
+
+window.initHmTestimonialSliderAutoHeight = initHmTestimonialSliderAutoHeight;
+
 document.addEventListener("DOMContentLoaded", () => {
   initHeader();
   initChatbot();
@@ -1072,6 +1172,13 @@ document.addEventListener("DOMContentLoaded", () => {
   initStatsCounters();
   initTestimonials();
   initWebTestimonials();
+  initTestimonialPaginationDots();
+  initHmTestimonialSliderAutoHeight();
   initPortfoliosPage();
   initFaqPage();
+});
+
+window.addEventListener("load", () => {
+  initTestimonialPaginationDots();
+  initHmTestimonialSliderAutoHeight();
 });
