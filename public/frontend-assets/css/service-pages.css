@@ -24,7 +24,7 @@ service.css .service-pg {
 }
 
 .service-pg .sp-hero-copy h1 {
-  margin: 0 0 26px;
+  margin: 0 0 20px;
   color: #fff;
   font-family: "Raleway", "Nunito", ui-sans-serif, system-ui, sans-serif;
   font-size: 40px;
@@ -421,7 +421,6 @@ service.css .service-pg {
   .service-pg .sp-hero-shell {
     grid-template-columns: 1fr;
   }
-
   .service-pg .sp-hero-media {
     order: 1;
   }
@@ -429,7 +428,6 @@ service.css .service-pg {
   .service-pg .sp-hero-copy {
     order: 2;
   }
-
   .service-pg .sp-hero-media img {
     width: 100%;
     height: auto;
@@ -455,7 +453,7 @@ service.css .service-pg {
   .service-pg .sp-section-heading h2,
   .service-pg .sp-why-content h2,
   .service-pg .sp-cta-content h2 {
-    font-size: 28px;
+    font-size: 25px;
   }
 
   .service-pg .sp-hero-copy p {

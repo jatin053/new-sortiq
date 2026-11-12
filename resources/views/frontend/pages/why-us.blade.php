@@ -63,7 +63,7 @@
     .sq-heading {
       margin: 0;
       color: #000;
-      font-size: clamp(24px, 3.5vw, 32px);
+      font-size: clamp(20px, 3.5vw, 32px);
       line-height: 1.25;
       font-weight: 700;
       text-align: center;
@@ -83,7 +83,7 @@
     .sq-headingx {
       margin: 0;
       color: #000;
-      font-size: 47px;
+      font-size: 30px;
       line-height: 1.2;
       font-weight: 800;
       text-align: center;
@@ -287,7 +287,7 @@
     /* --- Clients & Work Sections --- */
     .sq-clients {
       position: relative;
-      padding: 85px 0;
+      padding: 25px 0;
       text-align: center;
       background-color: #fff;
       background-image: url("{{ asset('frontend-assets/media/imports/sortiqsolutions/2024/12/map_overlay.png') }}");
@@ -392,7 +392,7 @@
     }
 
     .sq-solutions {
-      padding: 54px 0 70px;
+      padding: 30px 0 20px;
       background: var(--sq-soft);
     }
     
@@ -489,7 +489,7 @@
       }
       .sq-solution-list, .sq-form-row { grid-template-columns: 1fr; }
       .sq-solutions-grid {
-        margin-top: 56px;
+        margin-top: 10px;
       }
       .sq-client-slide { flex-basis: 50%; min-width: 50%; }
       .sq-work { padding: 50px 0; }

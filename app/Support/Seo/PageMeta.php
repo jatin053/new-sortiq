@@ -193,7 +193,7 @@ class PageMeta
             'expertise' => 'frontend.expertise',
             'case-studies' => 'frontend.cases',
             'cases' => 'frontend.cases',
-            'internship' => 'frontend.internship',
+            'internship' => 'frontend.best-it-internship',
             'best-it-internship-company-mohali-chandigarh' => 'frontend.best-it-internship',
             'best-it-internship' => 'frontend.best-it-internship',
             'best-it-company-in-chandigarh' => 'frontend.best-it-company-chandigarh',

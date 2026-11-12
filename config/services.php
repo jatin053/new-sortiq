@@ -36,7 +36,7 @@ return [
     ],
 
     'contact' => [
-        'notification_email' => env('CONTACT_NOTIFICATION_EMAIL', 'jatinchoudhary053@gmail.com'),
+        'notification_email' => env('CONTACT_NOTIFICATION_EMAIL'),
     ],
 
     'recaptcha' => [
@@ -44,5 +44,7 @@ return [
         'site_key' => env('RECAPTCHA_SITE_KEY'),
         'secret_key' => env('RECAPTCHA_SECRET_KEY'),
     ],
-
+    'crisp' => [
+        'website_id' => env('CRISP_WEBSITE_ID'),
+    ]
 ];

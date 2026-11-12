@@ -12,7 +12,7 @@
   background-color: #fafbfd;
   color: #00163e;
   font-family: "Nunito", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  padding: 40px 20px 90px;
+  padding: 0px 0px 20px;
 }
 
 .cs-container {

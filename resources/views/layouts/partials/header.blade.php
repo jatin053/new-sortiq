@@ -14,7 +14,7 @@
 
         <span class="sq-pro-sep">|</span>
 
-        <a class="sq-pro-apply" href="{{ url('/best-it-internship-company-mohali-chandigarh#internship-form') }}"><iconify-icon icon="lucide:send" width="14" height="14"></iconify-icon><span>Apply Internship</span></a>
+        <a class="sq-pro-apply" href="{{ url('/internship') }}"><iconify-icon icon="lucide:send" width="14" height="14"></iconify-icon><span>Apply Internship</span></a>
 
       </div>
 

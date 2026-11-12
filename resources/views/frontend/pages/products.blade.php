@@ -2273,7 +2273,7 @@
               </button>
 
               <div style="text-align: center; margin-top: 12px; font-size: 11px; color: #94a3b8; line-height: 1.4;">
-                ðŸ”’ Guaranteed confidential. We sign Non-Disclosure Agreements (NDA) prior to technical calls.
+                🔒 Guaranteed confidential. We sign Non-Disclosure Agreements (NDA) prior to technical calls.
               </div>
             </form>
           </div>

@@ -1585,7 +1585,8 @@ button {
 
 .hm-section-head {
 
-  margin-bottom: 50px;
+  margin-bottom: 20px;
+  margin-top: 20px;
 
 }
 
@@ -3035,7 +3036,7 @@ button {
 
   position: relative;
 
-  padding: 88px 0 96px;
+  padding: 20px 0 20px;
 
   background: url('../media/imports/sortiqsolutions/2026/02/youtube-background-banner-1.webp') no-repeat center center;
 
@@ -3211,7 +3212,7 @@ button {
 
 .hm-clients-title {
 
-  font-size: 56px !important;
+  font-size: 36px !important;
 
   color: #192225 !important;
 
@@ -3243,7 +3244,7 @@ button {
 
 .hm-services-section {
 
-  padding: 88px 0 96px;
+  /*padding: 88px 0 96px;*/
 
   background: #fff;
 
@@ -3476,7 +3477,7 @@ button {
 
   overflow: hidden;
 
-  padding: 88px 0 96px;
+  padding: 0px 0 20px;
 
   background: url("../media/imports/sortiqsolutions/2024/12/map_overlay.webp");
 
@@ -3680,7 +3681,7 @@ button {
 
 .hm-expertise-section {
 
-  padding: 45px 0;
+  padding: 20px 0;
 
   background: linear-gradient(160deg, #00152f 0%, #001f4d 45%, #0a2858 100%);
 
@@ -5470,3 +5471,4 @@ body[data-route="/services/ecommerce"] main > div > section:first-child a button
 .sq-btn-blueprint:hover {
   transform: translateY(-2px) !important;
 }
+

@@ -18,8 +18,6 @@ class InternshipApplication extends Model
         'institute',
         'technology',
         'message',
-        'resume',
-        'attachment',
         'url',
         'status',
         'read_at',

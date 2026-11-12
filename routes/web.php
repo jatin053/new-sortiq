@@ -59,7 +59,6 @@ Route::view('/cases', 'frontend.pages.case-studies');
 Route::get('/best-it-internship-company-mohali-chandigarh', [\App\Http\Controllers\Frontend\InternshipController::class, 'landing'])->name('frontend.best-it-internship');
 Route::get('/it-internship', fn () => redirect()->route('frontend.best-it-internship', [], 301));
 Route::get('/best-it-internship', fn () => redirect()->route('frontend.best-it-internship', [], 301));
-
 Route::view('/internship', 'frontend.pages.internship')->name('frontend.internship');
 
 Route::view('/faq', 'frontend.pages.faq')->name('frontend.faq');
@@ -104,7 +103,7 @@ Route::view('/logo-design-services', 'frontend.services.logos')->name('frontend.
 Route::view('/website-maintenance-services', 'frontend.services.maintenance')->name('frontend.services.maintenance');
 
 Route::view('/bigcommerce-development-company', 'frontend.services.bigcommerce')->name('frontend.services.bigcommerce');
-Route::view('/big-commerce', 'frontend.services.bigcommerce');
+Route::view('/big-commerce', 'frontend.services.bigcommerce')->name('frontend.services.bigcommerce');
 Route::view('/services/bigcommerce-development', 'frontend.services.bigcommerce');
 Route::view('/services/bigcommerce', 'frontend.services.bigcommerce');
 

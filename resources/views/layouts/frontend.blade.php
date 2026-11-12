@@ -250,7 +250,8 @@
     <div class="modal-overlay absolute inset-0 bg-black/85"></div>
     <div class="relative h-full flex items-center justify-center px-4 py-6">
       <div class="modal-panel fresher-connect-modal relative w-full overflow-hidden shadow-2xl">
-        <div class="fresher-connect-image hidden md:block">
+                <div class="fresher-connect-image hidden md:block">
+
           <img src="{{ asset('frontend-assets/media/pages/shared/hiring-freshers-img.webp') }}" alt="Hiring" loading="lazy" decoding="async">
         </div>
 

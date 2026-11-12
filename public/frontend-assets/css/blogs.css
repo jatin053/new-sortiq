@@ -632,7 +632,6 @@
 }
 
 @media (max-width: 767px) {
-
     .blog-single-content h1,
     .blog-single-content h1 * {
         font-size: 1.7rem !important;

@@ -183,8 +183,8 @@
       }
 
       .paginationLogo {
-        margin-top: 25px;
-        margin-bottom: 50px;
+        margin-top: 0px;
+        margin-bottom: 20px;
       }
     }
 

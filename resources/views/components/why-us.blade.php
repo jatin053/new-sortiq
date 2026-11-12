@@ -290,7 +290,7 @@
     /* --- Clients & Work Sections --- */
     .sq-clients {
       position: relative;
-      padding: 85px 0;
+      padding: 25px 0;
       text-align: center;
       background-color: #fff;
       background-image: url("{{ asset('frontend-assets/media/imports/sortiqsolutions/2024/12/map_overlay.png') }}");
