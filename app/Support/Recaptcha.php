@@ -6,7 +6,10 @@ use Illuminate\Http\Request;
 
 class Recaptcha
 {
-   
+    public const PRODUCTION_SITE_KEY = '6LeSESotAAAAADkXuOK3rjdMDYOQOjgK90V8ujaO';
+    public const LOCAL_TEST_SITE_KEY = '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI';
+    public const LOCAL_TEST_SECRET_KEY = '6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe';
+
 
     public static function enabledForRequest(?Request $request = null): bool
     {

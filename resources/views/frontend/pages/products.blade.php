@@ -2588,11 +2588,10 @@
       const phonePicker = window.intlTelInput(phoneInput, {
         initialCountry: 'in',
         separateDialCode: true,
-        autoPlaceholder: 'off', // Prevents fake number ghosting over input
+        autoPlaceholder: 'off', 
         customPlaceholder: function() {
           return 'Enter Phone No.';
         },
-        dropdownContainer: document.body,
         utilsScript: 'https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/18.2.1/js/utils.js',
       });
 
@@ -2609,6 +2608,14 @@
       };
 
       phoneInput.addEventListener('countrychange', syncPhoneCode);
+      phoneInput.addEventListener('open:countrydropdown', function () {
+        const list = phoneInput.closest('.iti')?.querySelector('.iti__country-list');
+        if (list) {
+          list.classList.remove('iti__country-list--dropup');
+          list.style.top = '100%';
+          list.style.bottom = 'auto';
+        }
+      });
       if (form) form.addEventListener('submit', syncPhoneCode);
       syncPhoneCode();
     }
