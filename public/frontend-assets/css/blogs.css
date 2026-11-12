@@ -878,7 +878,7 @@
     max-width: 100%;
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
-    margin: 2rem 0;
+    /*margin: 2rem 0;*/
     border-radius: 12px;
     border: 1px solid #e2e8f0;
     background: #ffffff;
@@ -1015,7 +1015,7 @@
 /* Mobile Screens: maintain comfortable reading touch scroll without collapsing columns */
 @media (max-width: 768px) {
     .blog-table-wrapper {
-        margin: 1.25rem 0;
+        /*margin: 1.25rem 0;*/
         border-radius: 10px;
     }
 

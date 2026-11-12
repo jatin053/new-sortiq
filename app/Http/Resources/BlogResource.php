@@ -18,7 +18,6 @@ class BlogResource extends JsonResource
             'category' => $this->category,
             'excerpt' => $this->excerpt,
             'content' => $this->content,
-            'faqs' => $this->faqs_list,
             'published_at' => $this->published_at?->toDateString(),
             'status' => $this->status,
             'views' => $this->views,

@@ -668,6 +668,14 @@
 
         phoneInput.dataset.itiReady = 'true';
         phoneInput.addEventListener('countrychange', syncCountryCode);
+        phoneInput.addEventListener('open:countrydropdown', function () {
+            const list = phoneInput.closest('.iti')?.querySelector('.iti__country-list');
+            if (list) {
+                list.classList.remove('iti__country-list--dropup');
+                list.style.top = '100%';
+                list.style.bottom = 'auto';
+            }
+        });
         form.addEventListener('submit', syncCountryCode);
         syncCountryCode();
     }

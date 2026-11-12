@@ -421,7 +421,6 @@ service.css .service-pg {
   .service-pg .sp-hero-shell {
     grid-template-columns: 1fr;
   }
-
   .service-pg .sp-hero-media {
     order: 1;
   }
@@ -429,7 +428,6 @@ service.css .service-pg {
   .service-pg .sp-hero-copy {
     order: 2;
   }
-
   .service-pg .sp-hero-media img {
     width: 100%;
     height: auto;

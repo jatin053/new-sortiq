@@ -398,78 +398,35 @@
       box-shadow: 0 0 0 2px rgba(255, 90, 0, 0.1);
     }
 
-    /* EXACT Multi-flag Phone Dropdown Overrides - BROAD & DOWNWARDS */
+    /* EXACT Multi-flag Phone Dropdown Overrides */
     .sq-phone-field { position: relative; z-index: 50; }
     .iti { width: 100%; display: block; position: relative; }
-    .iti__flag-container { z-index: 30 !important; }
-    .iti__selected-flag { cursor: pointer; z-index: 30 !important; touch-action: manipulation !important; -webkit-tap-highlight-color: transparent !important; }
     .iti__country-list,
     .iti__country-list.iti__country-list--dropup {
-      position: absolute !important;
       top: 100% !important;
       bottom: auto !important;
       left: 0 !important;
-      margin-top: 6px !important;
+      margin-top: 4px !important;
       margin-bottom: 0 !important;
-      z-index: 999999 !important;
-      width: min(380px, calc(100vw - 36px)) !important;
-      min-width: 290px !important;
-      max-width: calc(100vw - 24px) !important;
-      max-height: 250px !important;
+      z-index: 99999 !important;
+      max-height: 240px !important;
       overflow-y: auto !important;
       -webkit-overflow-scrolling: touch !important;
       color: #111827 !important;
       text-align: left !important;
       background-color: #ffffff !important;
       border: 1px solid #cbd5e1 !important;
-      border-radius: 10px !important;
-      box-shadow: 0 12px 30px -5px rgba(0, 0, 0, 0.22), 0 4px 6px -2px rgba(0, 0, 0, 0.05) !important;
+      border-radius: 8px !important;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.2), 0 8px 10px -6px rgba(0, 0, 0, 0.1) !important;
     }
     @media (max-width: 640px) {
-      .sq-phone-field .iti__flag-container,
-      .iti__flag-container { z-index: 30 !important; }
-      .iti__selected-flag { z-index: 30 !important; min-width: 80px !important; }
       .iti__country-list,
       .iti__country-list.iti__country-list--dropup {
-        position: absolute !important;
-        top: 100% !important;
-        bottom: auto !important;
+        width: 100% !important;
+        max-width: 100% !important;
         left: 0 !important;
-        right: auto !important;
-        margin-top: 6px !important;
-        margin-bottom: 0 !important;
-        z-index: 999999 !important;
-        width: min(340px, calc(100vw - 32px)) !important;
-        min-width: 280px !important;
-        max-width: calc(100vw - 20px) !important;
-        max-height: 240px !important;
-        overflow-y: auto !important;
-        -webkit-overflow-scrolling: touch !important;
+        right: 0 !important;
       }
-    }
-    .iti__country-list .iti__country {
-      padding: 8px 12px !important;
-      display: flex !important;
-      align-items: center !important;
-      gap: 8px !important;
-      font-size: 14px !important;
-      color: #1f2937 !important;
-      line-height: 1.4 !important;
-      white-space: normal !important;
-    }
-    .iti__country-list .iti__country:hover,
-    .iti__country-list .iti__country.iti__highlight {
-      background-color: #f1f5f9 !important;
-    }
-    .iti__country-list .iti__country-name {
-      flex: 1 1 auto !important;
-      margin-right: 6px !important;
-      color: #111827 !important;
-      font-weight: 500 !important;
-    }
-    .iti__country-list .iti__dial-code {
-      color: #64748b !important;
-      font-weight: 600 !important;
     }
     .iti__flag-container { z-index: 2; }
     
@@ -739,15 +696,6 @@
             var instance = window.intlTelInputGlobals.getInstance(phoneInput);
             hiddenCode.value = "+" + instance.getSelectedCountryData().dialCode;
          }
-      });
-
-      phoneInput.addEventListener('open:countrydropdown', function() {
-        var countryList = phoneInput.closest('.iti')?.querySelector('.iti__country-list');
-        if (countryList) {
-          countryList.classList.remove('iti__country-list--dropup');
-          countryList.style.top = '100%';
-          countryList.style.bottom = 'auto';
-        }
       });
     }
 </script>

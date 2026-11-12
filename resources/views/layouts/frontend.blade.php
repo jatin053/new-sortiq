@@ -328,6 +328,7 @@
             customPlaceholder: function () {
               return 'Enter Phone No.';
             },
+            // dropdownContainer: document.body,
             utilsScript: 'https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/18.2.1/js/utils.js',
           });
 
@@ -352,14 +353,6 @@
           };
 
           phoneInput.addEventListener('countrychange', syncCountryCode);
-          phoneInput.addEventListener('open:countrydropdown', function () {
-            const list = phoneInput.closest('.iti')?.querySelector('.iti__country-list');
-            if (list) {
-              list.classList.remove('iti__country-list--dropup');
-              list.style.top = '100%';
-              list.style.bottom = 'auto';
-            }
-          });
           form.addEventListener('submit', syncCountryCode);
           syncCountryCode();
 

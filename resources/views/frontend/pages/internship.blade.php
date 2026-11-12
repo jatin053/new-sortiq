@@ -325,14 +325,6 @@ document.addEventListener('DOMContentLoaded', function () {
     };
 
     phoneField.addEventListener('countrychange', syncCountryCode);
-    phoneField.addEventListener('open:countrydropdown', function () {
-        const list = phoneField.closest('.iti')?.querySelector('.iti__country-list');
-        if (list) {
-            list.classList.remove('iti__country-list--dropup');
-            list.style.top = '100%';
-            list.style.bottom = 'auto';
-        }
-    });
     form.addEventListener('submit', syncCountryCode);
     syncCountryCode();
 });

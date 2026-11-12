@@ -2608,14 +2608,6 @@
       };
 
       phoneInput.addEventListener('countrychange', syncPhoneCode);
-      phoneInput.addEventListener('open:countrydropdown', function () {
-        const list = phoneInput.closest('.iti')?.querySelector('.iti__country-list');
-        if (list) {
-          list.classList.remove('iti__country-list--dropup');
-          list.style.top = '100%';
-          list.style.bottom = 'auto';
-        }
-      });
       if (form) form.addEventListener('submit', syncPhoneCode);
       syncPhoneCode();
     }
