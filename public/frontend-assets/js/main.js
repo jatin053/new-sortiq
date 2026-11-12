@@ -265,15 +265,22 @@ const initChatbot = () => {
 
 const initFresherModal = () => {
   const shell = $("#fresher-modal-shell");
-  if (!shell) return;
 
   $$("[data-open-fresher]").forEach((button) => {
-    button.addEventListener("click", () => setModalState(shell, true));
+    button.addEventListener("click", (e) => {
+      if (typeof window.openFresherModal === "function") {
+        window.openFresherModal(e);
+      } else if (shell) {
+        setModalState(shell, true);
+      }
+    });
   });
-  $$("[data-close-fresher]").forEach((button) => {
-    button.addEventListener("click", () => setModalState(shell, false));
-  });
-  $(".modal-overlay", shell)?.addEventListener("click", () => setModalState(shell, false));
+  if (shell) {
+    $$("[data-close-fresher]").forEach((button) => {
+      button.addEventListener("click", () => setModalState(shell, false));
+    });
+    $(".modal-overlay", shell)?.addEventListener("click", () => setModalState(shell, false));
+  }
 
   const fileInput = $("#fresher-file");
   const fileName = $("#fresher-file-name");

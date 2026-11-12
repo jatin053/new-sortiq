@@ -5,8 +5,51 @@
 
     /* Modal Overlay */
     #fresherHiringModal{
-        backdrop-filter:blur(10px);
-        -webkit-backdrop-filter:blur(10px);
+        position: fixed !important;
+        inset: 0 !important;
+        top: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        bottom: 0 !important;
+        width: 100vw !important;
+        height: 100vh !important;
+        height: 100dvh !important;
+        z-index: 9999999 !important;
+        background: rgba(0, 0, 0, 0.75) !important;
+        backdrop-filter: blur(10px) !important;
+        -webkit-backdrop-filter: blur(10px) !important;
+        display: none !important;
+        align-items: center !important;
+        justify-content: center !important;
+        padding: 16px !important;
+        box-sizing: border-box !important;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s ease !important;
+        overflow-y: auto !important;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    #fresherHiringModal.is-open,
+    #fresherHiringModal.flex{
+        display: flex !important;
+        pointer-events: auto !important;
+    }
+
+    #fresherHiringModal.is-visible{
+        opacity: 1 !important;
+    }
+
+    #fresherHiringModalContent{
+        transform: scale(0.95);
+        transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease !important;
+        opacity: 0;
+    }
+
+    #fresherHiringModal.is-visible #fresherHiringModalContent,
+    #fresherHiringModalContent.scale-100{
+        transform: scale(1) !important;
+        opacity: 1 !important;
     }
 
     /* Hide scrollbars completely while maintaining smooth scrolling */
@@ -498,9 +541,9 @@
     }
 </style>
 
-<div id="fresherHiringModal" class="fixed inset-0 z-[9999] hidden items-center justify-center bg-black/70 p-4 transition-all duration-300 opacity-0">
+<div id="fresherHiringModal" class="fixed inset-0 hidden items-center justify-center p-4">
 
-    <div id="fresherHiringModalContent" class="relative w-full max-w-6xl flex flex-col md:flex-row scale-95 transition-all duration-300">
+    <div id="fresherHiringModalContent" class="relative w-full max-w-6xl flex flex-col md:flex-row">
 
         <!-- Single Close Button -->
         <button type="button" onclick="closeFresherModal()" class="modal-close-btn">
@@ -639,126 +682,144 @@
 <script>
 
     function initFresherPhonePicker(){
-        const phoneInput = document.getElementById('fresher-hiring-phone');
-        const form = phoneInput?.closest('form');
-        const countryCodeInput = form?.querySelector('input[name="country_code"]');
+        try {
+            const phoneInput = document.getElementById('fresher-hiring-phone');
+            const form = phoneInput?.closest('form');
+            const countryCodeInput = form?.querySelector('input[name="country_code"]');
 
-        if (!phoneInput || !countryCodeInput || phoneInput.dataset.itiReady === 'true' || typeof window.intlTelInput !== 'function') return;
+            if (!phoneInput || !countryCodeInput || phoneInput.dataset.itiReady === 'true' || typeof window.intlTelInput !== 'function') return;
 
-        const phonePicker = window.intlTelInput(phoneInput, {
-            initialCountry: 'in',
-            separateDialCode: true,
-            nationalMode: true,
-            autoPlaceholder: 'off',
-            customPlaceholder: function() {
-                return 'Enter Phone No.';
-            },
-            utilsScript: 'https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/18.2.1/js/utils.js'
-        });
+            const phonePicker = window.intlTelInput(phoneInput, {
+                initialCountry: 'in',
+                separateDialCode: true,
+                nationalMode: true,
+                autoPlaceholder: 'off',
+                customPlaceholder: function() {
+                    return 'Enter Phone No.';
+                },
+                utilsScript: 'https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/18.2.1/js/utils.js'
+            });
 
-        // Prevent intl-tel-input from moving dropdown to body on mobile
-        phonePicker.isMobile = false;
-        phonePicker.options.dropdownContainer = null;
-        if (phonePicker.dropdown && phonePicker.dropdown.parentNode) {
-            phonePicker.dropdown.parentNode.removeChild(phonePicker.dropdown);
-        }
-        if (phonePicker.countryList && phonePicker.flagsContainer) {
-            phonePicker.flagsContainer.appendChild(phonePicker.countryList);
-        }
-        document.body.classList.remove("iti-mobile");
+            // Prevent intl-tel-input from moving dropdown to body on mobile
+            phonePicker.isMobile = false;
+            phonePicker.options.dropdownContainer = null;
+            if (phonePicker.dropdown && phonePicker.dropdown.parentNode) {
+                phonePicker.dropdown.parentNode.removeChild(phonePicker.dropdown);
+            }
+            if (phonePicker.countryList && phonePicker.flagsContainer) {
+                phonePicker.flagsContainer.appendChild(phonePicker.countryList);
+            }
+            document.body.classList.remove("iti-mobile");
 
-        phoneInput.placeholder = 'Enter Phone No.';
-        phoneInput.setAttribute('placeholder', 'Enter Phone No.');
-
-        const syncCountryCode = function(){
             phoneInput.placeholder = 'Enter Phone No.';
             phoneInput.setAttribute('placeholder', 'Enter Phone No.');
-            const country = phonePicker.getSelectedCountryData();
-            countryCodeInput.value = country?.dialCode ? '+' + country.dialCode : '';
-        };
 
-        phoneInput.dataset.itiReady = 'true';
-        phoneInput.addEventListener('countrychange', syncCountryCode);
-        phoneInput.addEventListener('open:countrydropdown', function () {
-            const list = phoneInput.closest('.iti')?.querySelector('.iti__country-list');
-            if (list) {
-                list.classList.remove('iti__country-list--dropup');
-                list.style.top = '100%';
-                list.style.bottom = 'auto';
-            }
-        });
+            const syncCountryCode = function(){
+                phoneInput.placeholder = 'Enter Phone No.';
+                phoneInput.setAttribute('placeholder', 'Enter Phone No.');
+                const country = phonePicker.getSelectedCountryData();
+                countryCodeInput.value = country?.dialCode ? '+' + country.dialCode : '';
+            };
 
-        form.addEventListener('submit', syncCountryCode);
-        syncCountryCode();
+            phoneInput.dataset.itiReady = 'true';
+            phoneInput.addEventListener('countrychange', syncCountryCode);
+            phoneInput.addEventListener('open:countrydropdown', function () {
+                const list = phoneInput.closest('.iti')?.querySelector('.iti__country-list');
+                if (list) {
+                    list.classList.remove('iti__country-list--dropup');
+                    list.style.top = '100%';
+                    list.style.bottom = 'auto';
+                }
+            });
+
+            form.addEventListener('submit', syncCountryCode);
+            syncCountryCode();
+        } catch (err) {
+            console.warn('initFresherPhonePicker error:', err);
+        }
     }
 
-    document.addEventListener('DOMContentLoaded', initFresherPhonePicker);
     function openFresherModal(e){
-
-        if(e) e.preventDefault();
+        if(e && typeof e.preventDefault === 'function') e.preventDefault();
 
         document.body.classList.remove('sq-mobile-active');
 
-        initFresherPhonePicker();
-
         const modal = document.getElementById('fresherHiringModal');
         const content = document.getElementById('fresherHiringModalContent');
 
-        if(content) content.scrollTop = 0;
-        if(modal) modal.scrollTop = 0;
+        if(!modal) return;
 
-        if(modal){
-            modal.classList.remove('hidden');
-            modal.classList.add('flex');
-
-            setTimeout(() => {
-                modal.classList.remove('opacity-0');
-                if(content){
-                    content.classList.remove('scale-95');
-                    content.classList.add('scale-100');
-                }
-            },10);
+        // Ensure the modal is a direct child of document.body so it isn't trapped in header stacking context or transform
+        if(modal.parentElement !== document.body){
+            document.body.appendChild(modal);
         }
+
+        if(content) content.scrollTop = 0;
+        modal.scrollTop = 0;
+
+        modal.classList.remove('hidden');
+        modal.classList.add('flex', 'is-open');
+
+        requestAnimationFrame(() => {
+            modal.classList.remove('opacity-0');
+            modal.classList.add('is-visible');
+        });
 
         document.documentElement.style.overflow = 'hidden';
         document.body.style.overflow = 'hidden';
+
+        setTimeout(() => {
+            initFresherPhonePicker();
+        }, 50);
     }
 
     function closeFresherModal(){
-
         const modal = document.getElementById('fresherHiringModal');
-        const content = document.getElementById('fresherHiringModalContent');
 
-        if(modal) modal.classList.add('opacity-0');
-
-        if(content){
-            content.classList.remove('scale-100');
-            content.classList.add('scale-95');
+        if(modal){
+            modal.classList.remove('is-visible');
+            modal.classList.add('opacity-0');
         }
 
         setTimeout(()=>{
-
             if(modal){
+                modal.classList.remove('flex', 'is-open');
                 modal.classList.add('hidden');
-                modal.classList.remove('flex');
             }
 
             document.documentElement.style.overflow = '';
             document.body.style.overflow = '';
-
-        },300);
+        }, 300);
     }
 
     window.openFresherModal = openFresherModal;
     window.closeFresherModal = closeFresherModal;
 
-    // Outside Click Close
-    document.getElementById('fresherHiringModal').addEventListener('click',function(e){
-
-        if(e.target===this){
-            closeFresherModal();
+    document.addEventListener('DOMContentLoaded', function(){
+        const modal = document.getElementById('fresherHiringModal');
+        if(modal && modal.parentElement !== document.body){
+            document.body.appendChild(modal);
         }
 
+        if(modal){
+            modal.addEventListener('click', function(e){
+                if(e.target === this){
+                    closeFresherModal();
+                }
+            });
+        }
+
+        document.addEventListener('keydown', function(e){
+            if(e.key === 'Escape' && modal && modal.classList.contains('is-open')){
+                closeFresherModal();
+            }
+        });
+
+        document.querySelectorAll('[data-open-fresher]').forEach(function(btn){
+            btn.addEventListener('click', openFresherModal);
+        });
+
+        initFresherPhonePicker();
     });
 
     // File Upload Handler

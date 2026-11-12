@@ -124,7 +124,7 @@
 
       <a href="{{ url('/reviews/') }}" class="sq-pro-review"><span class="sq-pro-review-dot"></span> Reviews</a>
 
-      <a href="#" onclick="openFresherModal(event)" class="sq-pro-btn orange">Fresher Hiring</a>
+      <a href="#" onclick="openFresherModal(event)" data-open-fresher role="button" class="sq-pro-btn orange">Fresher Hiring</a>
 
       <a href="{{ url('/contact/') }}" class="sq-pro-btn blue">Enquiry Now</a>
 
@@ -260,7 +260,7 @@
 
     <div class="sq-drawer-actions">
 
-      <a class="sq-pro-btn orange" href="#" onclick="openFresherModal(event)">Fresher Hiring</a>
+      <a class="sq-pro-btn orange" href="#" onclick="openFresherModal(event)" data-open-fresher role="button">Fresher Hiring</a>
 
       <a class="sq-pro-btn blue" href="{{ url('/contact/') }}">Enquiry Now</a>
 
