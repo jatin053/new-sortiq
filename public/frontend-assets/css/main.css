@@ -5,6 +5,7 @@
   z-index: 30;
   min-height: 33px;
 }
+
 .fresher-connect-phone-field .iti {
   width: 100%;
   height: 100%;
@@ -12,6 +13,7 @@
   display: flex;
   align-items: center;
 }
+
 .fresher-connect-phone-field .iti__selected-flag {
   height: 100%;
   display: flex;
@@ -23,6 +25,7 @@
   border-bottom-left-radius: 3px;
   gap: 4px;
 }
+
 .fresher-connect-phone-field .iti input {
   width: 100% !important;
   height: 100% !important;
@@ -38,6 +41,7 @@
   padding-right: 8px !important;
   box-sizing: border-box !important;
 }
+
 .fresher-connect-phone-field .iti input::placeholder {
   color: #9aa0a6 !important;
   font-size: 12.5px !important;
@@ -45,6 +49,7 @@
   font-weight: 400 !important;
   opacity: 1 !important;
 }
+
 .sq-phone-field,
 .fresher-connect-phone-field,
 .phone-wrapper {
@@ -60,22 +65,50 @@
 
 .iti--container,
 .iti__country-container,
-.iti__dropdown-content { z-index: 10050 !important; }
+.iti__dropdown-content {
+  z-index: 10050 !important;
+}
+
 .iti__dropdown-content {
   min-width: 310px;
   background: #fff;
   color: #111827;
 }
 
-/* Force Country Dropdown to Always Open Downwards Properly */
+/* Force Country Dropdown to Always Open Downwards and Broad */
+.iti__flag-container {
+  z-index: 60 !important;
+  pointer-events: auto !important;
+}
+
+.iti__selected-flag {
+  z-index: 60 !important;
+  pointer-events: auto !important;
+  cursor: pointer !important;
+  touch-action: manipulation !important;
+  -webkit-tap-highlight-color: transparent !important;
+}
+
+body.iti-mobile .iti--container,
+.iti-mobile .iti--container {
+  display: none !important;
+}
+
 .iti__country-list,
-.iti__country-list.iti__country-list--dropup {
+.iti__country-list.iti__country-list--dropup,
+body.iti-mobile .iti__country-list,
+.iti-mobile .iti__country-list {
+  position: absolute !important;
   top: 100% !important;
   bottom: auto !important;
   left: 0 !important;
-  margin-top: 4px !important;
+  right: auto !important;
+  margin-top: 6px !important;
   margin-bottom: 0 !important;
-  z-index: 99999 !important;
+  z-index: 999999 !important;
+  width: min(360px, calc(100vw - 32px)) !important;
+  min-width: 280px !important;
+  max-width: calc(100vw - 24px) !important;
   max-height: 240px !important;
   overflow-y: auto !important;
   -webkit-overflow-scrolling: touch !important;
@@ -84,16 +117,49 @@
   background-color: #ffffff !important;
   border: 1px solid #cbd5e1 !important;
   border-radius: 8px !important;
-  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.2), 0 8px 10px -6px rgba(0, 0, 0, 0.1) !important;
+  box-shadow: 0 12px 30px -5px rgba(0, 0, 0, 0.22), 0 4px 6px -2px rgba(0, 0, 0, 0.05) !important;
+}
+
+.iti__country-list .iti__country {
+  padding: 8px 12px !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  font-size: 14px !important;
+  color: #1f2937 !important;
+  line-height: 1.4 !important;
+  white-space: normal !important;
+}
+
+.iti__country-list .iti__country:hover,
+.iti__country-list .iti__country.iti__highlight {
+  background-color: #f1f5f9 !important;
+}
+
+.iti__country-list .iti__country-name {
+  flex: 1 1 auto !important;
+  margin-right: 6px !important;
+  color: #111827 !important;
+  font-weight: 500 !important;
+}
+
+.iti__country-list .iti__dial-code {
+  color: #64748b !important;
+  font-weight: 600 !important;
+  margin-left: auto !important;
 }
 
 @media (max-width: 640px) {
   .iti__country-list,
   .iti__country-list.iti__country-list--dropup {
-    width: 100% !important;
-    max-width: 100% !important;
+    position: absolute !important;
+    top: 100% !important;
+    bottom: auto !important;
     left: 0 !important;
-    right: 0 !important;
+    right: auto !important;
+    width: min(340px, calc(100vw - 32px)) !important;
+    min-width: 280px !important;
+    max-width: calc(100vw - 20px) !important;
   }
 }
 
@@ -1076,6 +1142,7 @@ body.mobile-menu-open #chatbot-whatsapp {
   color: #00142e;
   overflow: hidden;
 }
+
 body[data-route^="/services/"] section .grid>.group.relative[class*="bg-gradient-to-br"] {
   background: linear-gradient(145deg, #6657dc 0%, #884ee8 50%, #b238ef 100%) !important;
   border: 0 !important;
@@ -1132,6 +1199,7 @@ body[data-route^="/services/"] main>div>div:first-child>section:nth-child(2) h2+
 body[data-route^="/services/"] section .grid {
   gap: 26px 19px !important;
 }
+
 body[data-route^="/services/"] section .grid>.group.relative[class*="bg-gradient-to-br"]>div.relative:first-child {
   position: relative;
   display: flex;
@@ -1186,6 +1254,7 @@ body[data-route^="/services/"] section .grid>.group.relative[class*="bg-gradient
     transform: scale(1.18);
   }
 }
+
 body[data-route^="/services/"] .cta-section,
 body[data-route^="/services/"] div[style*="contact-cta-background"] {
   position: relative;
@@ -1199,12 +1268,14 @@ body[data-route^="/services/"] div[style*="contact-cta-background"] {
   text-align: center;
   overflow: hidden;
 }
+
 body[data-route^="/services/"] .cta-section,
 body[data-route^="/services/"] div[style*="contact-cta-background"] {
   display: flex;
   align-items: center;
   justify-content: center;
 }
+
 body[data-route^="/services/"] .cta-bg,
 body[data-route^="/services/"] div[style*="contact-cta-background"]>.absolute:first-child {
   position: absolute;
@@ -1216,12 +1287,14 @@ body[data-route^="/services/"] div[style*="contact-cta-background"]>.absolute:fi
 body[data-route^="/services/"] div[style*="contact-cta-background"]>.absolute:nth-child(2) {
   display: none;
 }
+
 body[data-route^="/services/"] .cta-shell,
 body[data-route^="/services/"] div[style*="contact-cta-background"]>.relative {
   position: relative;
   z-index: 1;
   width: min(1110px, 100%);
 }
+
 body[data-route^="/services/"] .cta-title,
 body[data-route^="/services/"] div[style*="contact-cta-background"]>.relative>div:first-child {
   margin: 0 0 34px;
@@ -1246,6 +1319,7 @@ body[data-route^="/services/"] div[style*="contact-cta-background"]>.relative>di
 body[data-route^="/services/"] div[style*="contact-cta-background"]>.relative>div:nth-child(2) {
   display: none;
 }
+
 body[data-route^="/services/"] .cta-text,
 body[data-route^="/services/"] div[style*="contact-cta-background"]>.relative>p {
   max-width: 1110px;
@@ -1256,6 +1330,7 @@ body[data-route^="/services/"] div[style*="contact-cta-background"]>.relative>p 
   line-height: 1.75;
   text-align: center;
 }
+
 body[data-route^="/services/"] .cta-btn,
 body[data-route^="/services/"] div[style*="contact-cta-background"] a {
   display: inline-flex;
@@ -1275,6 +1350,7 @@ body[data-route^="/services/"] div[style*="contact-cta-background"] a {
   box-shadow: 0 4px 14px rgba(255, 102, 0, 0.25);
   transition: all 0.25s ease;
 }
+
 body[data-route^="/services/"] .cta-btn::before,
 body[data-route^="/services/"] div[style*="contact-cta-background"] a::before {
   content: "CONTACT US";
@@ -1289,6 +1365,7 @@ body[data-route^="/services/"] div[style*="contact-cta-background"] a button {
 body[data-route^="/services/"] div[style*="contact-cta-background"] a button::before {
   content: "";
 }
+
 body[data-route^="/services/"] .cta-btn:hover,
 body[data-route^="/services/"] div[style*="contact-cta-background"] a:hover {
   background: #001b43 !important;
@@ -1296,6 +1373,7 @@ body[data-route^="/services/"] div[style*="contact-cta-background"] a:hover {
   transform: translateY(-2px);
   box-shadow: 0 6px 18px rgba(0, 27, 67, 0.3);
 }
+
 body[data-route^="/services/"] .service-pro-hero,
 body[data-route^="/services/"] main>div>section:first-child,
 body[data-route^="/services/"] main>div>div:first-child>section:first-child {
@@ -1303,6 +1381,7 @@ body[data-route^="/services/"] main>div>div:first-child>section:first-child {
   padding: 72px 0;
   overflow: hidden;
 }
+
 body[data-route^="/services/"] .service-pro-hero-shell,
 body[data-route^="/services/"] main>div>section:first-child>div,
 body[data-route^="/services/"] main>div>div:first-child>section:first-child>div {
@@ -1316,11 +1395,13 @@ body[data-route^="/services/"] main>div>div:first-child>section:first-child>div 
   margin: 0 auto;
   padding: 0;
 }
+
 body[data-route^="/services/"] .service-pro-hero-content,
 body[data-route^="/services/"] main>div>section:first-child>div>div:first-child,
 body[data-route^="/services/"] main>div>div:first-child>section:first-child>div>div:first-child {
   width: auto;
 }
+
 body[data-route^="/services/"] .service-pro-hero-title,
 body[data-route^="/services/"] main>div>section:first-child h1,
 body[data-route^="/services/"] main>div>div:first-child>section:first-child h1 {
@@ -1332,6 +1413,7 @@ body[data-route^="/services/"] main>div>div:first-child>section:first-child h1 {
   line-height: 1.36;
   letter-spacing: 0;
 }
+
 body[data-route^="/services/"] .service-pro-hero-text,
 body[data-route^="/services/"] main>div>section:first-child p,
 body[data-route^="/services/"] main>div>div:first-child>section:first-child p {
@@ -1345,6 +1427,7 @@ body[data-route^="/services/"] main>div>div:first-child>section:first-child p {
   text-align: justify;
   letter-spacing: 0;
 }
+
 body[data-route^="/services/"] .service-pro-hero-btn,
 body[data-route^="/services/"] main>div>section:first-child a,
 body[data-route^="/services/"] main>div>div:first-child>section:first-child a,
@@ -1365,6 +1448,7 @@ body[data-route^="/services/"] main>div>div:first-child>section:first-child butt
   box-shadow: 0 4px 14px rgba(255, 102, 0, 0.25);
   transition: all 0.25s ease;
 }
+
 body[data-route^="/services/"] .service-pro-hero-btn:hover,
 body[data-route^="/services/"] main>div>section:first-child a:hover,
 body[data-route^="/services/"] main>div>div:first-child>section:first-child a:hover,
@@ -1380,6 +1464,7 @@ body[data-route^="/services/"] main>div>section:first-child a>button,
 body[data-route^="/services/"] main>div>div:first-child>section:first-child a>button {
   display: contents;
 }
+
 body[data-route^="/services/"] .service-pro-hero-image-wrap,
 body[data-route^="/services/"] main>div>section:first-child>div>div:last-child,
 body[data-route^="/services/"] main>div>div:first-child>section:first-child>div>div:last-child {
@@ -1389,6 +1474,7 @@ body[data-route^="/services/"] main>div>div:first-child>section:first-child>div>
   background: transparent;
   box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.25);
 }
+
 body[data-route^="/services/"] .service-pro-hero-image-wrap img,
 body[data-route^="/services/"] main>div>section:first-child>div>div:last-child img,
 body[data-route^="/services/"] main>div>div:first-child>section:first-child>div>div:last-child img {
@@ -1400,6 +1486,7 @@ body[data-route^="/services/"] main>div>div:first-child>section:first-child>div>
   border-radius: 0;
   transform: none;
 }
+
 body[data-route^="/services/"] .why-dark-section,
 body[data-route^="/services/"] main>div>section[style*="why-choose-us-background"],
 body[data-route^="/services/"] main>div>div>section[style*="why-choose-us-background"] {
@@ -1416,6 +1503,7 @@ body[data-route^="/services/"] main>div>div>section[style*="why-choose-us-backgr
   text-align: center;
   overflow: hidden;
 }
+
 body[data-route^="/services/"] .why-dark-bg,
 body[data-route^="/services/"] main>div>section[style*="why-choose-us-background"]>.absolute,
 body[data-route^="/services/"] main>div>div>section[style*="why-choose-us-background"]>.absolute {
@@ -1424,6 +1512,7 @@ body[data-route^="/services/"] main>div>div>section[style*="why-choose-us-backgr
   background: rgba(0, 21, 50, 0.78);
   opacity: 1;
 }
+
 body[data-route^="/services/"] .why-dark-shell,
 body[data-route^="/services/"] main>div>section[style*="why-choose-us-background"]>.relative,
 body[data-route^="/services/"] main>div>div>section[style*="why-choose-us-background"]>.relative {
@@ -1431,6 +1520,7 @@ body[data-route^="/services/"] main>div>div>section[style*="why-choose-us-backgr
   z-index: 1;
   width: min(1060px, 100%);
 }
+
 body[data-route^="/services/"] .why-dark-title,
 body[data-route^="/services/"] main>div>section[style*="why-choose-us-background"] h2,
 body[data-route^="/services/"] main>div>div>section[style*="why-choose-us-background"] h2 {
@@ -1454,6 +1544,7 @@ body[data-route^="/services/"] main>div>div>section[style*="why-choose-us-backgr
   -webkit-background-clip: initial;
   background-clip: initial;
 }
+
 body[data-route^="/services/"] .why-dark-shell>div,
 body[data-route^="/services/"] main>div>section[style*="why-choose-us-background"] h2+div,
 body[data-route^="/services/"] main>div>div>section[style*="why-choose-us-background"] h2+div {
@@ -1462,6 +1553,7 @@ body[data-route^="/services/"] main>div>div>section[style*="why-choose-us-backgr
   margin: 30px auto 38px;
   background: #fff;
 }
+
 body[data-route^="/services/"] .why-dark-text,
 body[data-route^="/services/"] main>div>section[style*="why-choose-us-background"] p,
 body[data-route^="/services/"] main>div>div>section[style*="why-choose-us-background"] p {
@@ -1595,27 +1687,30 @@ body[data-route="/services/ecommerce"] main>div>section:nth-child(2) h2+div {
   body[data-route="/services/ecommerce"] main>div>section:first-child>div {
     grid-template-columns: 1fr;
   }
+
   body[data-route^="/services/"] .service-pro-hero-shell,
   body[data-route^="/services/"] main>div>section:first-child>div,
   body[data-route^="/services/"] main>div>div:first-child>section:first-child>div {
     grid-template-columns: 1fr;
   }
+
   body[data-route="/services/ecommerce"] main>div>section:first-child>div>div:last-child img,
   body[data-route^="/services/"] .service-pro-hero-image-wrap img,
   body[data-route^="/services/"] main>div>section:first-child>div>div:last-child img,
-  body[data-route^="/services/"] main>div>div:first-child>section:first-child>div>div:last-child img {
-  }
+  body[data-route^="/services/"] main>div>div:first-child>section:first-child>div>div:last-child img {}
 }
 
 @media (max-width: 640px) {
   body[data-route="/services/ecommerce"] main>div>section:first-child {
     padding: 44px 0;
   }
+
   body[data-route^="/services/"] .service-pro-hero,
   body[data-route^="/services/"] main>div>section:first-child,
   body[data-route^="/services/"] main>div>div:first-child>section:first-child {
     padding: 44px 0 !important;
   }
+
   body[data-route^="/services/"] .service-pro-hero-shell,
   body[data-route^="/services/"] main>div>section:first-child>div,
   body[data-route^="/services/"] main>div>div:first-child>section:first-child>div {
@@ -1627,12 +1722,14 @@ body[data-route="/services/ecommerce"] main>div>section:nth-child(2) h2+div {
     padding-right: 0 !important;
     padding-left: 0 !important;
   }
+
   body[data-route="/services/ecommerce"] main>div>section:first-child h1::before,
   body[data-route^="/services/"] .service-pro-hero-title,
   body[data-route^="/services/"] main>div>section:first-child h1,
   body[data-route^="/services/"] main>div>div:first-child>section:first-child h1 {
     font-size: 28px;
   }
+
   body[data-route^="/services/"] .service-pro-hero-content,
   body[data-route^="/services/"] main>div>section:first-child>div>div:first-child,
   body[data-route^="/services/"] main>div>div:first-child>section:first-child>div>div:first-child,
@@ -3473,15 +3570,15 @@ body[data-route^="/services/"] .testimonials-trigger.is-active .testimonials-tri
 .hm-btn-primary,
 .hm-btn-hero-blue,
 .sq-hero-btn-primary,
-.service-pg .sp-hero-copy > a,
-.service-pg .sp-cta-content > a,
+.service-pg .sp-hero-copy>a,
+.service-pg .sp-cta-content>a,
 .service-pg .sp-hero-btn,
 .service-web-page .web-hero-copy a,
 .service-web-page .web-cta-content a,
 body[data-route^="/services/"] .cta-btn,
 body[data-route^="/services/"] div[style*="contact-cta-background"] a,
 body[data-route^="/services/"] .service-pro-hero-btn,
-body[data-route="/services/ecommerce"] main > div > section:first-child a button,
+body[data-route="/services/ecommerce"] main>div>section:first-child a button,
 .fresher-connect-submit,
 .submit-btn,
 .internship-application-form .submit-btn,
@@ -3518,15 +3615,15 @@ body[data-route="/services/ecommerce"] main > div > section:first-child a button
 .hm-btn-primary:hover,
 .hm-btn-hero-blue:hover,
 .sq-hero-btn-primary:hover,
-.service-pg .sp-hero-copy > a:hover,
-.service-pg .sp-cta-content > a:hover,
+.service-pg .sp-hero-copy>a:hover,
+.service-pg .sp-cta-content>a:hover,
 .service-pg .sp-hero-btn:hover,
 .service-web-page .web-hero-copy a:hover,
 .service-web-page .web-cta-content a:hover,
 body[data-route^="/services/"] .cta-btn:hover,
 body[data-route^="/services/"] div[style*="contact-cta-background"] a:hover,
 body[data-route^="/services/"] .service-pro-hero-btn:hover,
-body[data-route="/services/ecommerce"] main > div > section:first-child a button:hover,
+body[data-route="/services/ecommerce"] main>div>section:first-child a button:hover,
 .fresher-connect-submit:hover,
 .submit-btn:hover,
 .internship-application-form .submit-btn:hover,
@@ -3567,7 +3664,3 @@ body[data-route="/services/ecommerce"] main > div > section:first-child a button
 .sq-btn-blueprint:hover {
   transform: translateY(-2px) !important;
 }
-
-
-
-

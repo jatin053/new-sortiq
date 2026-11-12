@@ -328,9 +328,19 @@
             customPlaceholder: function () {
               return 'Enter Phone No.';
             },
-            // dropdownContainer: document.body,
             utilsScript: 'https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/18.2.1/js/utils.js',
           });
+
+          // Prevent intl-tel-input from moving dropdown to body on mobile
+          phonePicker.isMobile = false;
+          phonePicker.options.dropdownContainer = null;
+          if (phonePicker.dropdown && phonePicker.dropdown.parentNode) {
+            phonePicker.dropdown.parentNode.removeChild(phonePicker.dropdown);
+          }
+          if (phonePicker.countryList && phonePicker.flagsContainer) {
+            phonePicker.flagsContainer.appendChild(phonePicker.countryList);
+          }
+          document.body.classList.remove("iti-mobile");
 
           const updatePhoneLayout = function () {
             phoneInput.placeholder = 'Enter Phone No.';
@@ -353,6 +363,15 @@
           };
 
           phoneInput.addEventListener('countrychange', syncCountryCode);
+          phoneInput.addEventListener('open:countrydropdown', function() {
+            var countryList = phoneInput.closest('.iti')?.querySelector('.iti__country-list');
+            if (countryList) {
+              countryList.classList.remove('iti__country-list--dropup');
+              countryList.style.top = '100%';
+              countryList.style.bottom = 'auto';
+            }
+          });
+
           form.addEventListener('submit', syncCountryCode);
           syncCountryCode();
 

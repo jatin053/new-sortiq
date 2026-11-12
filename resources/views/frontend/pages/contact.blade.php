@@ -7,36 +7,136 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/18.2.1/css/intlTelInput.css">
   <style>
     .iti { width: 100%; display: block; position: relative; }
+    
+    .contact-field.contact-phone-field {
+      overflow: visible !important;
+      position: relative !important;
+      z-index: 50 !important;
+      padding-left: 0 !important;
+    }
+    
+    .contact-phone-field .iti {
+      overflow: visible !important;
+    }
+    
+    .contact-phone-field .iti__flag-container {
+      position: absolute !important;
+      top: 0 !important;
+      bottom: 0 !important;
+      left: 0 !important;
+      z-index: 60 !important;
+      pointer-events: auto !important;
+      border-right: 1px solid #ced4da;
+    }
+    
+    .contact-phone-field .iti__selected-flag {
+      position: relative !important;
+      z-index: 60 !important;
+      pointer-events: auto !important;
+      cursor: pointer !important;
+      display: flex !important;
+      align-items: center !important;
+      height: 100% !important;
+      padding: 0 10px !important;
+      touch-action: manipulation !important;
+      -webkit-tap-highlight-color: transparent !important;
+    }
+    
+    .contact-phone-field input {
+      padding-left: 95px !important;
+    }
+
+    /* Force Country Dropdown to be BROAD and Always Open Downwards */
+    body.iti-mobile .iti--container,
+    .iti-mobile .iti--container {
+      display: none !important;
+    }
+
+    .contact-phone-field .iti__country-list,
+    .contact-phone-field .iti__country-list.iti__country-list--dropup,
     .iti__country-list,
-    .iti__country-list.iti__country-list--dropup {
+    .iti__country-list.iti__country-list--dropup,
+    body.iti-mobile .iti__country-list,
+    .iti-mobile .iti__country-list {
+      position: absolute !important;
       top: 100% !important;
       bottom: auto !important;
       left: 0 !important;
-      margin-top: 4px !important;
+      right: auto !important;
+      margin-top: 6px !important;
       margin-bottom: 0 !important;
-      z-index: 99999 !important;
-      max-height: 240px !important;
+      z-index: 999999 !important;
+      width: min(380px, calc(100vw - 36px)) !important;
+      min-width: 290px !important;
+      max-width: calc(100vw - 24px) !important;
+      max-height: 250px !important;
       overflow-y: auto !important;
       -webkit-overflow-scrolling: touch !important;
       color: #111827 !important;
       text-align: left !important;
       background-color: #ffffff !important;
       border: 1px solid #cbd5e1 !important;
-      border-radius: 8px !important;
-      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.2), 0 8px 10px -6px rgba(0, 0, 0, 0.1) !important;
+      border-radius: 10px !important;
+      box-shadow: 0 12px 30px -5px rgba(0, 0, 0, 0.22), 0 4px 6px -2px rgba(0, 0, 0, 0.05) !important;
     }
+
+    .iti__country-list .iti__country {
+      padding: 8px 12px !important;
+      display: flex !important;
+      align-items: center !important;
+      gap: 8px !important;
+      font-size: 14px !important;
+      color: #1f2937 !important;
+      line-height: 1.4 !important;
+      white-space: normal !important;
+    }
+
+    .iti__country-list .iti__country:hover,
+    .iti__country-list .iti__country.iti__highlight {
+      background-color: #f1f5f9 !important;
+    }
+
+    .iti__country-list .iti__country-name {
+      flex: 1 1 auto !important;
+      margin-right: 6px !important;
+      color: #111827 !important;
+      font-weight: 500 !important;
+    }
+
+    .iti__country-list .iti__dial-code {
+      color: #64748b !important;
+      font-weight: 600 !important;
+      margin-left: auto !important;
+    }
+
     @media (max-width: 640px) {
+      .contact-phone-field .iti__flag-container {
+        z-index: 60 !important;
+      }
+      .contact-phone-field .iti__selected-flag {
+        z-index: 60 !important;
+        min-width: 80px !important;
+      }
+      .contact-phone-field .iti__country-list,
+      .contact-phone-field .iti__country-list.iti__country-list--dropup,
       .iti__country-list,
       .iti__country-list.iti__country-list--dropup {
-        width: 100% !important;
-        max-width: 100% !important;
+        position: absolute !important;
+        top: 100% !important;
+        bottom: auto !important;
         left: 0 !important;
-        right: 0 !important;
+        right: auto !important;
+        margin-top: 6px !important;
+        margin-bottom: 0 !important;
+        z-index: 999999 !important;
+        width: min(340px, calc(100vw - 32px)) !important;
+        min-width: 280px !important;
+        max-width: calc(100vw - 20px) !important;
+        max-height: 240px !important;
+        overflow-y: auto !important;
+        -webkit-overflow-scrolling: touch !important;
       }
     }
-    .iti__flag-container { border-right: 1px solid #ced4da; z-index: 2; }
-    .contact-phone-field { padding-left: 0; overflow: visible !important; }
-    .contact-phone-field input { padding-left: 54px !important; }
   </style>
 @endpush
 
@@ -624,6 +724,8 @@
     if (phoneInputField && window.intlTelInput) {
       const phoneInput = window.intlTelInput(phoneInputField, {
         initialCountry: "in",
+        separateDialCode: true,
+        nationalMode: true,
         autoPlaceholder: "off",
         customPlaceholder: function() {
           return "Enter Phone No.";
@@ -631,19 +733,54 @@
         utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/18.2.1/js/utils.js",
       });
 
-      phoneInputField.placeholder = "Enter Phone No.";
-      phoneInputField.setAttribute("placeholder", "Enter Phone No.");
+      // Prevent intl-tel-input from moving dropdown to body on mobile
+      phoneInput.isMobile = false;
+      phoneInput.options.dropdownContainer = null;
+      if (phoneInput.dropdown && phoneInput.dropdown.parentNode) {
+        phoneInput.dropdown.parentNode.removeChild(phoneInput.dropdown);
+      }
+      if (phoneInput.countryList && phoneInput.flagsContainer) {
+        phoneInput.flagsContainer.appendChild(phoneInput.countryList);
+      }
+      document.body.classList.remove("iti-mobile");
+
+      const updatePhoneLayout = function() {
+        phoneInputField.placeholder = "Enter Phone No.";
+        phoneInputField.setAttribute("placeholder", "Enter Phone No.");
+        const flag = phoneInputField.closest('.iti')?.querySelector('.iti__selected-flag');
+        if (flag) {
+          const flagWidth = flag.offsetWidth;
+          if (flagWidth > 0) {
+            phoneInputField.style.setProperty('padding-left', (flagWidth + 8) + 'px', 'important');
+          }
+        }
+      };
+
+      const syncCountryCode = function() {
+        updatePhoneLayout();
+        const selected = phoneInput.getSelectedCountryData();
+        if (countryCodeField) {
+          countryCodeField.value = selected?.dialCode ? "+" + selected.dialCode : "+91";
+        }
+      };
+
+      phoneInputField.addEventListener("countrychange", syncCountryCode);
+      syncCountryCode();
+      setTimeout(updatePhoneLayout, 50);
+      setTimeout(updatePhoneLayout, 250);
 
       // RESTRICT TO NUMBERS ONLY
       phoneInputField.addEventListener('input', function(e) {
         this.value = this.value.replace(/[^\d]/g, '');
       });
 
-      phoneInputField.addEventListener("countrychange", function() {
-        phoneInputField.placeholder = "Enter Phone No.";
-        phoneInputField.setAttribute("placeholder", "Enter Phone No.");
-        if (countryCodeField) {
-          countryCodeField.value = "+" + window.intlTelInputGlobals.getInstance(phoneInputField).getSelectedCountryData().dialCode;
+      // Always force dropdown downwards
+      phoneInputField.addEventListener('open:countrydropdown', function() {
+        var countryList = phoneInputField.closest('.iti')?.querySelector('.iti__country-list');
+        if (countryList) {
+          countryList.classList.remove('iti__country-list--dropup');
+          countryList.style.top = '100%';
+          countryList.style.bottom = 'auto';
         }
       });
     }
