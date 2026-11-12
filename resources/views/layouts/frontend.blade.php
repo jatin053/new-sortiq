@@ -235,7 +235,7 @@
     {{-- Leave the existing chat widget HTML here --}}
   @endif
 
-    <div id="chatbot-whatsapp" class="fixed bottom-24 right-8 z-[60]">
+    <div id="chatbot-whatsapp" class="fixed bottom-24 right-8 z-[999999]" style="z-index: 999999 !important;">
       <a href="https://wa.me/919646522110" target="_blank" rel="noopener noreferrer" class="group flex items-center gap-2 bg-[#25D366] text-white p-3 md:px-4 md:py-3 rounded-full shadow-lg hover:scale-110 transition-all border border-black/5">
         <iconify-icon icon="fa6-brands:whatsapp" width="24" height="24"></iconify-icon>
         <span class="font-bold text-sm hidden md:inline">Chat with us</span>
@@ -250,7 +250,7 @@
     <div class="modal-overlay absolute inset-0 bg-black/85"></div>
     <div class="relative h-full flex items-center justify-center px-4 py-6">
       <div class="modal-panel fresher-connect-modal relative w-full overflow-hidden shadow-2xl">
-        <div class="fresher-connect-image">
+        <div class="fresher-connect-image hidden md:block">
           <img src="{{ asset('frontend-assets/media/pages/shared/hiring-freshers-img.webp') }}" alt="Hiring" loading="lazy" decoding="async">
         </div>
 

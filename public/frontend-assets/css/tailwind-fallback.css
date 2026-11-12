@@ -766,9 +766,9 @@
         margin-top: calc(var(--spacing) * 10)
     }
 
-    .mt-12 {
+    /* .mt-12 {
         margin-top: calc(var(--spacing) * 12)
-    }
+    } */
 
     .mt-14 {
         margin-top: calc(var(--spacing) * 14)
@@ -2197,9 +2197,9 @@
         background-color: #0000
     }
 
-    .bg-white {
+    /* .bg-white {
         background-color: var(--color-white)
-    }
+    } */
 
     .bg-white\/5 {
         background-color: #ffffff0d

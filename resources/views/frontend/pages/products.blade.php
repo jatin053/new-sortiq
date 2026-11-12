@@ -2269,7 +2269,7 @@
 
               {{-- Submit Button --}}
               <button type="submit" class="sq-submit-btn">
-                Confirm &amp; Request Demo Walkthrough
+                Request Demo
               </button>
 
               <div style="text-align: center; margin-top: 12px; font-size: 11px; color: #94a3b8; line-height: 1.4;">

@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="{{ asset('frontend-assets/css/service-pages.css') }}">
+<link rel="stylesheet" href="{{ asset('frontend-assets/css/service-pages.css') }}?v={{ file_exists(public_path('frontend-assets/css/service-pages.css')) ? filemtime(public_path('frontend-assets/css/service-pages.css')) : time() }}">
 <script>
 document.addEventListener('DOMContentLoaded', function () {
   /* ── Why-Choose-Us scroll animation ── */

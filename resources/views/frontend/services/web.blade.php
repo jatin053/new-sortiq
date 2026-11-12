@@ -474,6 +474,14 @@
     grid-template-columns: 1fr;
   }
   
+  .service-web-page .web-hero-media {
+    order: 1;
+  }
+
+  .service-web-page .web-hero-copy {
+    order: 2;
+  }
+
   .service-web-page .web-hero-media img {
     width: 100%;
     height: auto;

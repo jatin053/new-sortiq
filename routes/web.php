@@ -59,7 +59,8 @@ Route::view('/cases', 'frontend.pages.case-studies');
 Route::get('/best-it-internship-company-mohali-chandigarh', [\App\Http\Controllers\Frontend\InternshipController::class, 'landing'])->name('frontend.best-it-internship');
 Route::get('/it-internship', fn () => redirect()->route('frontend.best-it-internship', [], 301));
 Route::get('/best-it-internship', fn () => redirect()->route('frontend.best-it-internship', [], 301));
-Route::get('/internship', fn () => redirect()->route('frontend.best-it-internship', [], 301))->name('frontend.internship');
+
+Route::view('/internship', 'frontend.pages.internship')->name('frontend.internship');
 
 Route::view('/faq', 'frontend.pages.faq')->name('frontend.faq');
 Route::view('/faqs', 'frontend.pages.faq');

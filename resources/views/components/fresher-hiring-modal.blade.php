@@ -388,20 +388,12 @@
         }
 
         .fresher-left{
-            min-height:175px !important;
-            max-height:185px !important;
-            height:180px !important;
-        }
-
-        .fresher-left img{
-            height:100% !important;
-            object-fit:cover !important;
-            object-position:center 20% !important;
+            display:none !important;
         }
 
         .right-form-area{
             min-height:auto !important;
-            padding:20px 16px 28px !important;
+            padding:24px 16px 28px !important;
         }
 
         .fresher-blink-title{
@@ -415,18 +407,15 @@
         }
 
         .modal-close-btn{
-            position:sticky !important;
-            top:10px !important;
-            right:10px !important;
-            align-self:flex-end !important;
-            margin-top:10px !important;
-            margin-right:10px !important;
-            margin-bottom:-44px !important;
+            position:absolute !important;
+            top:12px !important;
+            right:12px !important;
             z-index:50 !important;
             width:34px !important;
             height:34px !important;
             box-shadow:0 4px 12px rgba(0,0,0,0.4) !important;
-            border-radius:4px !important;
+            border-radius:6px !important;
+            margin:0 !important;
         }
     }
 
@@ -442,9 +431,7 @@
         }
 
         .fresher-left{
-            min-height:150px !important;
-            max-height:165px !important;
-            height:155px !important;
+            display:none !important;
         }
 
         .fresher-blink-title{
@@ -521,7 +508,7 @@
         </button>
 
         <!-- Left Side -->
-        <div class="w-full md:w-1/2 fresher-left">
+        <div class="hidden md:block w-full md:w-1/2 fresher-left">
 
             <!-- Blink Heading -->
             <div class="fresher-blink-title">

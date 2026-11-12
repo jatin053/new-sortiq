@@ -6,6 +6,7 @@
 @push('head')
 @include('components.service-page-styles')
 <link rel="preload" as="image" href="{{ asset('frontend-assets/media/pages/internship/internship-hero.webp') }}" type="image/webp" fetchpriority="high">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/18.2.1/css/intlTelInput.css">
 <style>
 .service-pg .sp-hero-copy .sp-hero-bar {
   width: 44px;
@@ -21,6 +22,59 @@
 .service-pg .sp-why-band {
   background-attachment: scroll;
 }
+.sp-internship-section {
+  background: #001a3d;
+  padding: 80px 20px;
+  position: relative;
+  overflow: hidden;
+}
+.sp-internship-inner {
+  max-width: 900px;
+  margin: 0 auto;
+}
+.sp-internship-head {
+  text-align: center;
+  margin-bottom: 36px;
+}
+.sp-internship-head h2 {
+  color: #ffffff;
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 12px;
+  font-family: 'Poppins', sans-serif;
+  letter-spacing: -0.5px;
+}
+.sp-internship-head .sp-heading-bar {
+  width: 44px;
+  height: 3px;
+  background: #ff5a0a;
+  margin: 0 auto 16px;
+}
+.sp-internship-head p {
+  color: #cbd5e1;
+  font-size: 15px;
+  max-width: 620px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+.sp-internship-section .internship-form-shell {
+  max-width: 100%;
+  margin: 0 auto;
+}
+@media (max-width: 767px) {
+  .sp-internship-section {
+    padding: 50px 16px;
+  }
+  .sp-internship-head h2 {
+    font-size: 24px;
+  }
+  .internship-application-form .custom-field input,
+  .internship-application-form .custom-field select,
+  .internship-application-form .custom-field textarea,
+  .internship-application-form .phone-wrapper .iti input[type="tel"] {
+    font-size: 16px !important;
+  }
+}
 </style>
 @endpush
 
@@ -35,7 +89,7 @@
         <div class="sp-hero-bar"></div>
         <p>Join Sortiq Solutions Pvt. Ltd. for industry-oriented internship and industrial training programs in Mohali Chandigarh. Gain practical experience through live projects, professional mentorship, real-time learning and skill development in trending technologies.</p>
         <p>Whether you are a B.Tech, BCA, MCA, MBA, Polytechnic student or fresher, our internship programs are designed to help you become industry-ready with practical exposure and hands-on implementation.</p>
-        <a href="{{ url('/contact') }}" class="sp-hero-btn">Get Started Today</a>
+        <a href="#internship-form" class="sp-hero-btn">Apply For Internship</a>
       </div>
       <div class="sp-hero-media">
         <picture>
@@ -146,13 +200,121 @@
     @endif
   </section>
 
+  {{-- Section: Apply for Internship Application Form --}}
+  <section id="internship-form" class="sp-internship-section">
+    <div class="sp-internship-inner">
+      <div class="sp-internship-head">
+        <h2>Apply For Internship</h2>
+        <div class="sp-heading-bar"></div>
+        <p>Take the first step toward building a successful career in IT. Submit your application below to join our live project internship program in Mohali Chandigarh.</p>
+      </div>
+
+      <div class="internship-form-shell">
+        <div class="internship-form-panel">
+          <form class="internship-application-form" method="post" action="{{ route('api.internship-applications.store') }}" enctype="multipart/form-data">
+            @csrf
+            <input type="hidden" name="type" value="internship">
+            <input type="hidden" name="url" value="{{ url()->current() }}">
+
+            <!-- Name -->
+            <div class="custom-field">
+              <span class="field-icon">
+                <iconify-icon icon="lucide:user" width="18" height="18" aria-hidden="true"></iconify-icon>
+              </span>
+              <input name="name" type="text" placeholder="Enter Your Name" autocomplete="name" required>
+            </div>
+
+            <!-- Email -->
+            <div class="custom-field">
+              <span class="field-icon">
+                <iconify-icon icon="lucide:mail" width="18" height="18" aria-hidden="true"></iconify-icon>
+              </span>
+              <input name="email" type="email" placeholder="Enter Your Email" autocomplete="email" required>
+            </div>
+
+            <!-- Phone -->
+            <div class="phone-wrapper">
+              <input id="internship-phone" name="phone" type="tel" inputmode="tel"
+                placeholder="Enter Phone No." autocomplete="tel-national" required>
+              <input type="hidden" name="country_code" value="+91">
+            </div>
+
+            <!-- Subject -->
+            <div class="custom-field">
+              <span class="field-icon">
+                <iconify-icon icon="fa6-solid:list" width="16" height="16" aria-hidden="true"></iconify-icon>
+              </span>
+              <input name="subject" type="text" placeholder="Subject" required>
+            </div>
+
+            <!-- Institute -->
+            <div class="custom-field">
+              <span class="field-icon">
+                <iconify-icon icon="lucide:building-2" width="18" height="18" aria-hidden="true"></iconify-icon>
+              </span>
+              <input name="institute" type="text" placeholder="Enter Your Institute" required>
+            </div>
+
+            <!-- Technology -->
+            <div class="custom-field">
+              <span class="field-icon">
+                <iconify-icon icon="lucide:code-2" width="18" height="18" aria-hidden="true"></iconify-icon>
+              </span>
+              <select name="technology" required>
+                <option value="">Select Technology</option>
+                <option>Web Designing</option>
+                <option>Web Development</option>
+                <option>Digital Marketing</option>
+                <option>React JS</option>
+                <option>Python</option>
+                <option>Java</option>
+                <option>.NET</option>
+                <option>HR & Finance</option>
+                <option>Networking</option>
+                <option>Graphic Designing</option>
+                <option>Android Development</option>
+                <option>React Native</option>
+                <option>Kotlin</option>
+                <option>Machine learning/AI</option>
+                <option>Data Science</option>
+                <option>Shopify Development</option>
+                <option>Cloud Computing</option>
+                <option>CodeIgniter</option>
+                <option>Software Testing</option>
+              </select>
+              <iconify-icon icon="lucide:chevron-down" width="16" height="16" class="select-caret" aria-hidden="true"></iconify-icon>
+            </div>
+
+            <!-- Message -->
+            <div class="custom-field textarea-field">
+              <span class="field-icon">
+                <iconify-icon icon="fa6-solid:comments" width="18" height="18" aria-hidden="true"></iconify-icon>
+              </span>
+              <textarea name="message" placeholder="Enter your message" rows="4" required></textarea>
+            </div>
+
+            <!-- Recaptcha -->
+            <div class="recaptcha-wrap">
+              @include('components.recaptcha')
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="submit-btn">
+              Apply Now
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
   {{-- Section 5: Call to Action --}}
   <section class="sp-cta" style="background-image: url('{{ asset('frontend-assets/media/pages/it-company/cta-banner-bg.jpg') }}'); background-size: cover; background-position: center;">
     <div class="sp-cta-overlay" style="background: rgba(10, 20, 50, 0.45);"></div>
     <div class="sp-cta-content">
-      <h2>Ready to enhance your online presence?</h2>
-      <p>Get in touch today to explore your web development goals and take your digital footprint to the next level. At Sortiq Solutions, we&rsquo;re dedicated to crafting innovative, user-friendly, and high-performance websites tailored to your unique business needs. Let&rsquo;s bring your vision to life and create an online experience that sets your business apart!</p>
-      <a href="{{ url('/contact') }}">CONTACT US</a>
+      <h2>Ready to kickstart your IT career?</h2>
+      <p>Join Sortiq Solutions for practical internship training and live project experience in Mohali Chandigarh. Gain hands-on exposure, professional mentorship, and career readiness in trending technologies. Start your journey with us today!</p>
+      <a href="#internship-form">APPLY FOR INTERNSHIP</a>
     </div>
   </section>
 
@@ -160,8 +322,75 @@
 @endsection
 
 @push('scripts')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/18.2.1/js/intlTelInput.min.js"></script>
 <script>
 document.addEventListener("DOMContentLoaded", function() {
+  // Smooth scroll to internship form for all hash anchors
+  document.querySelectorAll('a[href^="#internship-form"], a[href$="#internship-form"]').forEach(function(anchor) {
+    anchor.addEventListener('click', function(e) {
+      var currentPath = window.location.pathname.replace(/\/$/, "");
+      var targetPath = (anchor.getAttribute('href') || '').split('#')[0].replace(/\/$/, "");
+      if (!targetPath || targetPath === currentPath) {
+        var target = document.getElementById('internship-form');
+        if (target) {
+          e.preventDefault();
+          var headerOffset = 90;
+          var elementPosition = target.getBoundingClientRect().top;
+          var offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+          window.scrollTo({
+            top: offsetPosition,
+            behavior: 'smooth'
+          });
+        }
+      }
+    });
+  });
+
+  // Check URL hash on page load
+  if (window.location.hash === '#internship-form') {
+    setTimeout(function() {
+      var target = document.getElementById('internship-form');
+      if (target) {
+        var headerOffset = 90;
+        var elementPosition = target.getBoundingClientRect().top;
+        var offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+        window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
+      }
+    }, 300);
+  }
+
+  // Initialize intl-tel-input on phone field
+  var phoneField = document.getElementById('internship-phone');
+  var form = phoneField ? phoneField.closest('form') : null;
+  var countryCodeField = form ? form.querySelector('input[name="country_code"]') : null;
+  if (phoneField && form && countryCodeField && window.intlTelInput) {
+    var phonePicker = window.intlTelInput(phoneField, {
+      initialCountry: 'in',
+      separateDialCode: true,
+      nationalMode: true,
+      autoPlaceholder: 'off',
+      customPlaceholder: function() {
+        return 'Enter Phone No.';
+      },
+      dropdownContainer: document.body,
+      utilsScript: 'https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/18.2.1/js/utils.js',
+    });
+
+    phoneField.placeholder = 'Enter Phone No.';
+    phoneField.setAttribute('placeholder', 'Enter Phone No.');
+
+    var syncCountryCode = function() {
+      phoneField.placeholder = 'Enter Phone No.';
+      phoneField.setAttribute('placeholder', 'Enter Phone No.');
+      var country = phonePicker.getSelectedCountryData();
+      countryCodeField.value = country && country.dialCode ? '+' + country.dialCode : '';
+    };
+
+    phoneField.addEventListener('countrychange', syncCountryCode);
+    form.addEventListener('submit', syncCountryCode);
+    syncCountryCode();
+  }
+
   var track = document.getElementById("spTsTrack");
   var cards = track ? track.querySelectorAll(".hm-ts-card") : [];
   var thumbsContainer = document.getElementById("spTsDots");

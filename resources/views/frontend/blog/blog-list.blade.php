@@ -45,14 +45,14 @@
                 }
               @endphp
               @if (!empty($cardCats))
-                <div class="blog-card-meta" style="display: flex; flex-wrap: wrap; gap: 4px; align-items: center;">
+                <div class="blog-card-meta" style="display: flex; flex-wrap: wrap; gap: 4px; align-items: center; cursor: default;">
                   <i class="fa-regular fa-folder-open text-blue-600"></i>
                   @foreach ($cardCats as $cc)
-                    <a href="{{ route('frontend.blog.index', ['category' => Str::slug($cc)]) }}" class="hover:underline" style="color: inherit; text-decoration: none;">{{ $cc }}</a>@if(!$loop->last)<span>,</span>@endif
+                    <span>{{ $cc }}</span>@if(!$loop->last)<span>,</span>@endif
                   @endforeach
                 </div>
               @elseif ($category)
-                <div class="blog-card-meta">
+                <div class="blog-card-meta" style="cursor: default;">
                   <i class="fa-regular fa-folder-open text-blue-600"></i>
                   <span>{{ $category }}</span>
                 </div>
