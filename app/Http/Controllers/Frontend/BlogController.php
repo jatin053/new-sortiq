@@ -23,21 +23,42 @@ class BlogController extends Controller
     public function index(Request $request): Response
     {
         $searchTerm = trim((string) $request->query('search'));
-        $activeCategory = trim((string) $request->query('category'));
+        $rawCategory = trim((string) $request->query('category'));
         $categories = $this->categories();
-        $categoryMap = $this->categoryMap($categories);
 
-        if ($activeCategory !== '' && ! array_key_exists($activeCategory, $categoryMap)) {
-            $activeCategory = '';
+        $categoryMap = [];
+        foreach ($categories as $category) {
+            $categoryMap[$category->slug] = $category->name;
+            $categoryMap[mb_strtolower($category->name)] = $category->name;
+            $categoryMap[$category->name] = $category->name;
+        }
+
+        $activeCategorySlug = '';
+        $activeCategoryName = '';
+
+        if ($rawCategory !== '') {
+            $slugKey = Str::slug($rawCategory);
+            $lowerKey = mb_strtolower($rawCategory);
+            if (isset($categoryMap[$slugKey])) {
+                $activeCategoryName = $categoryMap[$slugKey];
+                $activeCategorySlug = $slugKey;
+            } elseif (isset($categoryMap[$lowerKey])) {
+                $activeCategoryName = $categoryMap[$lowerKey];
+                $activeCategorySlug = Str::slug($categoryMap[$lowerKey]);
+            } elseif (isset($categoryMap[$rawCategory])) {
+                $activeCategoryName = $categoryMap[$rawCategory];
+                $activeCategorySlug = Str::slug($categoryMap[$rawCategory]);
+            }
         }
 
         return response()
             ->view('frontend.blog.blog-list', [
-                'blogs' => $this->blogs($searchTerm, $activeCategory, $categoryMap),
+                'blogs' => $this->blogs($searchTerm, $activeCategoryName),
                 'categories' => $categories,
                 'recentBlogs' => $this->recentBlogs(),
                 'searchTerm' => $searchTerm,
-                'activeCategory' => $activeCategory,
+                'activeCategory' => $activeCategorySlug,
+                'activeCategoryName' => $activeCategoryName,
             ])
             ->header('Cache-Control', 'no-cache, must-revalidate, max-age=0')
             ->header('Pragma', 'no-cache');
@@ -178,6 +199,7 @@ class BlogController extends Controller
                 'nextBlog' => $nextBlog,
                 'searchTerm' => '',
                 'activeCategory' => '',
+                'activeCategoryName' => '',
             ])
             ->header('Cache-Control', 'no-cache, must-revalidate, max-age=0')
             ->header('Pragma', 'no-cache');
@@ -227,7 +249,7 @@ class BlogController extends Controller
         return $categoryMap;
     }
 
-    private function blogs(string $searchTerm, string $activeCategory, array $categoryMap): LengthAwarePaginator
+    private function blogs(string $searchTerm, string $activeCategoryName): LengthAwarePaginator
     {
         try {
             $blogsQuery = $this->publishedBlogsQuery();
@@ -236,17 +258,18 @@ class BlogController extends Controller
                 $blogsQuery->where(function ($query) use ($searchTerm) {
                     $query->where('title', 'like', "%{$searchTerm}%")
                         ->orWhere('excerpt', 'like', "%{$searchTerm}%")
-                        ->orWhere('content', 'like', "%{$searchTerm}%");
+                        ->orWhere('content', 'like', "%{$searchTerm}%")
+                        ->orWhere('category', 'like', "%{$searchTerm}%");
                 });
             }
 
-            if ($activeCategory !== '') {
-                $targetCat = $categoryMap[$activeCategory];
-                $blogsQuery->where(function ($q) use ($targetCat) {
-                    $q->where('category', $targetCat)
-                        ->orWhere('category', 'like', "%, {$targetCat}%")
-                        ->orWhere('category', 'like', "%{$targetCat},%")
-                        ->orWhere('category', 'like', "%{$targetCat}%");
+            if ($activeCategoryName !== '') {
+                $blogsQuery->where(function ($q) use ($activeCategoryName) {
+                    $q->where('category', $activeCategoryName)
+                        ->orWhere('category', 'like', "%, {$activeCategoryName}%")
+                        ->orWhere('category', 'like', "%{$activeCategoryName},%")
+                        ->orWhere('category', 'like', "%\"{$activeCategoryName}\"%")
+                        ->orWhere('category', 'like', "%{$activeCategoryName}%");
                 });
             }
 

@@ -19,7 +19,7 @@ class BlogController extends Controller
     {
         $searchTerm = trim((string) $request->query('search'));
         $status = $request->query('status');
-        $category = $request->query('category');
+        $rawCategory = $request->query('category');
         $tag = trim((string) $request->query('tag'));
         $date = trim((string) $request->query('date'));
 
@@ -27,8 +27,26 @@ class BlogController extends Controller
             $status = null;
         }
 
-        if ($category !== null && !in_array($category, $this->availableCategories(), true)) {
-            $category = null;
+        $allCategories = $this->availableCategories();
+        $categoryMap = [];
+        foreach ($allCategories as $catName) {
+            $categoryMap[Str::slug($catName)] = $catName;
+            $categoryMap[mb_strtolower($catName)] = $catName;
+            $categoryMap[$catName] = $catName;
+        }
+
+        $category = null;
+        if ($rawCategory !== null && trim((string) $rawCategory) !== '') {
+            $rawCatTrim = trim((string) $rawCategory);
+            $slugKey = Str::slug($rawCatTrim);
+            $lowerKey = mb_strtolower($rawCatTrim);
+            if (isset($categoryMap[$slugKey])) {
+                $category = $categoryMap[$slugKey];
+            } elseif (isset($categoryMap[$lowerKey])) {
+                $category = $categoryMap[$lowerKey];
+            } elseif (isset($categoryMap[$rawCatTrim])) {
+                $category = $categoryMap[$rawCatTrim];
+            }
         }
 
         $blogQuery = Blog::query();
@@ -47,12 +65,17 @@ class BlogController extends Controller
                 $q->where('category', $category)
                     ->orWhere('category', 'like', "%, {$category}%")
                     ->orWhere('category', 'like', "%{$category},%")
+                    ->orWhere('category', 'like', "%\"{$category}\"%")
                     ->orWhere('category', 'like', "%{$category}%");
             });
         }
 
         if ($tag !== '') {
-            $blogQuery->whereJsonContains('tags', $tag);
+            $blogQuery->where(function ($q) use ($tag) {
+                $q->whereJsonContains('tags', $tag)
+                    ->orWhere('tags', 'like', "%\"{$tag}\"%")
+                    ->orWhere('tags', 'like', "%{$tag}%");
+            });
         }
 
         if ($date !== '' && preg_match('/^\d{4}-\d{2}$/', $date)) {
@@ -645,7 +668,15 @@ class BlogController extends Controller
         $custom = $settings['admin_categories']['blogs'] ?? [];
         $deleted = $settings['deleted_categories']['blogs'] ?? [];
 
-        return collect([...Blog::CATEGORIES, ...$custom])
+        // Also fetch all categories actually assigned to existing blogs in the database
+        $dbCategories = Blog::query()
+            ->whereNotNull('category')
+            ->where('category', '!=', '')
+            ->get()
+            ->flatMap(fn (Blog $blog) => $blog->categories_list)
+            ->all();
+
+        return collect([...Blog::CATEGORIES, ...$custom, ...$dbCategories])
             ->filter(fn ($category) => is_string($category) && trim($category) !== '')
             ->map(fn (string $category) => trim($category))
             ->reject(fn (string $category) => in_array(mb_strtolower($category), array_map('mb_strtolower', $deleted), true))

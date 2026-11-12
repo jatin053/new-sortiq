@@ -74,22 +74,24 @@
                 <div class="bg-[#ff6600] p-3 rounded-xl text-white h-fit shadow-lg shadow-orange-100 transition-transform group-hover:scale-110"><iconify-icon icon="lucide:phone" width="20" height="20"></iconify-icon></div>
                 <div>
                   <p class="font-extrabold text-[#001a3d] text-xs uppercase tracking-widest mb-1">CALL US</p>
-                  <a href="tel:+919646522110" class="text-gray-600 font-semibold hover:text-[#ff6600] transition-colors">+91 9646522110</a>
+                  <a href="tel:+919646522110" class="text-[15px] sm:text-base text-gray-700 font-semibold block hover:text-[#ff6600] transition-colors leading-relaxed">+91 9646522110</a>
                 </div>
               </div>
               <div class="flex gap-4 group">
                 <div class="bg-[#ff6600] p-3 rounded-xl text-white h-fit shadow-lg shadow-orange-100 transition-transform group-hover:scale-110"><iconify-icon icon="lucide:mail" width="20" height="20"></iconify-icon></div>
                 <div>
                   <p class="font-extrabold text-[#001a3d] text-xs uppercase tracking-widest mb-1">WRITE US</p>
-                  <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#105;&#110;&#102;&#111;&#64;&#115;&#111;&#114;&#116;&#105;&#113;&#115;&#111;&#108;&#117;&#116;&#105;&#111;&#110;&#115;&#46;&#99;&#111;&#109;" class="text-gray-600 font-semibold block hover:text-[#ff6600] transition-colors break-all">&#105;&#110;&#102;&#111;&#64;&#115;&#111;&#114;&#116;&#105;&#113;&#115;&#111;&#108;&#117;&#116;&#105;&#111;&#110;&#115;&#46;&#99;&#111;&#109;</a>
-                  <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#115;&#111;&#114;&#116;&#105;&#113;&#115;&#111;&#108;&#117;&#116;&#105;&#111;&#110;&#115;&#64;&#103;&#109;&#97;&#105;&#108;&#46;&#99;&#111;&#109;" class="text-gray-600 font-semibold block hover:text-[#ff6600] transition-colors break-all">&#115;&#111;&#114;&#116;&#105;&#113;&#115;&#111;&#108;&#117;&#116;&#105;&#111;&#110;&#115;&#64;&#103;&#109;&#97;&#105;&#108;&#46;&#99;&#111;&#109;</a>
+                  <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#105;&#110;&#102;&#111;&#64;&#115;&#111;&#114;&#116;&#105;&#113;&#115;&#111;&#108;&#117;&#116;&#105;&#111;&#110;&#115;&#46;&#99;&#111;&#109;" class="text-[15px] sm:text-base text-gray-700 font-semibold block hover:text-[#ff6600] transition-colors break-all leading-relaxed">&#105;&#110;&#102;&#111;&#64;&#115;&#111;&#114;&#116;&#105;&#113;&#115;&#111;&#108;&#117;&#116;&#105;&#111;&#110;&#115;&#46;&#99;&#111;&#109;</a>
+                  <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#115;&#111;&#114;&#116;&#105;&#113;&#115;&#111;&#108;&#117;&#116;&#105;&#111;&#110;&#115;&#64;&#103;&#109;&#97;&#105;&#108;&#46;&#99;&#111;&#109;" class="text-[15px] sm:text-base text-gray-700 font-semibold block hover:text-[#ff6600] transition-colors break-all leading-relaxed mt-1">&#115;&#111;&#114;&#116;&#105;&#113;&#115;&#111;&#108;&#117;&#116;&#105;&#111;&#110;&#115;&#64;&#103;&#109;&#97;&#105;&#108;&#46;&#99;&#111;&#109;</a>
                 </div>
               </div>
               <div class="flex gap-4 group">
                 <div class="bg-[#ff6600] p-3 rounded-xl text-white h-fit shadow-lg shadow-orange-100 transition-transform group-hover:scale-110"><iconify-icon icon="lucide:map-pin" width="20" height="20"></iconify-icon></div>
                 <div>
                   <p class="font-extrabold text-[#001a3d] text-xs uppercase tracking-widest mb-1">VISIT US</p>
-                  <address class="text-gray-600 font-semibold not-italic leading-snug">E-51, Second Floor, Phase - 8,<br>Industrial Area, S.A.S. Nagar,<br>Mohali, Punjab 160071</address>
+                  <a href="https://maps.google.com/?q=Sortiq+Solutions+Pvt+Ltd+E-51+Phase+8+Industrial+Area+Mohali" target="_blank" rel="noopener noreferrer" class="text-[15px] sm:text-base text-gray-700 font-semibold block hover:text-[#ff6600] transition-colors leading-relaxed not-italic">
+                    E-51, Second Floor, Phase - 8,<br>Industrial Area, S.A.S. Nagar,<br>Mohali, Punjab 160071
+                  </a>
                 </div>
               </div>
             </div>

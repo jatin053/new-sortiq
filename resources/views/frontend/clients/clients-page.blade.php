@@ -200,6 +200,7 @@
 <main class="sq-clients-page">
     <div class="banner-section">
       <h1>Our Clients</h1>
+      <div class="w-16 h-1.5 bg-[#ff6600] mx-auto mt-3 mb-4 relative z-10" style="width: 64px; height: 6px; background-color: #ff6600; margin: 12px auto 16px; position: relative; z-index: 1;"></div>
       <p>We are proud to showcase the brands that trust us</p>
     </div>
 

@@ -45,16 +45,16 @@
                 }
               @endphp
               @if (!empty($cardCats))
-                <div class="blog-card-meta" style="display: flex; flex-wrap: wrap; gap: 4px; align-items: center; cursor: default;">
+                <div class="blog-card-meta" style="display: flex; flex-wrap: wrap; gap: 4px; align-items: center;">
                   <i class="fa-regular fa-folder-open text-blue-600"></i>
                   @foreach ($cardCats as $cc)
-                    <span>{{ $cc }}</span>@if(!$loop->last)<span>,</span>@endif
+                    <a href="{{ route('frontend.blog.index', ['category' => \Illuminate\Support\Str::slug($cc)]) }}" class="hover:underline hover:text-[#ff6600] transition-colors" style="color: inherit; text-decoration: none;">{{ $cc }}</a>@if(!$loop->last)<span>,</span>@endif
                   @endforeach
                 </div>
               @elseif ($category)
-                <div class="blog-card-meta" style="cursor: default;">
+                <div class="blog-card-meta">
                   <i class="fa-regular fa-folder-open text-blue-600"></i>
-                  <span>{{ $category }}</span>
+                  <a href="{{ route('frontend.blog.index', ['category' => \Illuminate\Support\Str::slug($category)]) }}" class="hover:underline hover:text-[#ff6600] transition-colors" style="color: inherit; text-decoration: none;">{{ $category }}</a>
                 </div>
               @endif
               <h3 class="blog-card-title">
@@ -153,22 +153,27 @@
         <h3 class="blog-sidebar-title">Categories</h3>
         <ul class="blog-sidebar-list">
           @forelse ($categories as $category)
-            <li class="blog-category-item">
-              <a href="{{ route('frontend.blog.index', ['category' => $category->slug]) }}" class="blog-category-link">
+            @php
+              $isCatActive = ($activeCategory === $category->slug || (!empty($activeCategoryName) && strcasecmp($activeCategoryName, $category->name) === 0));
+            @endphp
+            <li class="blog-category-item {{ $isCatActive ? 'active' : '' }}">
+              <a href="{{ route('frontend.blog.index', array_filter(['category' => $category->slug, 'search' => $searchTerm])) }}"
+                 class="blog-category-link {{ $isCatActive ? 'text-[#ff6600] font-bold' : '' }}"
+                 style="{{ $isCatActive ? 'color: #ff6600 !important; font-weight: 700;' : '' }}">
                 <span class="blog-category-link-left">
-                  <span class="blog-category-dot">•</span>
+                  <span class="blog-category-dot" style="{{ $isCatActive ? 'color: #ff6600;' : '' }}">•</span>
                   {{ $category->name }}
                 </span>
-                <span class="blog-category-count">({{ $category->total }})</span>
+                <span class="blog-category-count" style="{{ $isCatActive ? 'color: #ff6600; font-weight: 700;' : '' }}">({{ $category->total }})</span>
               </a>
             </li>
           @empty
             <li class="text-sm text-gray-500">No categories available.</li>
           @endforelse
 
-          @if ($activeCategory)
+          @if ($activeCategory || $searchTerm)
             <li class="mt-4 pt-4 border-t border-dashed border-gray-200 text-xs text-[#ff6600] font-bold text-center uppercase tracking-widest">
-              <a href="{{ route('frontend.blog.index', array_filter(['search' => $searchTerm])) }}" class="hover:underline" style="color: inherit; text-decoration: none;">Clear Filter</a>
+              <a href="{{ route('frontend.blog.index') }}" class="hover:underline" style="color: inherit; text-decoration: none;">Clear All Filters</a>
             </li>
           @endif
         </ul>

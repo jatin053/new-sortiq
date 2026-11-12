@@ -186,6 +186,7 @@ Route::get('/portfolio', [FrontendPortfolioController::class, 'index']);
 Route::get('/portfolio/{slug}', [FrontendPortfolioController::class, 'index']);
 
 Route::get('/blog', [FrontendBlogController::class, 'index'])->name('frontend.blog.index');
+Route::redirect('/blogs', '/blog', 301);
 Route::prefix('blog')->name('frontend.blog.')->group(function () {
     Route::get('/feed.json', [FrontendBlogController::class, 'feed'])->name('feed');
     Route::get('/{slug}', [FrontendBlogController::class, 'show'])->name('subshow');

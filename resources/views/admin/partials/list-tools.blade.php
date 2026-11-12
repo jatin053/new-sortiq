@@ -49,6 +49,9 @@
             @if(filled($searchValue))
                 <input type="hidden" name="search" value="{{ $searchValue }}">
             @endif
+            @if(filled($activeStatus ?? request()->query('status')))
+                <input type="hidden" name="status" value="{{ $activeStatus ?? request()->query('status') }}">
+            @endif
 
             @if(!empty($dateOptions))
                 <select name="date" class="wp-select-filter">
@@ -64,8 +67,8 @@
                     <option value="">Show All Categories</option>
                     @foreach($categories as $cat)
                         @php
-                            $catVal = $cat['slug'] ?? $cat['name'];
-                            $isSelected = ($activeCategory === $catVal || $activeCategory === $cat['name']);
+                            $catVal = $cat['name'];
+                            $isSelected = ($activeCategory === $catVal || $activeCategory === ($cat['slug'] ?? ''));
                         @endphp
                         <option value="{{ $catVal }}" {{ $isSelected ? 'selected' : '' }}>
                             {{ $cat['name'] }}
@@ -90,6 +93,9 @@
             @endif
 
             <button type="submit" class="button secondary-btn">Filter</button>
+            @if(filled($activeCategory) || filled($activeTag) || filled($activeDate) || filled($searchValue))
+                <a href="{{ $searchAction }}{{ filled($activeStatus ?? request()->query('status')) ? '?status=' . ($activeStatus ?? request()->query('status')) : '' }}" class="button secondary-btn" style="text-decoration: none; color: #dc2626; border-color: #fca5a5; background: #fff5f5; margin-left: 6px;">Reset</a>
+            @endif
         </form>
 
         <form class="search-box alignright" action="{{ $searchAction }}" method="get">

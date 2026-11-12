@@ -48,16 +48,16 @@
           }
         @endphp
         @if (!empty($singleCats))
-          <div class="blog-single-meta mb-3 flex items-center flex-wrap gap-2" style="margin-top: 0; cursor: default;">
+          <div class="blog-single-meta mb-3 flex items-center flex-wrap gap-2" style="margin-top: 0;">
             <i class="fa-regular fa-folder-open text-blue-600" style="font-size: 16px;"></i>
             @foreach ($singleCats as $sc)
-              <span class="text-blue-600 font-medium">{{ $sc }}</span>@if(!$loop->last) <span style="color: #94a3b8;">&bull;</span> @endif
+              <a href="{{ route('frontend.blog.index', ['category' => \Illuminate\Support\Str::slug($sc)]) }}" class="text-blue-600 font-medium hover:text-[#ff6600] hover:underline transition-colors" style="text-decoration: none;">{{ $sc }}</a>@if(!$loop->last) <span style="color: #94a3b8;">&bull;</span> @endif
             @endforeach
           </div>
         @elseif (!empty($blog['category']))
-          <div class="blog-single-meta mb-3 flex items-center gap-2" style="margin-top: 0; cursor: default;">
+          <div class="blog-single-meta mb-3 flex items-center gap-2" style="margin-top: 0;">
             <i class="fa-regular fa-folder-open text-blue-600" style="font-size: 16px;"></i>
-            <span class="text-blue-600 font-medium">{{ $blog['category'] }}</span>
+            <a href="{{ route('frontend.blog.index', ['category' => \Illuminate\Support\Str::slug($blog['category'])]) }}" class="text-blue-600 font-medium hover:text-[#ff6600] hover:underline transition-colors" style="text-decoration: none;">{{ $blog['category'] }}</a>
           </div>
         @endif
 
@@ -76,8 +76,13 @@
 
         @php
           $blogHtml = (string) $blog->content;
-          // Ensure any table is wrapped in responsive .blog-table-wrapper if not already wrapped
+          // Clean pasted inline fixed widths and wrap any tables in responsive .blog-table-wrapper
           if (str_contains($blogHtml, '<table')) {
+              // Strip width/height attributes from tables, cols, th, td
+              $blogHtml = preg_replace('/<(table|th|td|col)\b([^>]*)(\s+(width|height)=["\'][^"\']*["\'])/i', '<$1$2', $blogHtml);
+              // Clean colgroup/col tags that lock widths
+              $blogHtml = preg_replace('/<col\b[^>]*style=["\'][^"\']*width:[^"\']*["\'][^>]*>/i', '', $blogHtml);
+              // Ensure any table is wrapped in responsive .blog-table-wrapper
               $blogHtml = preg_replace('/(?<!<div class="blog-table-wrapper">)\s*(<table\b[^>]*>.*?<\/table>)/is', '<div class="blog-table-wrapper">$1</div>', $blogHtml);
           }
         @endphp
@@ -101,11 +106,54 @@
                     tbl.removeAttribute('cellspacing');
                     tbl.removeAttribute('cellpadding');
                     tbl.removeAttribute('width');
+                    tbl.removeAttribute('height');
+                    tbl.removeAttribute('bgcolor');
                     tbl.style.border = '';
                     tbl.style.borderColor = '';
+                    tbl.style.width = '100%';
+                    tbl.style.maxWidth = '100%';
+                    tbl.style.minWidth = '';
+                    tbl.style.tableLayout = 'auto';
+
+                    tbl.querySelectorAll('colgroup, col').forEach(function(col) {
+                        col.removeAttribute('width');
+                        col.removeAttribute('style');
+                    });
+
+                    // Ensure thead exists and uses <th>
+                    var rows = tbl.querySelectorAll('tr');
+                    if (rows.length > 0 && !tbl.querySelector('thead')) {
+                        var firstRow = rows[0];
+                        var thead = document.createElement('thead');
+                        thead.appendChild(firstRow);
+                        if (tbl.firstChild) {
+                            tbl.insertBefore(thead, tbl.firstChild);
+                        } else {
+                            tbl.appendChild(thead);
+                        }
+                        firstRow.querySelectorAll('td').forEach(function(td) {
+                            var th = document.createElement('th');
+                            th.innerHTML = td.innerHTML || '&nbsp;';
+                            firstRow.replaceChild(th, td);
+                        });
+                    }
+
                     tbl.querySelectorAll('th, td').forEach(function(cell) {
+                        cell.removeAttribute('width');
+                        cell.removeAttribute('height');
+                        cell.removeAttribute('bgcolor');
+                        cell.removeAttribute('nowrap');
+                        cell.style.width = '';
+                        cell.style.minWidth = '';
+                        cell.style.maxWidth = '';
+                        cell.style.height = '';
+                        cell.style.whiteSpace = 'normal';
+                        cell.style.wordBreak = 'normal';
+                        cell.style.overflowWrap = 'break-word';
                         cell.style.borderColor = '';
                         cell.style.borderWidth = '';
+                        cell.style.backgroundColor = '';
+                        cell.style.color = '';
                     });
                 });
             }
@@ -314,9 +362,6 @@
                   <iconify-icon icon="fa6-brands:pinterest" width="22" height="22"></iconify-icon>
                 </a>
                 <div class="pl-[78px] -mt-1 flex">
-              <a href="https://plus.google.com" target="_blank" rel="noopener noreferrer" class="blog-share-icon blog-share-icon--gplus font-extrabold text-sm tracking-tighter" aria-label="Share on Google Plus" style="text-decoration: none;">
-                G+
-              </a>
             </div>
               </div>
             </div>

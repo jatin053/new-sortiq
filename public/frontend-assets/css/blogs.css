@@ -884,6 +884,7 @@
     background: #ffffff;
     box-shadow: 0 4px 18px rgba(0, 26, 61, 0.05);
     position: relative;
+    box-sizing: border-box;
 }
 
 .blog-table-wrapper::-webkit-scrollbar {
@@ -903,14 +904,24 @@
 
 .blog-single-content table {
     width: 100% !important;
-    min-width: 480px; /* Ensures columns never collapse into illegible vertical text on mobile */
+    max-width: 100% !important;
+    min-width: 0 !important;
     border-collapse: separate !important;
     border-spacing: 0 !important;
-    font-size: 14.5px;
-    line-height: 1.55;
+    font-size: 14px;
+    line-height: 1.5;
     margin: 0 !important;
     background: #ffffff;
     border: none !important;
+    table-layout: auto !important;
+    box-sizing: border-box;
+}
+
+/* Clear any pasted colgroup / col fixed width restrictions */
+.blog-single-content table colgroup,
+.blog-single-content table col {
+    width: auto !important;
+    min-width: 0 !important;
 }
 
 /* Table Header */
@@ -918,15 +929,21 @@
 .blog-single-content table th {
     background: #001a3d !important;
     color: #ffffff !important;
-    font-size: 13px !important;
+    font-size: 12.5px !important;
     font-weight: 800 !important;
     text-transform: uppercase;
-    letter-spacing: 0.6px;
-    padding: 14px 18px !important;
+    letter-spacing: 0.4px;
+    padding: 12px 14px !important;
     text-align: left;
     border: none !important;
     border-bottom: 3px solid #ff6600 !important;
-    white-space: nowrap;
+    white-space: normal !important;
+    word-break: normal !important;
+    overflow-wrap: break-word !important;
+    word-wrap: break-word !important;
+    vertical-align: middle;
+    line-height: 1.35;
+    box-sizing: border-box;
 }
 
 .blog-single-content table thead tr:first-child th:first-child,
@@ -941,17 +958,36 @@
 
 /* Table Cells */
 .blog-single-content table td {
-    padding: 13px 18px !important;
+    padding: 11px 14px !important;
     color: #334155 !important;
     border: none !important;
     border-bottom: 1px solid #e2e8f0 !important;
     vertical-align: top;
-    font-size: 14px !important;
+    font-size: 13.5px !important;
     background: transparent;
     transition: background 0.15s ease;
+    white-space: normal !important;
+    word-break: normal !important;
+    overflow-wrap: break-word !important;
+    word-wrap: break-word !important;
+    line-height: 1.5;
+    box-sizing: border-box;
 }
 
-/* Bold the first column if it represents task/item name */
+/* Ensure pasted paragraphs and spans inside cells wrap and match typography */
+.blog-single-content table th *,
+.blog-single-content table td * {
+    white-space: normal !important;
+    max-width: 100% !important;
+    font-family: inherit !important;
+}
+
+.blog-single-content table td p {
+    margin: 0 !important;
+    line-height: inherit !important;
+}
+
+/* Bold the first column if it represents task/item/feature name */
 .blog-single-content table tbody tr td:first-child,
 .blog-single-content table tr td:first-child {
     font-weight: 700;
@@ -976,23 +1012,24 @@
     border-bottom: none !important;
 }
 
-@media (max-width: 640px) {
+/* Mobile Screens: maintain comfortable reading touch scroll without collapsing columns */
+@media (max-width: 768px) {
     .blog-table-wrapper {
         margin: 1.25rem 0;
         border-radius: 10px;
     }
 
     .blog-single-content table {
-        min-width: 420px;
+        min-width: 440px !important;
     }
 
     .blog-single-content table th {
-        padding: 11px 14px !important;
-        font-size: 12px !important;
+        padding: 10px 12px !important;
+        font-size: 11.5px !important;
     }
 
     .blog-single-content table td {
-        padding: 10px 14px !important;
-        font-size: 13px !important;
+        padding: 9px 12px !important;
+        font-size: 12.5px !important;
     }
 }

@@ -375,7 +375,7 @@
     }
 
     .sq-work h2 {
-      margin: 0 0 22px;
+      margin: 0 0 12px;
       color: #fff;
       font-size: 32px;
       font-weight: 700;
@@ -576,6 +576,7 @@
     <section class="sq-work">
       <div class="sq-container">
         <h2>Let's Work Together</h2>
+        <div class="w-16 h-1.5 bg-[#ff6600] mx-auto mt-3 mb-6 relative z-10" style="width: 64px; height: 6px; background-color: #ff6600; margin: 12px auto 22px; position: relative; z-index: 1;"></div>
         <p>
           At Sortiq Solutions Pvt. Ltd., we believe that the right technology can drive meaningful change.
           Partner with us to unlock cutting-edge solutions designed specifically to meet your unique business needs.

@@ -580,12 +580,19 @@
                     }
                     .blog-visual-editor table {
                         width: 100% !important;
-                        min-width: 480px;
+                        max-width: 100% !important;
+                        min-width: 0 !important;
                         border-collapse: separate !important;
                         border-spacing: 0 !important;
                         margin: 0 !important;
                         border: none !important;
                         font-size: 14px;
+                        table-layout: auto !important;
+                    }
+                    .blog-visual-editor table colgroup,
+                    .blog-visual-editor table col {
+                        width: auto !important;
+                        min-width: 0 !important;
                     }
                     .blog-visual-editor th {
                         background: #001a3d !important;
@@ -593,19 +600,40 @@
                         font-weight: 800 !important;
                         font-size: 12.5px !important;
                         text-transform: uppercase;
-                        letter-spacing: 0.5px;
-                        padding: 12px 16px !important;
+                        letter-spacing: 0.4px;
+                        padding: 12px 14px !important;
                         border: none !important;
                         border-bottom: 2.5px solid #ff6600 !important;
                         text-align: left;
+                        white-space: normal !important;
+                        word-break: normal !important;
+                        overflow-wrap: break-word !important;
+                        word-wrap: break-word !important;
+                        vertical-align: middle;
+                        line-height: 1.35;
                     }
                     .blog-visual-editor td {
-                        padding: 11px 16px !important;
+                        padding: 11px 14px !important;
                         border: none !important;
                         border-bottom: 1px solid #e2e8f0 !important;
                         color: #334155 !important;
                         font-size: 13.5px !important;
                         vertical-align: top;
+                        white-space: normal !important;
+                        word-break: normal !important;
+                        overflow-wrap: break-word !important;
+                        word-wrap: break-word !important;
+                        line-height: 1.5;
+                    }
+                    .blog-visual-editor table th *,
+                    .blog-visual-editor table td * {
+                        white-space: normal !important;
+                        max-width: 100% !important;
+                        font-family: inherit !important;
+                    }
+                    .blog-visual-editor table td p {
+                        margin: 0 !important;
+                        line-height: inherit !important;
                     }
                     .blog-visual-editor tbody tr:nth-child(even) {
                         background-color: #f8fafc;
@@ -685,7 +713,7 @@
                         updateWordCount();
                     }
 
-                    // Auto-enhance and clean any tables (pasted or existing) to be mobile responsive
+                    // Auto-enhance and clean any tables (pasted or existing) to be fully responsive
                     function enhanceAllTables(container) {
                         if (!container) return;
                         var tables = container.querySelectorAll('table');
@@ -700,10 +728,20 @@
                             tbl.removeAttribute('cellspacing');
                             tbl.removeAttribute('cellpadding');
                             tbl.removeAttribute('width');
+                            tbl.removeAttribute('height');
                             tbl.removeAttribute('bgcolor');
                             tbl.style.border = '';
                             tbl.style.borderColor = '';
                             tbl.style.width = '100%';
+                            tbl.style.maxWidth = '100%';
+                            tbl.style.minWidth = '';
+                            tbl.style.tableLayout = 'auto';
+
+                            // Clean fixed column width constraints
+                            tbl.querySelectorAll('colgroup, col').forEach(function(col) {
+                                col.removeAttribute('width');
+                                col.removeAttribute('style');
+                            });
 
                             var rows = tbl.querySelectorAll('tr');
                             if (rows.length > 0 && !tbl.querySelector('thead')) {
@@ -722,11 +760,30 @@
                                 });
                             }
 
+                            // Clean all cells (th & td) from pasted inline widths and white-spaces
                             tbl.querySelectorAll('th, td').forEach(function(cell) {
+                                cell.removeAttribute('width');
+                                cell.removeAttribute('height');
+                                cell.removeAttribute('bgcolor');
+                                cell.removeAttribute('nowrap');
+                                cell.style.width = '';
+                                cell.style.minWidth = '';
+                                cell.style.maxWidth = '';
+                                cell.style.height = '';
+                                cell.style.whiteSpace = 'normal';
+                                cell.style.wordBreak = 'normal';
+                                cell.style.overflowWrap = 'break-word';
                                 cell.style.border = '';
                                 cell.style.borderColor = '';
                                 cell.style.backgroundColor = '';
                                 cell.style.color = '';
+
+                                // Clean inline styles from nested p and span tags
+                                cell.querySelectorAll('p, span').forEach(function(child) {
+                                    child.style.width = '';
+                                    child.style.whiteSpace = 'normal';
+                                    child.style.fontFamily = '';
+                                });
                             });
                         });
                     }
