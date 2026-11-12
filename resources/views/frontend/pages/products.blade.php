@@ -978,7 +978,7 @@
 
   .sq-demo-layout {
     display: grid;
-    grid-template-columns: 380px 1fr;
+    grid-template-columns: minmax(430px, 470px) 1fr;
     gap: 36px;
     align-items: flex-start;
   }
@@ -1028,38 +1028,64 @@
     margin: 0;
   }
 
-  /* Quick contact phone / whatsapp box (responsive wrap on small screens) */
+  /* Quick contact phone / whatsapp / email box - two clean side-by-side columns on all screens */
   .sq-demo-call-box {
     background: #ffffff;
     border-radius: 14px;
-    padding: 16px;
+    padding: 16px 18px;
     border: 1px solid #e2e8f0;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 12px;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 16px;
     box-shadow: 0 4px 14px rgba(0, 23, 62, 0.04);
   }
 
-  @media (max-width: 420px) {
-    .sq-demo-call-box {
-      flex-direction: column;
-      align-items: stretch;
-    }
+  .sq-demo-call-item {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    min-width: 0;
+    width: 100%;
+  }
+
+  .sq-demo-call-label {
+    font-size: 10.5px;
+    font-weight: 700;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-bottom: 3px;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .sq-demo-call-num {
-    font-size: 15px;
+    font-size: 14px;
     font-weight: 800;
     color: #00173e;
     text-decoration: none;
-    display: block;
-    margin-top: 2px;
+    display: inline-block;
+    white-space: nowrap;
+    transition: color 0.2s ease;
   }
 
   .sq-demo-call-num:hover {
     color: #ff6600;
+  }
+
+  .sq-demo-email-num {
+    font-size: 12.5px;
+    font-weight: 700;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 100%;
+    display: block;
   }
 
   .sq-whatsapp-pill {
@@ -1071,10 +1097,72 @@
     color: #ffffff !important;
     font-size: 12px;
     font-weight: 700;
-    padding: 8px 14px;
-    border-radius: 10px;
+    padding: 7px 14px;
+    border-radius: 999px;
     text-decoration: none;
     box-shadow: 0 2px 8px rgba(37, 211, 102, 0.3);
+    transition: all 0.2s ease;
+    white-space: nowrap;
+    margin-top: 10px;
+  }
+
+  .sq-whatsapp-pill:hover {
+    background: #1ebc59;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(37, 211, 102, 0.4);
+  }
+
+  .sq-email-pill {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    background: #ff6600;
+    color: #ffffff !important;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 7px 14px;
+    border-radius: 999px;
+    text-decoration: none;
+    box-shadow: 0 2px 8px rgba(255, 102, 0, 0.25);
+    transition: all 0.2s ease;
+    white-space: nowrap;
+    margin-top: 10px;
+  }
+
+  .sq-email-pill:hover {
+    background: #001b43;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 27, 67, 0.3);
+  }
+
+  @media (max-width: 480px) {
+    .sq-demo-call-box {
+      /*grid-template-columns: repeat(2, minmax(0, 1fr)) !important;*/
+      padding: 12px 10px !important;
+      gap: 10px !important;
+    }
+
+    .sq-demo-call-label {
+      font-size: 8.5px !important;
+      letter-spacing: 0.2px !important;
+    }
+
+    .sq-demo-call-num {
+      font-size: 12px !important;
+    }
+
+    .sq-demo-email-num {
+      font-size: 10.5px !important;
+    }
+
+    .sq-whatsapp-pill,
+    .sq-email-pill {
+      font-size: 11px !important;
+      padding: 6px 10px !important;
+      gap: 4px !important;
+      margin-top: 8px !important;
+    }
   }
 
   /* Form Container */
@@ -2182,18 +2270,35 @@
             </div>
           </div>
 
-          {{-- Direct Phone & WhatsApp Callout --}}
+          {{-- Direct Phone, Email & WhatsApp Callout (Side-by-Side Symmetrical Columns) --}}
           <div class="sq-demo-call-box">
-            <div>
-              <div style="font-size: 11px; font-weight: 700; color: #64748b; text-transform: uppercase;">Prefer a quick call?</div>
+            <div class="sq-demo-call-item">
+              <div class="sq-demo-call-label">
+                <iconify-icon icon="lucide:phone" width="12" height="12" style="color: #ff6600;"></iconify-icon>
+                <span>Prefer a quick call?</span>
+              </div>
               <a href="tel:+919646522110" class="sq-demo-call-num">
                 +91 9646522110
               </a>
+              <a href="https://wa.me/919646522110?text=Hello%20Sortiq,%20I%20would%20like%20to%20inquire%20about%20your%20products." target="_blank" rel="noopener" class="sq-whatsapp-pill">
+                <iconify-icon icon="fa6-brands:whatsapp" width="15" height="15"></iconify-icon>
+                <span>WhatsApp Us</span>
+              </a>
             </div>
-            <a href="https://wa.me/919646522110?text=Hello%20Sortiq,%20I%20would%20like%20to%20inquire%20about%20your%20products." target="_blank" rel="noopener" class="sq-whatsapp-pill">
-              <iconify-icon icon="fa6-brands:whatsapp" width="16" height="16"></iconify-icon>
-              <span>WhatsApp Us</span>
-            </a>
+
+            <div class="sq-demo-call-item">
+              <div class="sq-demo-call-label">
+                <iconify-icon icon="lucide:mail" width="12" height="12" style="color: #ff6600;"></iconify-icon>
+                <span>Prefer to email us?</span>
+              </div>
+              <a href="mailto:info@sortiqsolutions.com" class="sq-demo-call-num sq-demo-email-num">
+                info@sortiqsolutions.com
+              </a>
+              <a href="mailto:info@sortiqsolutions.com" class="sq-email-pill">
+                <iconify-icon icon="lucide:mail" width="14" height="14"></iconify-icon>
+                <span>Email Us</span>
+              </a>
+            </div>
           </div>
         </div>
 

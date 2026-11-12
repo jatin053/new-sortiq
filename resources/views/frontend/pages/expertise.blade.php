@@ -211,7 +211,7 @@
 
     .sq-cta {
       position: relative;
-      padding: 50px 0;
+      padding: 65px 0;
       color: var(--sq-white);
       text-align: center;
       background-image: url("{{ asset('frontend-assets/media/imports/sortiqsolutions/2025/02/our-expertise-image.jpg') }}");
@@ -221,16 +221,22 @@
     }
 
     .sq-cta::before {
-      opacity: 0.64;
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 10, 25, 0.82) !important;
+      opacity: 0.8 !important;
     }
 
     .sq-cta p {
       max-width: 960px;
       margin: 0 auto 30px;
-      color: var(--sq-white);
+      color: #ffffff !important;
       font-size: 18px;
-      line-height: 1.7333333333;
-      letter-spacing: 0;
+      font-weight: 500;
+      line-height: 1.75;
+      letter-spacing: 0.2px;
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
     }
 
     .sq-cta-button {
@@ -403,9 +409,9 @@
       margin-right: 8px;
     }
     
-    #sq-phone { 
+    /* #sq-phone { 
       padding-left: 70px !important; 
-    }
+    } */
 
     .sq-recaptcha {
       padding: 4px 0;
@@ -452,7 +458,7 @@
       .sq-intro-copy { padding-inline: 15px; text-align: center; }
       .sq-service-grid, .sq-form-row { grid-template-columns: 1fr; }
       .sq-service-card { min-height: 230px; }
-      .sq-cta p { margin-inline: 15px; text-align: justify; }
+      .sq-cta p { margin-inline: 15px; text-align: center; font-size: 15.5px; line-height: 1.68; }
       .sq-form-section { padding-inline: 15px; }
       .sq-check-list li { font-size: 15px; }
     }

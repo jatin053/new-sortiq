@@ -760,3 +760,239 @@
     white-space: nowrap;
     border-width: 0;
 }
+
+/* ==========================================================================
+   Blog Single Article FAQ Accordion Section
+   ========================================================================== */
+.blog-faq-section {
+    margin-top: 2.75rem;
+    padding-top: 2rem;
+    border-top: 1px solid #f1f5f9;
+}
+
+.blog-faq-head {
+    margin-bottom: 1.5rem;
+}
+
+.blog-faq-card {
+    background: #ffffff;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 12px;
+    overflow: hidden;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 1px 3px rgba(0, 26, 61, 0.04);
+}
+
+.blog-faq-card:hover {
+    border-color: #cbd5e1;
+    box-shadow: 0 4px 14px rgba(0, 26, 61, 0.06);
+}
+
+.blog-faq-trigger {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.15rem 1.25rem;
+    background: transparent;
+    border: none;
+    text-align: left;
+    cursor: pointer;
+    outline: none;
+    transition: all 0.2s ease;
+}
+
+.blog-faq-trigger:hover .blog-faq-q-text {
+    color: #ff6600;
+}
+
+.blog-faq-q-text {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #00173e;
+    line-height: 1.4;
+    padding-right: 1rem;
+    transition: color 0.2s ease;
+}
+
+.blog-faq-icon-pill {
+    width: 32px;
+    height: 32px;
+    border-radius: 999px;
+    background: #f1f5f9;
+    color: #64748b;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: all 0.25s ease;
+}
+
+.blog-faq-trigger:hover .blog-faq-icon-pill {
+    background: #ff6600;
+    color: #ffffff;
+}
+
+.blog-faq-chevron {
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.blog-faq-content {
+    border-top: 1px solid #f8fafc;
+    padding: 0 1.25rem 1.25rem 1.25rem;
+    color: #475569;
+    font-size: 0.95rem;
+    line-height: 1.65;
+    animation: blogFaqFadeIn 0.25s ease forwards;
+}
+
+@keyframes blogFaqFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-4px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (max-width: 640px) {
+    .blog-faq-trigger {
+        padding: 0.95rem 1rem;
+    }
+    .blog-faq-q-text {
+        font-size: 0.95rem;
+    }
+    .blog-faq-content {
+        padding: 0 1rem 1rem 1rem;
+        font-size: 0.875rem;
+    }
+}
+
+/* ==========================================================================
+   Responsive & Modern Blog Content Tables (Desktop & Mobile)
+   ========================================================================== */
+.blog-table-wrapper {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    margin: 2rem 0;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+    background: #ffffff;
+    box-shadow: 0 4px 18px rgba(0, 26, 61, 0.05);
+    position: relative;
+}
+
+.blog-table-wrapper::-webkit-scrollbar {
+    height: 6px;
+}
+.blog-table-wrapper::-webkit-scrollbar-track {
+    background: #f1f5f9;
+    border-radius: 999px;
+}
+.blog-table-wrapper::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 999px;
+}
+.blog-table-wrapper::-webkit-scrollbar-thumb:hover {
+    background: #ff6600;
+}
+
+.blog-single-content table {
+    width: 100% !important;
+    min-width: 480px; /* Ensures columns never collapse into illegible vertical text on mobile */
+    border-collapse: separate !important;
+    border-spacing: 0 !important;
+    font-size: 14.5px;
+    line-height: 1.55;
+    margin: 0 !important;
+    background: #ffffff;
+    border: none !important;
+}
+
+/* Table Header */
+.blog-single-content table thead th,
+.blog-single-content table th {
+    background: #001a3d !important;
+    color: #ffffff !important;
+    font-size: 13px !important;
+    font-weight: 800 !important;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    padding: 14px 18px !important;
+    text-align: left;
+    border: none !important;
+    border-bottom: 3px solid #ff6600 !important;
+    white-space: nowrap;
+}
+
+.blog-single-content table thead tr:first-child th:first-child,
+.blog-single-content table tr:first-child th:first-child {
+    border-top-left-radius: 11px;
+}
+
+.blog-single-content table thead tr:first-child th:last-child,
+.blog-single-content table tr:first-child th:last-child {
+    border-top-right-radius: 11px;
+}
+
+/* Table Cells */
+.blog-single-content table td {
+    padding: 13px 18px !important;
+    color: #334155 !important;
+    border: none !important;
+    border-bottom: 1px solid #e2e8f0 !important;
+    vertical-align: top;
+    font-size: 14px !important;
+    background: transparent;
+    transition: background 0.15s ease;
+}
+
+/* Bold the first column if it represents task/item name */
+.blog-single-content table tbody tr td:first-child,
+.blog-single-content table tr td:first-child {
+    font-weight: 700;
+    color: #00173e !important;
+}
+
+/* Alternating zebra rows */
+.blog-single-content table tbody tr:nth-child(even),
+.blog-single-content table tr:nth-child(even) {
+    background-color: #f8fafc;
+}
+
+/* Hover row highlight */
+.blog-single-content table tbody tr:hover,
+.blog-single-content table tr:hover {
+    background-color: #fff8f5 !important;
+}
+
+/* Remove bottom border on last row */
+.blog-single-content table tbody tr:last-child td,
+.blog-single-content table tr:last-child td {
+    border-bottom: none !important;
+}
+
+@media (max-width: 640px) {
+    .blog-table-wrapper {
+        margin: 1.25rem 0;
+        border-radius: 10px;
+    }
+
+    .blog-single-content table {
+        min-width: 420px;
+    }
+
+    .blog-single-content table th {
+        padding: 11px 14px !important;
+        font-size: 12px !important;
+    }
+
+    .blog-single-content table td {
+        padding: 10px 14px !important;
+        font-size: 13px !important;
+    }
+}

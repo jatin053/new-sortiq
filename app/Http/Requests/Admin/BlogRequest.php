@@ -73,12 +73,47 @@ class BlogRequest extends FormRequest
             ->values()
             ->all();
 
+        // Process FAQs input
+        $rawFaqs = $this->input('faqs');
+        $faqsList = [];
+        if (is_array($rawFaqs)) {
+            foreach ($rawFaqs as $item) {
+                if (!is_array($item)) {
+                    continue;
+                }
+                $q = trim((string) ($item['question'] ?? ''));
+                $a = trim((string) ($item['answer'] ?? ''));
+                if ($q !== '' || $a !== '') {
+                    $faqsList[] = [
+                        'question' => $q,
+                        'answer' => $a,
+                    ];
+                }
+            }
+        } elseif (is_string($rawFaqs) && trim($rawFaqs) !== '') {
+            $decoded = json_decode($rawFaqs, true);
+            if (is_array($decoded)) {
+                foreach ($decoded as $item) {
+                    if (!is_array($item)) continue;
+                    $q = trim((string) ($item['question'] ?? ''));
+                    $a = trim((string) ($item['answer'] ?? ''));
+                    if ($q !== '' || $a !== '') {
+                        $faqsList[] = [
+                            'question' => $q,
+                            'answer' => $a,
+                        ];
+                    }
+                }
+            }
+        }
+
         $this->merge([
             'slug' => $slug,
             'category' => $categoryString,
             'categories' => $categoriesList,
             'tags' => $tagsList,
             'tags_text' => implode(', ', $tagsList),
+            'faqs' => $faqsList,
         ]);
     }
 
@@ -119,6 +154,9 @@ class BlogRequest extends FormRequest
             'meta_title' => ['nullable', 'string', 'max:255'],
             'meta_description' => ['nullable', 'string', 'max:1000'],
             'meta_keywords' => ['nullable', 'string', 'max:500'],
+            'faqs' => ['nullable', 'array'],
+            'faqs.*.question' => ['nullable', 'string', 'max:500'],
+            'faqs.*.answer' => ['nullable', 'string'],
         ];
     }
 

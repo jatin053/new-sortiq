@@ -32,6 +32,7 @@ class Blog extends Model
         'meta_title',
         'meta_description',
         'meta_keywords',
+        'faqs',
     ];
 
     protected function casts(): array
@@ -40,6 +41,7 @@ class Blog extends Model
             'published_at' => 'date',
             'views' => 'integer',
             'tags' => 'array',
+            'faqs' => 'array',
         ];
     }
 
@@ -145,9 +147,42 @@ class Blog extends Model
         }
     }
 
+    public function getFaqsListAttribute(): array
+    {
+        $faqs = $this->faqs;
+        if (is_string($faqs)) {
+            $decoded = json_decode($faqs, true);
+            return is_array($decoded) ? array_values($decoded) : [];
+        }
+        if (is_array($faqs)) {
+            return array_values($faqs);
+        }
+
+        return [];
+    }
+
+    public function hasFaqs(): bool
+    {
+        return !empty($this->faqs_list);
+    }
+
+    public static function ensureFaqsColumnExists(): void
+    {
+        try {
+            if (\Illuminate\Support\Facades\Schema::hasTable('blogs') && !\Illuminate\Support\Facades\Schema::hasColumn('blogs', 'faqs')) {
+                \Illuminate\Support\Facades\Schema::table('blogs', function (\Illuminate\Database\Schema\Blueprint $table) {
+                    $table->json('faqs')->nullable()->after('content');
+                });
+            }
+        } catch (\Throwable $e) {
+            // Silently avoid interrupting if connection is pending
+        }
+    }
+
     protected static function booted(): void
     {
         static::cleanupDuplicateSlugs();
+        static::ensureFaqsColumnExists();
     }
 
     public function getPublishedLabelAttribute(): string

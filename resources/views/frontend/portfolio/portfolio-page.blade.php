@@ -93,8 +93,8 @@
             href="https://www.behance.net/sortiqsolutions71"
             target="_blank"
             rel="noopener noreferrer"
-            class="inline-block bg-[#001a3d] px-8 py-4 tracking-widest text-center transition-all duration-300 hover:bg-[#ff6600]"
-            style="color: #ffffff !important; font-family: 'Nunito', sans-serif !important; font-size: 15px !important; font-weight: 600 !important;"
+            class="hm-btn-orange inline-flex items-center justify-center font-semibold"
+            style="padding: 12px 36px !important; font-size: 15px !important; border-radius: 999px !important; letter-spacing: 0.5px !important;"
           >
             View More on Behance
           </a>

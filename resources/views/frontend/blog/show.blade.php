@@ -74,9 +74,226 @@
           </p>
         @endif
 
+        @php
+          $blogHtml = (string) $blog->content;
+          // Ensure any table is wrapped in responsive .blog-table-wrapper if not already wrapped
+          if (str_contains($blogHtml, '<table')) {
+              $blogHtml = preg_replace('/(?<!<div class="blog-table-wrapper">)\s*(<table\b[^>]*>.*?<\/table>)/is', '<div class="blog-table-wrapper">$1</div>', $blogHtml);
+          }
+        @endphp
+
         <div class="blog-single-content text-gray-700 leading-relaxed text-[15px] md:text-base space-y-6">
-          {!! $blog->content !!}
+          {!! $blogHtml !!}
         </div>
+
+        <script>
+        (function initBlogContentTables() {
+            function processTables() {
+                var tables = document.querySelectorAll('.blog-single-content table');
+                tables.forEach(function(tbl) {
+                    if (!tbl.parentElement.classList.contains('blog-table-wrapper')) {
+                        var wrap = document.createElement('div');
+                        wrap.className = 'blog-table-wrapper';
+                        tbl.parentNode.insertBefore(wrap, tbl);
+                        wrap.appendChild(tbl);
+                    }
+                    tbl.removeAttribute('border');
+                    tbl.removeAttribute('cellspacing');
+                    tbl.removeAttribute('cellpadding');
+                    tbl.removeAttribute('width');
+                    tbl.style.border = '';
+                    tbl.style.borderColor = '';
+                    tbl.querySelectorAll('th, td').forEach(function(cell) {
+                        cell.style.borderColor = '';
+                        cell.style.borderWidth = '';
+                    });
+                });
+            }
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', processTables);
+            } else {
+                processTables();
+            }
+        })();
+        </script>
+
+        @php
+          $validFaqs = array_values(array_filter($blog->faqs_list ?? [], function ($item) {
+              return is_array($item) && (!empty(trim((string) ($item['question'] ?? ''))) || !empty(trim((string) ($item['answer'] ?? ''))));
+          }));
+        @endphp
+
+        @if (!empty($validFaqs))
+          <!-- Blog FAQs Section -->
+          <section class="blog-faq-section mt-12 pt-8 border-t border-gray-100" aria-labelledby="blog-faq-heading">
+            <div class="blog-faq-head mb-6">
+              <!-- <span class="inline-block text-[11px] font-extrabold tracking-wider uppercase text-[#ff6600] bg-orange-50 px-3 py-1 rounded-full mb-2">
+                Got Questions?
+              </span> -->
+              <h2 id="blog-faq-heading" class="text-2xl md:text-3xl font-extrabold text-[#00173e] tracking-tight">
+                Frequently Asked Questions
+              </h2>
+              <div class="w-12 h-1 bg-[#ff6600] rounded-full mt-3"></div>
+            </div>
+
+            <div class="blog-faq-accordion space-y-3.5">
+              @foreach ($validFaqs as $fIndex => $faqItem)
+                @php
+                  $faqQ = trim((string) ($faqItem['question'] ?? ''));
+                  $faqA = trim((string) ($faqItem['answer'] ?? ''));
+                  $panelId = 'blog-faq-panel-' . $fIndex;
+                  $buttonId = 'blog-faq-btn-' . $fIndex;
+                @endphp
+                @if ($faqQ !== '' && $faqA !== '')
+                  <div class="blog-faq-card bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm transition-all duration-200 hover:shadow-md hover:border-orange-200">
+                    <button
+                      type="button"
+                      id="{{ $buttonId }}"
+                      data-blog-faq-target="{{ $panelId }}"
+                      aria-expanded="false"
+                      aria-controls="{{ $panelId }}"
+                      class="blog-faq-trigger w-full flex items-center justify-between p-4 md:p-5 text-left transition-colors duration-200 outline-none cursor-pointer select-none"
+                    >
+                      <span class="blog-faq-q-text font-bold pr-4 leading-snug text-[15px] md:text-base text-[#00173e] transition-colors duration-200">
+                        {{ $faqQ }}
+                      </span>
+                      <span class="blog-faq-icon-pill w-8 h-8 rounded-full flex items-center justify-center bg-gray-100 flex-shrink-0 transition-all duration-200 text-gray-500">
+                        <iconify-icon icon="lucide:chevron-down" width="18" height="18" class="blog-faq-chevron transition-transform duration-300"></iconify-icon>
+                      </span>
+                    </button>
+                    <div
+                      id="{{ $panelId }}"
+                      role="region"
+                      aria-labelledby="{{ $buttonId }}"
+                      class="blog-faq-content px-4 md:px-5 pb-5 text-gray-600 text-sm md:text-[15px] leading-relaxed border-t border-gray-50"
+                      style="display: none;"
+                    >
+                      <div class="pt-4 space-y-2 prose max-w-none text-gray-600">
+                        {!! nl2br(e($faqA)) !!}
+                      </div>
+                    </div>
+                  </div>
+                @endif
+              @endforeach
+            </div>
+          </section>
+
+          @php
+            $schemaEntities = [];
+            foreach ($validFaqs as $fItem) {
+                if (!empty($fItem['question']) && !empty($fItem['answer'])) {
+                    $schemaEntities[] = [
+                        '@type' => 'Question',
+                        'name' => $fItem['question'],
+                        'acceptedAnswer' => [
+                            '@type' => 'Answer',
+                            'text' => strip_tags((string) $fItem['answer']),
+                        ],
+                    ];
+                }
+            }
+          @endphp
+          @if (!empty($schemaEntities))
+            <script type="application/ld+json">
+            {!! json_encode([
+                '@context' => 'https://schema.org',
+                '@type' => 'FAQPage',
+                'mainEntity' => $schemaEntities,
+            ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}
+            </script>
+          @endif
+
+          <script>
+          (function initBlogFaqAccordion() {
+              function setupFaqToggle() {
+                  var triggers = document.querySelectorAll('.blog-faq-trigger');
+                  if (!triggers.length) return;
+
+                  triggers.forEach(function(btn) {
+                      // Avoid double binding
+                      if (btn._faqBound) return;
+                      btn._faqBound = true;
+
+                      btn.addEventListener('click', function() {
+                          var targetId = btn.getAttribute('data-blog-faq-target');
+                          var panel = document.getElementById(targetId);
+                          if (!panel) return;
+
+                          var isExpanded = btn.getAttribute('aria-expanded') === 'true';
+
+                          // Reset other items
+                          triggers.forEach(function(otherBtn) {
+                              if (otherBtn !== btn) {
+                                  otherBtn.setAttribute('aria-expanded', 'false');
+                                  var otherTargetId = otherBtn.getAttribute('data-blog-faq-target');
+                                  var otherPanel = document.getElementById(otherTargetId);
+                                  if (otherPanel) {
+                                      otherPanel.style.display = 'none';
+                                  }
+                                  var otherTitle = otherBtn.querySelector('.blog-faq-q-text');
+                                  if (otherTitle) otherTitle.style.color = '#00173e';
+                                  var otherIconPill = otherBtn.querySelector('.blog-faq-icon-pill');
+                                  if (otherIconPill) {
+                                      otherIconPill.style.backgroundColor = '#f1f5f9';
+                                      otherIconPill.style.color = '#64748b';
+                                  }
+                                  var otherChevron = otherBtn.querySelector('.blog-faq-chevron');
+                                  if (otherChevron) otherChevron.style.transform = 'rotate(0deg)';
+                                  var otherCard = otherBtn.closest('.blog-faq-card');
+                                  if (otherCard) {
+                                      otherCard.style.borderColor = '#e2e8f0';
+                                      otherCard.style.boxShadow = '0 1px 3px rgba(0, 0, 0, 0.05)';
+                                  }
+                              }
+                          });
+
+                          // Toggle current item: if open -> close, if closed -> open
+                          var title = btn.querySelector('.blog-faq-q-text');
+                          var iconPill = btn.querySelector('.blog-faq-icon-pill');
+                          var chevron = btn.querySelector('.blog-faq-chevron');
+                          var card = btn.closest('.blog-faq-card');
+
+                          if (isExpanded) {
+                              // CLOSE
+                              btn.setAttribute('aria-expanded', 'false');
+                              panel.style.display = 'none';
+                              if (title) title.style.color = '#00173e';
+                              if (iconPill) {
+                                  iconPill.style.backgroundColor = '#f1f5f9';
+                                  iconPill.style.color = '#64748b';
+                              }
+                              if (chevron) chevron.style.transform = 'rotate(0deg)';
+                              if (card) {
+                                  card.style.borderColor = '#e2e8f0';
+                                  card.style.boxShadow = '0 1px 3px rgba(0, 0, 0, 0.05)';
+                              }
+                          } else {
+                              // OPEN
+                              btn.setAttribute('aria-expanded', 'true');
+                              panel.style.display = 'block';
+                              if (title) title.style.color = '#ff6600';
+                              if (iconPill) {
+                                  iconPill.style.backgroundColor = '#ff6600';
+                                  iconPill.style.color = '#ffffff';
+                              }
+                              if (chevron) chevron.style.transform = 'rotate(180deg)';
+                              if (card) {
+                                  card.style.borderColor = '#ff6600';
+                                  card.style.boxShadow = '0 4px 14px rgba(255, 102, 0, 0.12)';
+                              }
+                          }
+                      });
+                  });
+              }
+
+              if (document.readyState === 'loading') {
+                  document.addEventListener('DOMContentLoaded', setupFaqToggle);
+              } else {
+                  setupFaqToggle();
+              }
+          })();
+          </script>
+        @endif
 
         <!-- Share Buttons Widget inside the main article container -->
         <div class="blog-share-section mt-12 pt-6 border-t border-gray-100">

@@ -804,7 +804,7 @@
 
         <div class="ask-form-group">
           <label class="ask-form-label">Subject</label>
-          <input name="subject" type="text" required class="ask-form-input">
+          <input name="subject" type="text" placeholder="Subject" required class="ask-form-input">
         </div>
 
         <div class="ask-form-group">

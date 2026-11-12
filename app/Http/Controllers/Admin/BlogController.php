@@ -717,6 +717,8 @@ class BlogController extends Controller
 
     private function payload(BlogRequest $request, ?Blog $blog = null): array
     {
+        Blog::ensureFaqsColumnExists();
+
         $data = $request->validated();
 
         unset($data['image_file'], $data['tags_text'], $data['categories']);

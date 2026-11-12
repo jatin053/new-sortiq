@@ -206,6 +206,19 @@
                         <button type="button" id="btnToolbarClean" class="ed-btn" title="Clean ChatGPT tags / Clear Format" style="padding: 0 8px; width: auto; color: #d97706;">
                             &#129529; Clean
                         </button>
+                        <button type="button" id="btnToolbarTable" class="ed-btn" title="Insert Responsive Table" style="background: #f0fdf4; color: #15803d; border-color: #86efac; font-weight: 700; padding: 0 10px; width: auto; display: inline-flex; align-items: center; gap: 4px;">
+                            <iconify-icon icon="lucide:table" width="14" height="14" style="color: #15803d;"></iconify-icon>
+                            <span>Table</span>
+                        </button>
+
+                        <div id="blogTableToolsGroup" style="display: none; align-items: center; gap: 4px; background: #f8fafc; padding: 2px 6px; border-radius: 6px; border: 1px solid #cbd5e1;">
+                            <span style="font-size: 11px; font-weight: 700; color: #64748b; text-transform: uppercase;">Table:</span>
+                            <button type="button" id="btnTableAddRow" class="ed-btn" title="Add Row Below" style="font-size: 11px; padding: 0 6px;">+ Row</button>
+                            <button type="button" id="btnTableAddCol" class="ed-btn" title="Add Column Right" style="font-size: 11px; padding: 0 6px;">+ Col</button>
+                            <button type="button" id="btnTableDelRow" class="ed-btn" title="Delete Current Row" style="font-size: 11px; padding: 0 6px; color: #dc2626;">- Row</button>
+                            <button type="button" id="btnTableDelCol" class="ed-btn" title="Delete Current Column" style="font-size: 11px; padding: 0 6px; color: #dc2626;">- Col</button>
+                            <button type="button" id="btnTableDelTable" class="ed-btn" title="Delete Whole Table" style="font-size: 11px; padding: 0 6px; color: #b91c1c;">✕ Table</button>
+                        </div>
 
                         <div style="width: 1px; height: 20px; background: #e2e8f0; margin: 0 4px;"></div>
 
@@ -283,6 +296,70 @@
                                 <button type="button" id="btnLinkModalRemove" class="btn btn-danger" style="display: none; padding: 7px 14px; font-size: 12px; font-weight: 600; border-radius: 6px; border: 1px solid #ef4444; background: #ef4444; color: #fff; cursor: pointer;">Remove Link</button>
                                 <button type="button" id="btnLinkModalSave" class="btn btn-primary" style="padding: 7px 18px; font-size: 12px; font-weight: 600; border-radius: 6px; border: 1px solid #0b63e5; background: #0b63e5; color: #fff; cursor: pointer;">Apply Link</button>
                             </div>
+                        </div>
+                    </div>
+                </div>
+
+                {{-- INSERT TABLE MODAL --}}
+                <div id="blogTableModal" class="blog-link-modal-backdrop" style="display: none;">
+                    <div class="blog-link-modal-box" style="max-width: 440px;">
+                        <div class="blog-link-modal-head">
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                                <iconify-icon icon="lucide:table" width="18" height="18" style="color: #15803d;"></iconify-icon>
+                                <h4 style="margin: 0; font-size: 15px; font-weight: 700; color: #0f172a;">Insert Responsive Table</h4>
+                            </div>
+                            <button type="button" id="btnTableModalClose" style="border: none; background: transparent; font-size: 20px; line-height: 1; color: #94a3b8; cursor: pointer; padding: 0 4px;">&times;</button>
+                        </div>
+                        <div class="blog-link-modal-body">
+                            <p style="margin: 0 0 14px 0; font-size: 12.5px; color: #64748b; line-height: 1.45;">
+                                Create a responsive table formatted with Sortiq's navy &amp; orange styling. It automatically adjusts on mobile screens with touch-friendly horizontal scrolling.
+                            </p>
+
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                                <div>
+                                    <label style="display: block; font-size: 12px; font-weight: 700; color: #334155; margin-bottom: 5px;">
+                                        Columns
+                                    </label>
+                                    <input
+                                        type="number"
+                                        id="tblModalCols"
+                                        min="1"
+                                        max="10"
+                                        value="2"
+                                        style="width: 100%; padding: 8px 12px; font-size: 13.5px; font-weight: 600; border: 1.5px solid #cbd5e1; border-radius: 8px; box-sizing: border-box; outline: none;"
+                                    >
+                                </div>
+                                <div>
+                                    <label style="display: block; font-size: 12px; font-weight: 700; color: #334155; margin-bottom: 5px;">
+                                        Rows (including header)
+                                    </label>
+                                    <input
+                                        type="number"
+                                        id="tblModalRows"
+                                        min="1"
+                                        max="50"
+                                        value="4"
+                                        style="width: 100%; padding: 8px 12px; font-size: 13.5px; font-weight: 600; border: 1.5px solid #cbd5e1; border-radius: 8px; box-sizing: border-box; outline: none;"
+                                    >
+                                </div>
+                            </div>
+
+                            <label style="display: flex; align-items: center; gap: 8px; margin-top: 14px; font-size: 12.5px; font-weight: 600; color: #1e293b; cursor: pointer;">
+                                <input type="checkbox" id="tblModalHasHeader" checked style="cursor: pointer; width: 16px; height: 16px;">
+                                <span>First row is Header (Task, Frequency, etc.)</span>
+                            </label>
+
+                            <div style="margin-top: 14px; padding: 10px 12px; background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px; font-size: 11.5px; color: #166534; display: flex; align-items: flex-start; gap: 6px;">
+                                <iconify-icon icon="lucide:check-circle" width="14" height="14" style="margin-top: 2px; flex-shrink: 0;"></iconify-icon>
+                                <span>Mobile-ready: Wrapped in a responsive touch-scroll card so it never breaks layout or overflows.</span>
+                            </div>
+                        </div>
+                        <div class="blog-link-modal-foot">
+                            <button type="button" id="btnTableModalCancel" class="btn btn-secondary" style="padding: 7px 14px; font-size: 12px; font-weight: 600; border-radius: 6px; border: 1px solid #cbd5e1; background: #fff; color: #475569; cursor: pointer;">Cancel</button>
+                            <button type="button" id="btnTableModalInsert" class="btn btn-primary" style="padding: 7px 18px; font-size: 12.5px; font-weight: 700; border-radius: 6px; border: 1px solid #16a34a; background: #16a34a; color: #fff; cursor: pointer; display: inline-flex; align-items: center; gap: 5px;">
+                                <iconify-icon icon="lucide:plus" width="14" height="14"></iconify-icon>
+                                <span>Insert Table</span>
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -489,6 +566,60 @@
                         border-top: 1px solid #e2e8f0;
                         background: #f8fafc;
                     }
+
+                    /* Responsive Table in Visual Editor */
+                    .blog-visual-editor .blog-table-wrapper {
+                        width: 100%;
+                        max-width: 100%;
+                        overflow-x: auto;
+                        margin: 1.5em 0;
+                        border-radius: 10px;
+                        border: 1.5px solid #cbd5e1;
+                        background: #ffffff;
+                        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+                    }
+                    .blog-visual-editor table {
+                        width: 100% !important;
+                        min-width: 480px;
+                        border-collapse: separate !important;
+                        border-spacing: 0 !important;
+                        margin: 0 !important;
+                        border: none !important;
+                        font-size: 14px;
+                    }
+                    .blog-visual-editor th {
+                        background: #001a3d !important;
+                        color: #ffffff !important;
+                        font-weight: 800 !important;
+                        font-size: 12.5px !important;
+                        text-transform: uppercase;
+                        letter-spacing: 0.5px;
+                        padding: 12px 16px !important;
+                        border: none !important;
+                        border-bottom: 2.5px solid #ff6600 !important;
+                        text-align: left;
+                    }
+                    .blog-visual-editor td {
+                        padding: 11px 16px !important;
+                        border: none !important;
+                        border-bottom: 1px solid #e2e8f0 !important;
+                        color: #334155 !important;
+                        font-size: 13.5px !important;
+                        vertical-align: top;
+                    }
+                    .blog-visual-editor tbody tr:nth-child(even) {
+                        background-color: #f8fafc;
+                    }
+                    .blog-visual-editor tbody tr:hover {
+                        background-color: #fff8f5;
+                    }
+                    .blog-visual-editor tbody tr td:first-child {
+                        font-weight: 700;
+                        color: #00173e;
+                    }
+                    .blog-visual-editor table tr:last-child td {
+                        border-bottom: none !important;
+                    }
                 </style>
 
                 <script>
@@ -512,6 +643,26 @@
                     var btnModalCancel = document.getElementById('btnLinkModalCancel');
                     var btnModalClose = document.getElementById('btnLinkModalClose');
 
+                    // Table elements
+                    var tableModal = document.getElementById('blogTableModal');
+                    var btnToolbarTable = document.getElementById('btnToolbarTable');
+                    var btnTableModalInsert = document.getElementById('btnTableModalInsert');
+                    var btnTableModalCancel = document.getElementById('btnTableModalCancel');
+                    var btnTableModalClose = document.getElementById('btnTableModalClose');
+                    var inputCols = document.getElementById('tblModalCols');
+                    var inputRows = document.getElementById('tblModalRows');
+                    var inputHasHeader = document.getElementById('tblModalHasHeader');
+
+                    var tableToolsGroup = document.getElementById('blogTableToolsGroup');
+                    var btnTableAddRow = document.getElementById('btnTableAddRow');
+                    var btnTableAddCol = document.getElementById('btnTableAddCol');
+                    var btnTableDelRow = document.getElementById('btnTableDelRow');
+                    var btnTableDelCol = document.getElementById('btnTableDelCol');
+                    var btnTableDelTable = document.getElementById('btnTableDelTable');
+
+                    var currentActiveTable = null;
+                    var currentActiveCell = null;
+
                     if (!visual || !raw) return;
 
                     var currentActiveLink = null;
@@ -534,6 +685,52 @@
                         updateWordCount();
                     }
 
+                    // Auto-enhance and clean any tables (pasted or existing) to be mobile responsive
+                    function enhanceAllTables(container) {
+                        if (!container) return;
+                        var tables = container.querySelectorAll('table');
+                        tables.forEach(function(tbl) {
+                            if (!tbl.parentElement || !tbl.parentElement.classList.contains('blog-table-wrapper')) {
+                                var wrap = document.createElement('div');
+                                wrap.className = 'blog-table-wrapper';
+                                tbl.parentNode.insertBefore(wrap, tbl);
+                                wrap.appendChild(tbl);
+                            }
+                            tbl.removeAttribute('border');
+                            tbl.removeAttribute('cellspacing');
+                            tbl.removeAttribute('cellpadding');
+                            tbl.removeAttribute('width');
+                            tbl.removeAttribute('bgcolor');
+                            tbl.style.border = '';
+                            tbl.style.borderColor = '';
+                            tbl.style.width = '100%';
+
+                            var rows = tbl.querySelectorAll('tr');
+                            if (rows.length > 0 && !tbl.querySelector('thead')) {
+                                var firstRow = rows[0];
+                                var thead = document.createElement('thead');
+                                thead.appendChild(firstRow);
+                                if (tbl.firstChild) {
+                                    tbl.insertBefore(thead, tbl.firstChild);
+                                } else {
+                                    tbl.appendChild(thead);
+                                }
+                                firstRow.querySelectorAll('td').forEach(function(td) {
+                                    var th = document.createElement('th');
+                                    th.innerHTML = td.innerHTML || '&nbsp;';
+                                    firstRow.replaceChild(th, td);
+                                });
+                            }
+
+                            tbl.querySelectorAll('th, td').forEach(function(cell) {
+                                cell.style.border = '';
+                                cell.style.borderColor = '';
+                                cell.style.backgroundColor = '';
+                                cell.style.color = '';
+                            });
+                        });
+                    }
+
                     // Clean unwanted ChatGPT tracking attributes like data-start, data-end, data-section-id
                     function cleanHtmlAttributes(html) {
                         return html.replace(/\s+(data-start|data-end|data-section-id)="[^"]*"/gi, '');
@@ -541,7 +738,16 @@
 
                     // Initial cleanup and count
                     visual.innerHTML = cleanHtmlAttributes(visual.innerHTML);
+                    enhanceAllTables(visual);
                     syncToRaw();
+
+                    // Auto-enhance on paste
+                    visual.addEventListener('paste', function() {
+                        setTimeout(function() {
+                            enhanceAllTables(visual);
+                            syncToRaw();
+                        }, 70);
+                    });
 
                     // Live typing updates
                     visual.addEventListener('input', syncToRaw);
@@ -633,8 +839,192 @@
                     if (btnClean) {
                         btnClean.addEventListener('click', function() {
                             visual.innerHTML = cleanHtmlAttributes(visual.innerHTML);
+                            enhanceAllTables(visual);
                             syncToRaw();
-                            alert('Cleaned ChatGPT formatting & synchronized content!');
+                            alert('Cleaned ChatGPT formatting, styled responsive tables & synchronized content!');
+                        });
+                    }
+
+                    // Table Context Tool Detection
+                    function updateTableContext() {
+                        var sel = window.getSelection();
+                        if (!sel || !sel.anchorNode) {
+                            if (tableToolsGroup) tableToolsGroup.style.display = 'none';
+                            currentActiveTable = null;
+                            currentActiveCell = null;
+                            return;
+                        }
+                        var node = sel.anchorNode.nodeType === 1 ? sel.anchorNode : sel.anchorNode.parentElement;
+                        var cell = node ? node.closest('td, th') : null;
+                        var tbl = cell ? cell.closest('table') : (node ? node.closest('table') : null);
+
+                        if (tbl && visual.contains(tbl)) {
+                            currentActiveTable = tbl;
+                            currentActiveCell = cell;
+                            if (tableToolsGroup) tableToolsGroup.style.display = 'inline-flex';
+                        } else {
+                            currentActiveTable = null;
+                            currentActiveCell = null;
+                            if (tableToolsGroup) tableToolsGroup.style.display = 'none';
+                        }
+                    }
+
+                    visual.addEventListener('click', updateTableContext);
+                    visual.addEventListener('keyup', updateTableContext);
+
+                    // Table Insertion Modal
+                    function openTableModal() {
+                        var sel = window.getSelection();
+                        if (sel && sel.rangeCount > 0) {
+                            currentSavedRange = sel.getRangeAt(0).cloneRange();
+                        } else {
+                            currentSavedRange = null;
+                        }
+                        if (tableModal) tableModal.style.display = 'flex';
+                    }
+
+                    function closeTableModal() {
+                        if (tableModal) tableModal.style.display = 'none';
+                    }
+
+                    if (btnToolbarTable) btnToolbarTable.addEventListener('click', openTableModal);
+                    if (btnTableModalCancel) btnTableModalCancel.addEventListener('click', closeTableModal);
+                    if (btnTableModalClose) btnTableModalClose.addEventListener('click', closeTableModal);
+                    if (tableModal) {
+                        tableModal.addEventListener('click', function(e) {
+                            if (e.target === tableModal) closeTableModal();
+                        });
+                    }
+
+                    if (btnTableModalInsert) {
+                        btnTableModalInsert.addEventListener('click', function() {
+                            var cols = parseInt(inputCols ? inputCols.value : '2', 10) || 2;
+                            var rows = parseInt(inputRows ? inputRows.value : '4', 10) || 4;
+                            var hasHeader = inputHasHeader ? inputHasHeader.checked : true;
+
+                            if (cols < 1) cols = 2;
+                            if (rows < 1) rows = 2;
+
+                            var html = ['<div class="blog-table-wrapper"><table>'];
+                            var startRow = 0;
+
+                            if (hasHeader) {
+                                html.push('<thead><tr>');
+                                for (var c = 0; c < cols; c++) {
+                                    html.push('<th>Header ' + (c + 1) + '</th>');
+                                }
+                                html.push('</tr></thead>');
+                                startRow = 1;
+                            }
+
+                            html.push('<tbody>');
+                            for (var r = startRow; r < rows; r++) {
+                                html.push('<tr>');
+                                for (var c2 = 0; c2 < cols; c2++) {
+                                    html.push('<td>Row ' + (r + 1) + ', Column ' + (c2 + 1) + '</td>');
+                                }
+                                html.push('</tr>');
+                            }
+                            html.push('</tbody></table></div><p><br></p>');
+
+                            closeTableModal();
+                            visual.focus();
+
+                            if (currentSavedRange) {
+                                var sel = window.getSelection();
+                                sel.removeAllRanges();
+                                sel.addRange(currentSavedRange);
+                            }
+
+                            document.execCommand('insertHTML', false, html.join(''));
+                            enhanceAllTables(visual);
+                            syncToRaw();
+                        });
+                    }
+
+                    // Table Row / Col Manipulation
+                    if (btnTableAddRow) {
+                        btnTableAddRow.addEventListener('click', function() {
+                            if (!currentActiveTable) return;
+                            var tr = currentActiveCell ? currentActiveCell.closest('tr') : currentActiveTable.querySelector('tr:last-child');
+                            var colCount = tr ? tr.children.length : 2;
+                            var newTr = document.createElement('tr');
+                            for (var i = 0; i < colCount; i++) {
+                                var td = document.createElement('td');
+                                td.innerHTML = 'Data ' + (i + 1);
+                                newTr.appendChild(td);
+                            }
+                            if (tr && tr.parentNode) {
+                                tr.parentNode.insertBefore(newTr, tr.nextSibling);
+                            } else {
+                                var tbody = currentActiveTable.querySelector('tbody') || currentActiveTable;
+                                tbody.appendChild(newTr);
+                            }
+                            enhanceAllTables(visual);
+                            syncToRaw();
+                        });
+                    }
+
+                    if (btnTableAddCol) {
+                        btnTableAddCol.addEventListener('click', function() {
+                            if (!currentActiveTable) return;
+                            var colIdx = currentActiveCell ? currentActiveCell.cellIndex : -1;
+                            var allRows = currentActiveTable.querySelectorAll('tr');
+                            allRows.forEach(function(row) {
+                                var isHead = row.closest('thead') !== null || row.querySelector('th') !== null;
+                                var cell = document.createElement(isHead ? 'th' : 'td');
+                                cell.innerHTML = isHead ? 'New Header' : 'New Cell';
+                                if (colIdx >= 0 && colIdx < row.children.length) {
+                                    row.insertBefore(cell, row.children[colIdx].nextSibling);
+                                } else {
+                                    row.appendChild(cell);
+                                }
+                            });
+                            enhanceAllTables(visual);
+                            syncToRaw();
+                        });
+                    }
+
+                    if (btnTableDelRow) {
+                        btnTableDelRow.addEventListener('click', function() {
+                            if (!currentActiveCell) return;
+                            var tr = currentActiveCell.closest('tr');
+                            if (tr) {
+                                tr.remove();
+                                updateTableContext();
+                                syncToRaw();
+                            }
+                        });
+                    }
+
+                    if (btnTableDelCol) {
+                        btnTableDelCol.addEventListener('click', function() {
+                            if (!currentActiveCell || !currentActiveTable) return;
+                            var colIdx = currentActiveCell.cellIndex;
+                            var allRows = currentActiveTable.querySelectorAll('tr');
+                            allRows.forEach(function(row) {
+                                if (colIdx >= 0 && colIdx < row.children.length) {
+                                    row.children[colIdx].remove();
+                                }
+                            });
+                            updateTableContext();
+                            syncToRaw();
+                        });
+                    }
+
+                    if (btnTableDelTable) {
+                        btnTableDelTable.addEventListener('click', function() {
+                            if (!currentActiveTable) return;
+                            if (confirm('Delete this entire table?')) {
+                                var wrap = currentActiveTable.closest('.blog-table-wrapper');
+                                if (wrap) {
+                                    wrap.remove();
+                                } else {
+                                    currentActiveTable.remove();
+                                }
+                                updateTableContext();
+                                syncToRaw();
+                            }
                         });
                     }
 
@@ -1098,6 +1488,314 @@
                             });
                         }
                     })();
+                })();
+                </script>
+
+                {{-- BLOG FAQS (FREQUENTLY ASKED QUESTIONS) BUILDER --}}
+                @php
+                    $existingFaqs = old('faqs', $blog->faqs_list ?? []);
+                    if (!is_array($existingFaqs)) {
+                        $existingFaqs = [];
+                    }
+                @endphp
+
+                <div class="meta-box blog-faq-manager-box" style="margin-top: 30px; border-radius: 12px; border: 1px solid #e2e8f0; background: #ffffff; box-shadow: 0 4px 16px rgba(15, 23, 42, 0.04); overflow: hidden;">
+                    <div class="meta-title" style="display: flex; justify-content: space-between; align-items: center; padding: 16px 20px; background: #f8fafc; border-bottom: 1px solid #e2e8f0; flex-wrap: wrap; gap: 12px;">
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <span style="font-size: 20px; line-height: 1;">❓</span>
+                            <div>
+                                <h3 style="margin: 0; font-size: 15px; font-weight: 800; color: #00173e; letter-spacing: -0.2px;">Frequently Asked Questions (FAQs)</h3>
+                                <p style="margin: 2px 0 0 0; font-size: 12px; color: #64748b; font-weight: 500;">Add FAQs that will appear as an interactive expandable accordion on this blog post.</p>
+                            </div>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <span id="faqCountBadge" style="font-size: 11px; font-weight: 700; background: #e0f2fe; color: #0b63e5; padding: 4px 10px; border-radius: 999px;">
+                                {{ count($existingFaqs) }} {{ count($existingFaqs) === 1 ? 'FAQ' : 'FAQs' }}
+                            </span>
+                            <button type="button" id="btnAddFaqTop" class="btn" style="padding: 7px 14px; font-size: 12.5px; font-weight: 700; background: #ff6600; color: #ffffff; border: none; border-radius: 8px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; box-shadow: 0 2px 6px rgba(255, 102, 0, 0.25); transition: all 0.2s ease;">
+                                <iconify-icon icon="lucide:plus-circle" width="15" height="15"></iconify-icon>
+                                <span>Add FAQ Item</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="meta-body" style="padding: 20px;">
+                        {{-- Empty State --}}
+                        <div id="faqEmptyState" style="{{ count($existingFaqs) > 0 ? 'display: none;' : 'display: flex;' }} flex-direction: column; align-items: center; justify-content: center; padding: 36px 20px; text-align: center; background: #f8fafc; border: 2px dashed #cbd5e1; border-radius: 12px;">
+                            <div style="width: 48px; height: 48px; border-radius: 50%; background: #eff6ff; color: #2563eb; display: flex; align-items: center; justify-content: center; font-size: 24px; margin-bottom: 12px;">
+                                💬
+                            </div>
+                            <h4 style="margin: 0 0 6px 0; font-size: 14.5px; font-weight: 700; color: #1e293b;">No FAQs added yet</h4>
+                            <p style="margin: 0 0 16px 0; font-size: 12.5px; color: #64748b; max-width: 440px; line-height: 1.5;">
+                                Adding frequently asked questions helps answer visitor inquiries directly and creates Google FAQ Schema markup to boost SEO ranking.
+                            </p>
+                            <button type="button" id="btnAddFirstFaq" class="btn" style="padding: 8px 18px; font-size: 13px; font-weight: 700; background: #00173e; color: #ffffff; border: none; border-radius: 8px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px;">
+                                <iconify-icon icon="lucide:plus" width="15" height="15"></iconify-icon>
+                                <span>Add First FAQ Item</span>
+                            </button>
+                        </div>
+
+                        {{-- FAQ Items Container --}}
+                        <div id="faqItemsContainer" style="display: flex; flex-direction: column; gap: 14px;">
+                            @foreach ($existingFaqs as $index => $faq)
+                                <div class="faq-item-card" data-faq-index="{{ $index }}" style="background: #ffffff; border: 1.5px solid #e2e8f0; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 8px rgba(15, 23, 42, 0.03); transition: border-color 0.2s ease;">
+                                    <div class="faq-card-head" style="display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; background: #f8fafc; border-bottom: 1px solid #e2e8f0; cursor: pointer; user-select: none;">
+                                        <div style="display: flex; align-items: center; gap: 10px; min-width: 0; flex: 1;">
+                                            <span class="faq-card-handle" style="cursor: grab; color: #94a3b8; font-size: 14px;" title="Drag / Reorder">&#9776;</span>
+                                            <span class="faq-item-number" style="font-size: 11px; font-weight: 800; background: #00173e; color: #ffffff; padding: 2px 8px; border-radius: 6px; letter-spacing: 0.5px;">#{{ $loop->iteration }}</span>
+                                            <span class="faq-preview-title" style="font-size: 13px; font-weight: 700; color: #1e293b; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 400px;">
+                                                {{ !empty($faq['question']) ? $faq['question'] : 'New FAQ Question...' }}
+                                            </span>
+                                        </div>
+                                        <div style="display: flex; align-items: center; gap: 6px;">
+                                            <button type="button" class="faq-move-up-btn" title="Move Up" style="background: transparent; border: 1px solid #cbd5e1; border-radius: 6px; width: 28px; height: 28px; display: inline-flex; align-items: center; justify-content: center; cursor: pointer; color: #475569;">
+                                                <iconify-icon icon="lucide:arrow-up" width="13" height="13"></iconify-icon>
+                                            </button>
+                                            <button type="button" class="faq-move-down-btn" title="Move Down" style="background: transparent; border: 1px solid #cbd5e1; border-radius: 6px; width: 28px; height: 28px; display: inline-flex; align-items: center; justify-content: center; cursor: pointer; color: #475569;">
+                                                <iconify-icon icon="lucide:arrow-down" width="13" height="13"></iconify-icon>
+                                            </button>
+                                            <button type="button" class="faq-toggle-collapse-btn" title="Collapse / Expand" style="background: transparent; border: 1px solid #cbd5e1; border-radius: 6px; width: 28px; height: 28px; display: inline-flex; align-items: center; justify-content: center; cursor: pointer; color: #475569;">
+                                                <iconify-icon icon="lucide:chevron-down" width="15" height="15" class="faq-toggle-icon"></iconify-icon>
+                                            </button>
+                                            <button type="button" class="faq-delete-btn" title="Delete FAQ" style="background: #fee2e2; border: 1px solid #fecaca; border-radius: 6px; width: 28px; height: 28px; display: inline-flex; align-items: center; justify-content: center; cursor: pointer; color: #ef4444; transition: all 0.2s ease;">
+                                                <iconify-icon icon="lucide:trash-2" width="13" height="13"></iconify-icon>
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <div class="faq-card-body" style="padding: 16px;">
+                                        <div style="margin-bottom: 14px;">
+                                            <label style="display: block; font-size: 11.5px; font-weight: 800; color: #475569; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px;">
+                                                Question <span style="color: #ef4444;">*</span>
+                                            </label>
+                                            <input
+                                                type="text"
+                                                name="faqs[{{ $index }}][question]"
+                                                class="faq-q-input"
+                                                value="{{ $faq['question'] ?? '' }}"
+                                                placeholder="e.g. What are the key advantages of custom web development?"
+                                                style="width: 100%; box-sizing: border-box; padding: 10px 14px; font-size: 13.5px; font-weight: 600; color: #00173e; border: 1.5px solid #cbd5e1; border-radius: 8px; background: #ffffff; outline: none; transition: border-color 0.2s ease;"
+                                                required
+                                            >
+                                        </div>
+
+                                        <div>
+                                            <label style="display: block; font-size: 11.5px; font-weight: 800; color: #475569; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px;">
+                                                Answer <span style="color: #ef4444;">*</span>
+                                            </label>
+                                            <textarea
+                                                name="faqs[{{ $index }}][answer]"
+                                                class="faq-a-input"
+                                                rows="3"
+                                                placeholder="Enter a clear, comprehensive answer for this question..."
+                                                style="width: 100%; box-sizing: border-box; padding: 10px 14px; font-size: 13px; line-height: 1.5; color: #334155; border: 1.5px solid #cbd5e1; border-radius: 8px; background: #ffffff; outline: none; resize: vertical; transition: border-color 0.2s ease;"
+                                                required
+                                            >{{ $faq['answer'] ?? '' }}</textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+
+                        {{-- Add Bottom Button --}}
+                        <div id="faqBottomAddWrap" style="{{ count($existingFaqs) > 0 ? 'display: block;' : 'display: none;' }} margin-top: 16px;">
+                            <button type="button" id="btnAddFaqBottom" style="width: 100%; padding: 12px; background: #f8fafc; border: 1.5px dashed #0b63e5; color: #0b63e5; font-size: 13px; font-weight: 700; border-radius: 10px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; transition: all 0.2s ease;">
+                                <iconify-icon icon="lucide:plus-circle" width="16" height="16"></iconify-icon>
+                                <span>Add Another FAQ Item</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <script>
+                (function initBlogFaqManager() {
+                    var container = document.getElementById('faqItemsContainer');
+                    var emptyState = document.getElementById('faqEmptyState');
+                    var bottomWrap = document.getElementById('faqBottomAddWrap');
+                    var countBadge = document.getElementById('faqCountBadge');
+                    var btnAddTop = document.getElementById('btnAddFaqTop');
+                    var btnAddFirst = document.getElementById('btnAddFirstFaq');
+                    var btnAddBottom = document.getElementById('btnAddFaqBottom');
+
+                    if (!container) return;
+
+                    function getNextIndex() {
+                        var cards = container.querySelectorAll('.faq-item-card');
+                        var maxIdx = -1;
+                        cards.forEach(function(card) {
+                            var idx = parseInt(card.getAttribute('data-faq-index') || '0', 10);
+                            if (idx > maxIdx) maxIdx = idx;
+                        });
+                        return maxIdx + 1;
+                    }
+
+                    function updateFaqUI() {
+                        var cards = container.querySelectorAll('.faq-item-card');
+                        var count = cards.length;
+
+                        if (countBadge) {
+                            countBadge.textContent = count + (count === 1 ? ' FAQ' : ' FAQs');
+                        }
+
+                        if (count === 0) {
+                            if (emptyState) emptyState.style.display = 'flex';
+                            if (bottomWrap) bottomWrap.style.display = 'none';
+                        } else {
+                            if (emptyState) emptyState.style.display = 'none';
+                            if (bottomWrap) bottomWrap.style.display = 'block';
+                        }
+
+                        cards.forEach(function(card, idx) {
+                            var numEl = card.querySelector('.faq-item-number');
+                            if (numEl) numEl.textContent = '#' + (idx + 1);
+
+                            var qInput = card.querySelector('.faq-q-input');
+                            var aInput = card.querySelector('.faq-a-input');
+                            if (qInput) qInput.setAttribute('name', 'faqs[' + idx + '][question]');
+                            if (aInput) aInput.setAttribute('name', 'faqs[' + idx + '][answer]');
+                            card.setAttribute('data-faq-index', idx);
+                        });
+                    }
+
+                    function attachCardListeners(card) {
+                        var qInput = card.querySelector('.faq-q-input');
+                        var preview = card.querySelector('.faq-preview-title');
+                        var head = card.querySelector('.faq-card-head');
+                        var body = card.querySelector('.faq-card-body');
+                        var toggleIcon = card.querySelector('.faq-toggle-icon');
+                        var deleteBtn = card.querySelector('.faq-delete-btn');
+                        var moveUpBtn = card.querySelector('.faq-move-up-btn');
+                        var moveDownBtn = card.querySelector('.faq-move-down-btn');
+
+                        if (qInput && preview) {
+                            qInput.addEventListener('input', function() {
+                                var val = qInput.value.trim();
+                                preview.textContent = val !== '' ? val : 'New FAQ Question...';
+                            });
+                        }
+
+                        if (head) {
+                            head.addEventListener('click', function(e) {
+                                if (e.target.closest('button') && !e.target.closest('.faq-toggle-collapse-btn')) {
+                                    return;
+                                }
+                                if (body.style.display === 'none') {
+                                    body.style.display = 'block';
+                                    if (toggleIcon) toggleIcon.style.transform = 'rotate(0deg)';
+                                } else {
+                                    body.style.display = 'none';
+                                    if (toggleIcon) toggleIcon.style.transform = 'rotate(-90deg)';
+                                }
+                            });
+                        }
+
+                        if (deleteBtn) {
+                            deleteBtn.addEventListener('click', function(e) {
+                                e.stopPropagation();
+                                if (confirm('Are you sure you want to remove this FAQ item?')) {
+                                    card.style.transition = 'all 0.2s ease';
+                                    card.style.opacity = '0';
+                                    card.style.transform = 'scale(0.96)';
+                                    setTimeout(function() {
+                                        card.remove();
+                                        updateFaqUI();
+                                    }, 200);
+                                }
+                            });
+                        }
+
+                        if (moveUpBtn) {
+                            moveUpBtn.addEventListener('click', function(e) {
+                                e.stopPropagation();
+                                var prev = card.previousElementSibling;
+                                if (prev && prev.classList.contains('faq-item-card')) {
+                                    container.insertBefore(card, prev);
+                                    updateFaqUI();
+                                }
+                            });
+                        }
+
+                        if (moveDownBtn) {
+                            moveDownBtn.addEventListener('click', function(e) {
+                                e.stopPropagation();
+                                var next = card.nextElementSibling;
+                                if (next && next.classList.contains('faq-item-card')) {
+                                    container.insertBefore(next, card);
+                                    updateFaqUI();
+                                }
+                            });
+                        }
+                    }
+
+                    function addFaqItem(initialQ, initialA) {
+                        var idx = getNextIndex();
+                        var itemNum = container.querySelectorAll('.faq-item-card').length + 1;
+                        var qVal = initialQ || '';
+                        var aVal = initialA || '';
+                        var previewText = qVal.trim() !== '' ? qVal.trim() : 'New FAQ Question...';
+
+                        var card = document.createElement('div');
+                        card.className = 'faq-item-card';
+                        card.setAttribute('data-faq-index', idx);
+                        card.style.cssText = 'background: #ffffff; border: 1.5px solid #e2e8f0; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 8px rgba(15, 23, 42, 0.03); transition: border-color 0.2s ease;';
+
+                        card.innerHTML = [
+                            '<div class="faq-card-head" style="display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; background: #f8fafc; border-bottom: 1px solid #e2e8f0; cursor: pointer; user-select: none;">',
+                            '  <div style="display: flex; align-items: center; gap: 10px; min-width: 0; flex: 1;">',
+                            '    <span class="faq-card-handle" style="cursor: grab; color: #94a3b8; font-size: 14px;" title="Drag / Reorder">&#9776;</span>',
+                            '    <span class="faq-item-number" style="font-size: 11px; font-weight: 800; background: #00173e; color: #ffffff; padding: 2px 8px; border-radius: 6px; letter-spacing: 0.5px;">#' + itemNum + '</span>',
+                            '    <span class="faq-preview-title" style="font-size: 13px; font-weight: 700; color: #1e293b; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 400px;">' + (previewText.replace(/"/g, '&quot;')) + '</span>',
+                            '  </div>',
+                            '  <div style="display: flex; align-items: center; gap: 6px;">',
+                            '    <button type="button" class="faq-move-up-btn" title="Move Up" style="background: transparent; border: 1px solid #cbd5e1; border-radius: 6px; width: 28px; height: 28px; display: inline-flex; align-items: center; justify-content: center; cursor: pointer; color: #475569;">',
+                            '      <iconify-icon icon="lucide:arrow-up" width="13" height="13"></iconify-icon>',
+                            '    </button>',
+                            '    <button type="button" class="faq-move-down-btn" title="Move Down" style="background: transparent; border: 1px solid #cbd5e1; border-radius: 6px; width: 28px; height: 28px; display: inline-flex; align-items: center; justify-content: center; cursor: pointer; color: #475569;">',
+                            '      <iconify-icon icon="lucide:arrow-down" width="13" height="13"></iconify-icon>',
+                            '    </button>',
+                            '    <button type="button" class="faq-toggle-collapse-btn" title="Collapse / Expand" style="background: transparent; border: 1px solid #cbd5e1; border-radius: 6px; width: 28px; height: 28px; display: inline-flex; align-items: center; justify-content: center; cursor: pointer; color: #475569;">',
+                            '      <iconify-icon icon="lucide:chevron-down" width="15" height="15" class="faq-toggle-icon"></iconify-icon>',
+                            '    </button>',
+                            '    <button type="button" class="faq-delete-btn" title="Delete FAQ" style="background: #fee2e2; border: 1px solid #fecaca; border-radius: 6px; width: 28px; height: 28px; display: inline-flex; align-items: center; justify-content: center; cursor: pointer; color: #ef4444; transition: all 0.2s ease;">',
+                            '      <iconify-icon icon="lucide:trash-2" width="13" height="13"></iconify-icon>',
+                            '    </button>',
+                            '  </div>',
+                            '</div>',
+                            '<div class="faq-card-body" style="padding: 16px;">',
+                            '  <div style="margin-bottom: 14px;">',
+                            '    <label style="display: block; font-size: 11.5px; font-weight: 800; color: #475569; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px;">',
+                            '      Question <span style="color: #ef4444;">*</span>',
+                            '    </label>',
+                            '    <input type="text" name="faqs[' + idx + '][question]" class="faq-q-input" value="' + (qVal.replace(/"/g, '&quot;')) + '" placeholder="e.g. What are the key advantages of custom web development?" style="width: 100%; box-sizing: border-box; padding: 10px 14px; font-size: 13.5px; font-weight: 600; color: #00173e; border: 1.5px solid #cbd5e1; border-radius: 8px; background: #ffffff; outline: none; transition: border-color 0.2s ease;" required>',
+                            '  </div>',
+                            '  <div>',
+                            '    <label style="display: block; font-size: 11.5px; font-weight: 800; color: #475569; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px;">',
+                            '      Answer <span style="color: #ef4444;">*</span>',
+                            '    </label>',
+                            '    <textarea name="faqs[' + idx + '][answer]" class="faq-a-input" rows="3" placeholder="Enter a clear, comprehensive answer for this question..." style="width: 100%; box-sizing: border-box; padding: 10px 14px; font-size: 13px; line-height: 1.5; color: #334155; border: 1.5px solid #cbd5e1; border-radius: 8px; background: #ffffff; outline: none; resize: vertical; transition: border-color 0.2s ease;" required>' + (aVal.replace(/</g, '&lt;').replace(/>/g, '&gt;')) + '</textarea>',
+                            '  </div>',
+                            '</div>'
+                        ].join('');
+
+                        container.appendChild(card);
+                        attachCardListeners(card);
+                        updateFaqUI();
+
+                        var newQ = card.querySelector('.faq-q-input');
+                        if (newQ && !initialQ) {
+                            newQ.focus();
+                        }
+                    }
+
+                    container.querySelectorAll('.faq-item-card').forEach(function(card) {
+                        attachCardListeners(card);
+                    });
+
+                    if (btnAddTop) btnAddTop.addEventListener('click', function() { addFaqItem(); });
+                    if (btnAddFirst) btnAddFirst.addEventListener('click', function() { addFaqItem(); });
+                    if (btnAddBottom) btnAddBottom.addEventListener('click', function() { addFaqItem(); });
+
+                    updateFaqUI();
                 })();
                 </script>
 

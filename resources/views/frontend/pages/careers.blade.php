@@ -2428,7 +2428,7 @@ a  {
 
   left: 0;
 
-  top: 2px;
+  top: 7px;
 
   width: 13px;
 
