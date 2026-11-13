@@ -141,7 +141,7 @@
 @endpush
 
 @section('content')
-<main class="font-raleway">
+<main class="font-sans">
   <div class="contact-page">
     <section class="contact-hero" aria-labelledby="contact-page-title">
       <div class="contact-hero-overlay"></div>
@@ -266,7 +266,7 @@
       }
 
       .contact-page * {
-        font-family: "Raleway", "Nunito", ui-sans-serif, system-ui, sans-serif !important;
+        font-family: "Nunito", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
       }
 
       .contact-hero {

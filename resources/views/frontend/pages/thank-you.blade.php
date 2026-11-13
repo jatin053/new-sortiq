@@ -8,6 +8,7 @@
   .thank-you-page {
     background: #ffffff;
     color: #001a3d;
+    font-family: 'Nunito', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     overflow-x: hidden;
   }
 
@@ -422,7 +423,7 @@
 @endpush
 
 @section('content')
-<main class="thank-you-page font-raleway">
+<main class="thank-you-page font-sans">
   <!-- Hero Section -->
   <section class="thank-you-hero">
     <div class="thank-you-badge">
