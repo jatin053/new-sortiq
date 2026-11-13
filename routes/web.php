@@ -74,6 +74,11 @@ Route::view('/privacy', 'frontend.pages.privacy-policy');
 
 Route::view('/contact', 'frontend.pages.contact')->name('frontend.contact');
 Route::view('/contact-us', 'frontend.pages.contact');
+
+Route::view('/thank-you', 'frontend.pages.thank-you')->name('frontend.thank-you');
+Route::view('/thankyou', 'frontend.pages.thank-you');
+Route::view('/thanks', 'frontend.pages.thank-you');
+
 Route::get('/ads-landing-page', [\App\Http\Controllers\Frontend\AdsLandingController::class, 'show'])->name('frontend.ads-landing-page');
 Route::post('/ads-landing-page/submit', [\App\Http\Controllers\Frontend\AdsLandingController::class, 'submit'])->name('frontend.ads-landing-page.submit');
 

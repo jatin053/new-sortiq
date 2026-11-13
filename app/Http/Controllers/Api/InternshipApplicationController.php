@@ -52,6 +52,7 @@ class InternshipApplicationController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Application submitted successfully.',
+            'redirect' => route('frontend.thank-you'),
         ]);
     }
 
