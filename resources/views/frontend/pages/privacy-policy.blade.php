@@ -686,7 +686,6 @@
           </div>
         </section>
 
-        <!-- 3. Cookies & Tracking Technologies -->
         <section id="cookies" class="sq-policy-section">
           <h2><span class="sq-section-badge">3</span> Cookies &amp; Tracking Technologies</h2>
           <p class="sq-sec-lead">Our website uses cookies, pixels, and similar web tracking mechanisms to enhance your browsing experience. Specifically, they are used to:</p>

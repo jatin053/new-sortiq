@@ -174,6 +174,38 @@
                             <option value="blockquote">Quote Block</option>
                         </select>
 
+                        <select id="editorFontFamilySelect" aria-label="Font family" style="padding: 5px 8px; border-radius: 6px; border: 1px solid #cbd5e1; font-size: 12px; font-weight: 600; color: #1e293b; background: #fff; cursor: pointer; min-width: 120px;">
+                            <option value="">Font Family</option>
+                            <option value="'Nunito', sans-serif" style="font-family: 'Nunito', sans-serif;">Nunito (Default)</option>
+                            <option value="'Poppins', sans-serif" style="font-family: 'Poppins', sans-serif;">Poppins</option>
+                            <option value="'Raleway', sans-serif" style="font-family: 'Raleway', sans-serif;">Raleway</option>
+                            <option value="'Roboto', sans-serif" style="font-family: 'Roboto', sans-serif;">Roboto</option>
+                            <option value="'Inter', sans-serif" style="font-family: 'Inter', sans-serif;">Inter</option>
+                            <option value="Arial, Helvetica, sans-serif" style="font-family: Arial, Helvetica, sans-serif;">Arial</option>
+                            <option value="Georgia, serif" style="font-family: Georgia, serif;">Georgia</option>
+                            <option value="'Times New Roman', Times, serif" style="font-family: 'Times New Roman', Times, serif;">Times New Roman</option>
+                            <option value="'Courier New', Courier, monospace" style="font-family: 'Courier New', Courier, monospace;">Courier New</option>
+                            <option value="Verdana, Geneva, sans-serif" style="font-family: Verdana, Geneva, sans-serif;">Verdana</option>
+                            <option value="Tahoma, sans-serif" style="font-family: Tahoma, sans-serif;">Tahoma</option>
+                        </select>
+
+                        <select id="editorFontSizeSelect" aria-label="Font size" style="padding: 5px 8px; border-radius: 6px; border: 1px solid #cbd5e1; font-size: 12px; font-weight: 600; color: #1e293b; background: #fff; cursor: pointer; min-width: 95px;">
+                            <option value="">Font Size</option>
+                            <option value="12px">12px (Small)</option>
+                            <option value="13px">13px</option>
+                            <option value="14px">14px</option>
+                            <option value="15px">15px (Normal)</option>
+                            <option value="16px">16px</option>
+                            <option value="18px">18px (Medium)</option>
+                            <option value="20px">20px</option>
+                            <option value="22px">22px</option>
+                            <option value="24px">24px (Large)</option>
+                            <option value="28px">28px</option>
+                            <option value="32px">32px (X-Large)</option>
+                            <option value="36px">36px (XX-Large)</option>
+                            <option value="42px">42px</option>
+                        </select>
+
                         <div style="width: 1px; height: 20px; background: #e2e8f0; margin: 0 4px;"></div>
 
                         <button type="button" class="ed-btn" data-cmd="bold" title="Bold (Ctrl+B)"><strong>B</strong></button>
@@ -365,6 +397,8 @@
                 </div>
 
                 <style>
+                    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Nunito:wght@400;600;700;800&family=Poppins:wght@400;500;600;700;800&family=Raleway:wght@400;500;600;700&family=Roboto:wght@400;500;700&display=swap');
+
                     /* Visual Rich Text Editor Styling */
                     .blog-visual-editor {
                         width: 100%;
@@ -373,7 +407,7 @@
                         padding: 22px 24px;
                         background: #ffffff;
                         color: #1e293b;
-                        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+                        font-family: 'Nunito', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
                         font-size: 15px;
                         line-height: 1.75;
                         outline: none;
@@ -388,8 +422,8 @@
                         margin-top: 0;
                         margin-bottom: 1.15em;
                     }
-                    .blog-visual-editor h1,
-                    .blog-visual-editor h1 * {
+                    .blog-visual-editor h1:not([style*="font-size"]),
+                    .blog-visual-editor h1 *:not([style*="font-size"]) {
                         font-size: 28px !important;
                         font-weight: 800 !important;
                         margin-top: 1.8em;
@@ -397,8 +431,8 @@
                         color: #0f172a;
                         line-height: 1.3;
                     }
-                    .blog-visual-editor h2,
-                    .blog-visual-editor h2 * {
+                    .blog-visual-editor h2:not([style*="font-size"]),
+                    .blog-visual-editor h2 *:not([style*="font-size"]) {
                         font-size: 24px !important;
                         font-weight: 750 !important;
                         margin-top: 1.6em;
@@ -406,8 +440,8 @@
                         color: #0f172a;
                         line-height: 1.35;
                     }
-                    .blog-visual-editor h3,
-                    .blog-visual-editor h3 * {
+                    .blog-visual-editor h3:not([style*="font-size"]),
+                    .blog-visual-editor h3 *:not([style*="font-size"]) {
                         font-size: 20px !important;
                         font-weight: 700 !important;
                         margin-top: 1.4em;
@@ -415,24 +449,24 @@
                         color: #1e293b;
                         line-height: 1.4;
                     }
-                    .blog-visual-editor h4,
-                    .blog-visual-editor h4 * {
+                    .blog-visual-editor h4:not([style*="font-size"]),
+                    .blog-visual-editor h4 *:not([style*="font-size"]) {
                         font-size: 17px !important;
                         font-weight: 650 !important;
                         margin-top: 1.2em;
                         margin-bottom: 0.4em;
                         color: #334155;
                     }
-                    .blog-visual-editor h5,
-                    .blog-visual-editor h5 * {
+                    .blog-visual-editor h5:not([style*="font-size"]),
+                    .blog-visual-editor h5 *:not([style*="font-size"]) {
                         font-size: 15px !important;
                         font-weight: 600 !important;
                         margin-top: 1.1em;
                         margin-bottom: 0.4em;
                         color: #475569;
                     }
-                    .blog-visual-editor h6,
-                    .blog-visual-editor h6 * {
+                    .blog-visual-editor h6:not([style*="font-size"]),
+                    .blog-visual-editor h6 *:not([style*="font-size"]) {
                         font-size: 13.5px !important;
                         font-weight: 600 !important;
                         text-transform: uppercase;
@@ -440,6 +474,17 @@
                         margin-top: 1em;
                         margin-bottom: 0.35em;
                         color: #64748b;
+                    }
+                    .editor-toolbar select {
+                        transition: border-color 0.15s ease, box-shadow 0.15s ease;
+                    }
+                    .editor-toolbar select:hover {
+                        border-color: #94a3b8 !important;
+                    }
+                    .editor-toolbar select:focus {
+                        outline: none;
+                        border-color: #0b63e5 !important;
+                        box-shadow: 0 0 0 2px rgba(11, 99, 229, 0.15);
                     }
                     .blog-visual-editor ul,
                     .blog-visual-editor ol {
@@ -852,29 +897,269 @@
                             var val = this.getAttribute('data-val') || null;
                             visual.focus();
                             document.execCommand(cmd, false, val);
+                            saveEditorRange();
                             syncToRaw();
+                            syncToolbarFontState();
                         });
                     });
+
+                    // Range preservation helpers
+                    function saveEditorRange() {
+                        var sel = window.getSelection();
+                        if (sel && sel.rangeCount > 0) {
+                            var r = sel.getRangeAt(0);
+                            if (visual.contains(r.commonAncestorContainer) || r.commonAncestorContainer === visual) {
+                                currentSavedRange = r.cloneRange();
+                            }
+                        }
+                    }
+
+                    function restoreEditorRange() {
+                        if (currentSavedRange) {
+                            visual.focus();
+                            var sel = window.getSelection();
+                            sel.removeAllRanges();
+                            sel.addRange(currentSavedRange);
+                        }
+                    }
+
+                    // Synchronize toolbar formatting state with current cursor/selection
+                    function syncToolbarFontState() {
+                        var sel = window.getSelection();
+                        if (!sel || !sel.anchorNode) return;
+                        var node = sel.anchorNode.nodeType === 1 ? sel.anchorNode : sel.anchorNode.parentElement;
+                        if (!node || !visual.contains(node)) return;
+
+                        // 1. Format Select
+                        if (formatSelect) {
+                            var block = node.closest('h1, h2, h3, h4, h5, h6, blockquote, p');
+                            if (block && visual.contains(block)) {
+                                var tag = block.tagName.toLowerCase();
+                                formatSelect.value = tag;
+                            } else {
+                                formatSelect.value = 'p';
+                            }
+                        }
+
+                        var comp = window.getComputedStyle(node);
+
+                        // 2. Font Family Select
+                        if (fontFamilySelect) {
+                            var currentFamily = (node.style.fontFamily || comp.fontFamily || '').toLowerCase().replace(/['"]/g, '');
+                            var matchedFamily = '';
+                            for (var i = 1; i < fontFamilySelect.options.length; i++) {
+                                var optVal = fontFamilySelect.options[i].value.toLowerCase().replace(/['"]/g, '');
+                                var primaryName = optVal.split(',')[0].trim();
+                                if (primaryName && currentFamily.indexOf(primaryName) !== -1) {
+                                    matchedFamily = fontFamilySelect.options[i].value;
+                                    break;
+                                }
+                            }
+                            fontFamilySelect.value = matchedFamily;
+                        }
+
+                        // 3. Font Size Select
+                        if (fontSizeSelect) {
+                            var currentSize = node.style.fontSize || comp.fontSize;
+                            var matchedSize = '';
+                            if (currentSize) {
+                                var pxNum = Math.round(parseFloat(currentSize));
+                                var pxStr = pxNum + 'px';
+                                for (var j = 1; j < fontSizeSelect.options.length; j++) {
+                                    if (fontSizeSelect.options[j].value === pxStr) {
+                                        matchedSize = pxStr;
+                                        break;
+                                    }
+                                }
+                            }
+                            fontSizeSelect.value = matchedSize;
+                        }
+                    }
+
+                    // Apply Font Family
+                    function applyFontFamily(fontFamily) {
+                        restoreEditorRange();
+                        visual.focus();
+
+                        var sel = window.getSelection();
+                        if (!sel || sel.rangeCount === 0) return;
+
+                        if (!fontFamily) {
+                            if (sel.isCollapsed) {
+                                var node = sel.anchorNode;
+                                var el = node.nodeType === 1 ? node : node.parentElement;
+                                var block = el ? el.closest('h1, h2, h3, h4, h5, h6, p, blockquote, li, div') : null;
+                                if (block && visual.contains(block) && block !== visual) {
+                                    block.style.fontFamily = '';
+                                    block.querySelectorAll('span, font').forEach(function(s) { s.style.fontFamily = ''; });
+                                } else if (el && visual.contains(el)) {
+                                    el.style.fontFamily = '';
+                                }
+                            } else {
+                                try {
+                                    document.execCommand('styleWithCSS', false, true);
+                                    document.execCommand('fontName', false, 'inherit');
+                                } catch(e) {}
+                                var r = sel.getRangeAt(0);
+                                var container = r.commonAncestorContainer;
+                                var parent = container.nodeType === 1 ? container : container.parentElement;
+                                if (parent && visual.contains(parent)) {
+                                    parent.querySelectorAll('span, font').forEach(function(s) {
+                                        if (s.style.fontFamily === 'inherit') s.style.fontFamily = '';
+                                    });
+                                }
+                            }
+                            saveEditorRange();
+                            syncToRaw();
+                            return;
+                        }
+
+                        if (sel.isCollapsed) {
+                            var node = sel.anchorNode;
+                            var el = node.nodeType === 1 ? node : node.parentElement;
+                            var block = el ? el.closest('h1, h2, h3, h4, h5, h6, p, blockquote, li, div') : null;
+                            if (block && visual.contains(block) && block !== visual) {
+                                block.style.fontFamily = fontFamily;
+                                block.querySelectorAll('span, font').forEach(function(s) {
+                                    s.style.fontFamily = fontFamily;
+                                });
+                            } else if (el && visual.contains(el)) {
+                                el.style.fontFamily = fontFamily;
+                            }
+                        } else {
+                            try {
+                                document.execCommand('styleWithCSS', false, true);
+                            } catch(e) {}
+                            document.execCommand('fontName', false, fontFamily);
+
+                            // Normalize any <font face="..."> tags to clean spans
+                            visual.querySelectorAll('font[face]').forEach(function(f) {
+                                var span = document.createElement('span');
+                                span.style.fontFamily = f.getAttribute('face') || fontFamily;
+                                if (f.style.fontSize) span.style.fontSize = f.style.fontSize;
+                                if (f.style.color) span.style.color = f.style.color;
+                                while (f.firstChild) span.appendChild(f.firstChild);
+                                f.parentNode.replaceChild(span, f);
+                            });
+                        }
+
+                        saveEditorRange();
+                        syncToRaw();
+                    }
+
+                    // Apply Font Size
+                    function applyFontSize(fontSize) {
+                        restoreEditorRange();
+                        visual.focus();
+
+                        var sel = window.getSelection();
+                        if (!sel || sel.rangeCount === 0) return;
+
+                        if (!fontSize) {
+                            if (sel.isCollapsed) {
+                                var node = sel.anchorNode;
+                                var el = node.nodeType === 1 ? node : node.parentElement;
+                                var block = el ? el.closest('h1, h2, h3, h4, h5, h6, p, blockquote, li, div') : null;
+                                if (block && visual.contains(block) && block !== visual) {
+                                    block.style.fontSize = '';
+                                    block.querySelectorAll('span, font').forEach(function(s) { s.style.fontSize = ''; });
+                                } else if (el && visual.contains(el)) {
+                                    el.style.fontSize = '';
+                                }
+                            } else {
+                                var r = sel.getRangeAt(0);
+                                var container = r.commonAncestorContainer;
+                                var parent = container.nodeType === 1 ? container : container.parentElement;
+                                if (parent && visual.contains(parent)) {
+                                    parent.querySelectorAll('span, font').forEach(function(s) {
+                                        s.style.fontSize = '';
+                                    });
+                                }
+                            }
+                            saveEditorRange();
+                            syncToRaw();
+                            return;
+                        }
+
+                        if (sel.isCollapsed) {
+                            var node = sel.anchorNode;
+                            var el = node.nodeType === 1 ? node : node.parentElement;
+                            var block = el ? el.closest('h1, h2, h3, h4, h5, h6, p, blockquote, li, div') : null;
+                            if (block && visual.contains(block) && block !== visual) {
+                                block.style.fontSize = fontSize;
+                                block.querySelectorAll('span, font').forEach(function(s) {
+                                    s.style.fontSize = fontSize;
+                                });
+                            } else if (el && visual.contains(el)) {
+                                el.style.fontSize = fontSize;
+                            }
+                        } else {
+                            try {
+                                document.execCommand('styleWithCSS', false, false);
+                            } catch(e) {}
+                            document.execCommand('fontSize', false, '7');
+
+                            var targets = visual.querySelectorAll('font[size="7"], span[style*="xxx-large"], span[style*="-webkit-xxx-large"]');
+                            targets.forEach(function(target) {
+                                if (target.tagName.toLowerCase() === 'font') {
+                                    var span = document.createElement('span');
+                                    span.style.fontSize = fontSize;
+                                    if (target.getAttribute('face')) span.style.fontFamily = target.getAttribute('face');
+                                    if (target.getAttribute('color')) span.style.color = target.getAttribute('color');
+                                    while (target.firstChild) span.appendChild(target.firstChild);
+                                    span.querySelectorAll('span, font').forEach(function(ch) { ch.style.fontSize = ''; });
+                                    target.parentNode.replaceChild(span, target);
+                                } else {
+                                    target.style.fontSize = fontSize;
+                                    target.querySelectorAll('span, font').forEach(function(ch) { ch.style.fontSize = ''; });
+                                }
+                            });
+                        }
+
+                        saveEditorRange();
+                        syncToRaw();
+                    }
 
                     // Format dropdown (Paragraph, H1, H2, H3, H4, H5, H6, blockquote)
                     var formatSelect = document.getElementById('editorFormatSelect');
                     if (formatSelect) {
+                        formatSelect.addEventListener('mousedown', saveEditorRange);
                         formatSelect.addEventListener('change', function() {
                             var tag = this.value;
+                            restoreEditorRange();
                             visual.focus();
                             document.execCommand('formatBlock', false, tag);
                             var sel = window.getSelection();
                             if (sel && sel.anchorNode) {
                                 var parentEl = sel.anchorNode.nodeType === 1 ? sel.anchorNode : sel.anchorNode.parentElement;
                                 var block = parentEl ? parentEl.closest('h1, h2, h3, h4, h5, h6, p, blockquote') : null;
-                                if (block) {
+                                if (block && tag !== 'p') {
                                     block.querySelectorAll('span, font, strong, b').forEach(function(child) {
                                         child.style.fontSize = '';
-                                        child.style.fontFamily = '';
                                     });
                                 }
                             }
+                            saveEditorRange();
                             syncToRaw();
+                            syncToolbarFontState();
+                        });
+                    }
+
+                    // Font Family Dropdown
+                    var fontFamilySelect = document.getElementById('editorFontFamilySelect');
+                    if (fontFamilySelect) {
+                        fontFamilySelect.addEventListener('mousedown', saveEditorRange);
+                        fontFamilySelect.addEventListener('change', function() {
+                            applyFontFamily(this.value);
+                        });
+                    }
+
+                    // Font Size Dropdown
+                    var fontSizeSelect = document.getElementById('editorFontSizeSelect');
+                    if (fontSizeSelect) {
+                        fontSizeSelect.addEventListener('mousedown', saveEditorRange);
+                        fontSizeSelect.addEventListener('change', function() {
+                            applyFontSize(this.value);
                         });
                     }
 
@@ -898,6 +1183,7 @@
                             visual.innerHTML = cleanHtmlAttributes(visual.innerHTML);
                             enhanceAllTables(visual);
                             syncToRaw();
+                            syncToolbarFontState();
                             alert('Cleaned ChatGPT formatting, styled responsive tables & synchronized content!');
                         });
                     }
@@ -926,8 +1212,20 @@
                         }
                     }
 
-                    visual.addEventListener('click', updateTableContext);
-                    visual.addEventListener('keyup', updateTableContext);
+                    visual.addEventListener('click', function() {
+                        saveEditorRange();
+                        updateTableContext();
+                        syncToolbarFontState();
+                    });
+                    visual.addEventListener('keyup', function() {
+                        saveEditorRange();
+                        updateTableContext();
+                        syncToolbarFontState();
+                    });
+                    visual.addEventListener('mouseup', function() {
+                        saveEditorRange();
+                        syncToolbarFontState();
+                    });
 
                     // Table Insertion Modal
                     function openTableModal() {
