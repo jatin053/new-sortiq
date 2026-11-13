@@ -331,16 +331,12 @@
             utilsScript: 'https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/18.2.1/js/utils.js',
           });
 
-          // Prevent intl-tel-input from moving dropdown to body on mobile
-          phonePicker.isMobile = false;
-          phonePicker.options.dropdownContainer = null;
-          if (phonePicker.dropdown && phonePicker.dropdown.parentNode) {
-            phonePicker.dropdown.parentNode.removeChild(phonePicker.dropdown);
+          const selectedFlag = phoneInput.closest('.iti')?.querySelector('.iti__selected-flag');
+          if (selectedFlag) {
+            selectedFlag.setAttribute('tabindex', '0');
+            selectedFlag.setAttribute('role', 'button');
+            selectedFlag.setAttribute('aria-label', 'Select country');
           }
-          if (phonePicker.countryList && phonePicker.flagsContainer) {
-            phonePicker.flagsContainer.appendChild(phonePicker.countryList);
-          }
-          document.body.classList.remove("iti-mobile");
 
           const updatePhoneLayout = function () {
             phoneInput.placeholder = 'Enter Phone No.';

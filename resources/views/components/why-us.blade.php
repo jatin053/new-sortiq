@@ -256,15 +256,20 @@
       cursor: pointer !important;
       touch-action: manipulation !important;
       -webkit-tap-highlight-color: transparent !important;
+      -webkit-user-select: none !important;
+      -moz-user-select: none !important;
+      -ms-user-select: none !important;
+      user-select: none !important;
     }
-    body.iti-mobile .iti--container,
-    .iti-mobile .iti--container {
-      display: none !important;
+    .sq-phone-field .iti__selected-flag * {
+      pointer-events: none !important;
+      -webkit-user-select: none !important;
+      -moz-user-select: none !important;
+      -ms-user-select: none !important;
+      user-select: none !important;
     }
     .sq-phone-field .iti__country-list,
-    .sq-phone-field .iti__country-list.iti__country-list--dropup,
-    body.iti-mobile .iti__country-list,
-    .iti-mobile .iti__country-list {
+    .sq-phone-field .iti__country-list.iti__country-list--dropup {
       position: absolute !important;
       top: 100% !important;
       bottom: auto !important;
@@ -817,16 +822,12 @@ if (phoneInput && window.intlTelInput) {
     utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/18.2.1/js/utils.js"
   });
 
-  // Prevent intl-tel-input from moving dropdown to body on mobile
-  sqPicker.isMobile = false;
-  sqPicker.options.dropdownContainer = null;
-  if (sqPicker.dropdown && sqPicker.dropdown.parentNode) {
-    sqPicker.dropdown.parentNode.removeChild(sqPicker.dropdown);
+  const selectedFlag = phoneInput.closest('.iti')?.querySelector('.iti__selected-flag');
+  if (selectedFlag) {
+    selectedFlag.setAttribute('tabindex', '0');
+    selectedFlag.setAttribute('role', 'button');
+    selectedFlag.setAttribute('aria-label', 'Select country');
   }
-  if (sqPicker.countryList && sqPicker.flagsContainer) {
-    sqPicker.flagsContainer.appendChild(sqPicker.countryList);
-  }
-  document.body.classList.remove("iti-mobile");
 
   const updateSqPhoneLayout = function() {
     phoneInput.placeholder = "Enter Phone No.";

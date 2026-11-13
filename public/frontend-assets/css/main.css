@@ -87,17 +87,95 @@
   cursor: pointer !important;
   touch-action: manipulation !important;
   -webkit-tap-highlight-color: transparent !important;
+  -webkit-user-select: none !important;
+  -moz-user-select: none !important;
+  -ms-user-select: none !important;
+  user-select: none !important;
+}
+
+.iti__selected-flag * {
+  pointer-events: none !important;
+  -webkit-user-select: none !important;
+  -moz-user-select: none !important;
+  -ms-user-select: none !important;
+  user-select: none !important;
 }
 
 body.iti-mobile .iti--container,
 .iti-mobile .iti--container {
-  display: none !important;
+  position: fixed !important;
+  top: 0 !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  z-index: 9999999 !important;
+  background-color: rgba(0, 20, 46, 0.6) !important;
+  backdrop-filter: blur(4px) !important;
+  -webkit-backdrop-filter: blur(4px) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 16px !important;
+  box-sizing: border-box !important;
+}
+
+body.iti-mobile .iti__country-list,
+.iti-mobile .iti__country-list {
+  position: relative !important;
+  top: auto !important;
+  bottom: auto !important;
+  left: auto !important;
+  right: auto !important;
+  width: 100% !important;
+  max-width: 380px !important;
+  max-height: 75vh !important;
+  margin: 0 !important;
+  background-color: #ffffff !important;
+  border-radius: 12px !important;
+  border: 1px solid #cbd5e1 !important;
+  box-shadow: 0 20px 50px rgba(0, 20, 46, 0.35) !important;
+  overflow-y: auto !important;
+  -webkit-overflow-scrolling: touch !important;
+  padding: 8px 0 !important;
+}
+
+body.iti-mobile .iti__country,
+.iti-mobile .iti__country {
+  padding: 12px 16px !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  font-size: 15px !important;
+  color: #1e293b !important;
+  border-bottom: 1px solid #f1f5f9 !important;
+  cursor: pointer !important;
+  touch-action: manipulation !important;
+}
+
+body.iti-mobile .iti__country:active,
+body.iti-mobile .iti__country.iti__highlight,
+.iti-mobile .iti__country:active,
+.iti-mobile .iti__country.iti__highlight {
+  background-color: #f0f7ff !important;
+  color: #001a3d !important;
+}
+
+body.iti-mobile .iti__country-name,
+.iti-mobile .iti__country-name {
+  flex: 1 1 auto !important;
+  font-weight: 500 !important;
+  color: #0f172a !important;
+}
+
+body.iti-mobile .iti__dial-code,
+.iti-mobile .iti__dial-code {
+  color: #ff6600 !important;
+  font-weight: 700 !important;
+  margin-left: auto !important;
 }
 
 .iti__country-list,
-.iti__country-list.iti__country-list--dropup,
-body.iti-mobile .iti__country-list,
-.iti-mobile .iti__country-list {
+.iti__country-list.iti__country-list--dropup {
   position: absolute !important;
   top: 100% !important;
   bottom: auto !important;
