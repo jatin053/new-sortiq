@@ -435,22 +435,24 @@
 
     @media(max-width: 767px) {
         #fresherHiringModal {
-            align-items: flex-start;
+            align-items: center;
             justify-content: center;
             overflow-y: auto;
-            padding: 12px 10px;
+            padding: 8px 6px;
             -webkit-overflow-scrolling: touch;
         }
 
         #fresherHiringModalContent {
             margin: auto;
             min-height: auto;
-            max-height: calc(100dvh - 24px);
-            max-height: calc(100vh - 24px);
+            max-height: calc(100dvh - 16px);
+            max-height: calc(100vh - 16px);
             overflow-y: auto;
             -webkit-overflow-scrolling: touch;
             overscroll-behavior: contain;
-            border-radius: 6px;
+            border-radius: 8px;
+            width: 100%;
+            max-width: 440px;
         }
 
         .fresher-left {
@@ -459,72 +461,91 @@
 
         .right-form-area {
             min-height: auto;
-            padding: 24px 16px 28px;
+            padding: 16px 14px 18px;
         }
 
         .fresher-blink-title {
-            font-size: 22px;
-            top: 14px;
+            font-size: 20px;
+            top: 12px;
         }
 
         .connect-heading {
-            font-size: 24px;
-            margin-bottom: 20px;
+            font-size: 22px;
+            margin-bottom: 4px;
         }
 
         .modal-close-btn {
-            top: 12px;
-            right: 12px;
+            top: 8px;
+            right: 8px;
             z-index: 50;
-            width: 34px;
-            height: 34px;
+            width: 32px;
+            height: 32px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.4);
             border-radius: 6px;
         }
-    }
 
-    @media(max-width: 480px) {
-        #fresherHiringModal {
-            padding: 8px 6px;
+        .fresher-connect-form.space-y-4 > :not([hidden]) ~ :not([hidden]) {
+            margin-top: 8px;
         }
 
-        #fresherHiringModalContent {
-            max-height: calc(100dvh - 16px);
-            max-height: calc(100vh - 16px);
+        .custom-field,
+        .phone-wrapper,
+        .upload-box {
+            height: 42px;
         }
 
-        .fresher-left {
-            display: none;
+        .custom-field input,
+        .phone-wrapper input[type="tel"] {
+            height: 42px;
+            font-size: 14px;
         }
 
-        .fresher-blink-title {
-            font-size: 19px;
+        .upload-icon {
+            width: 42px;
+            min-width: 42px;
+        }
+
+        .file-info-bar {
+            font-size: 11px;
+            padding: 2px 2px 0;
+        }
+
+        .custom-field.textarea-field {
+            min-height: 56px;
+            height: 56px;
+            margin-bottom: 0;
+        }
+
+        .custom-field.textarea-field textarea {
+            min-height: 56px;
+            height: 56px;
+            padding-top: 8px;
+            padding-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .textarea-field .field-icon {
             top: 12px;
         }
 
-        .right-form-area {
-            padding: 16px 14px 22px;
+        .recaptcha-wrap {
+            margin-top: 2px;
+            margin-bottom: 2px;
+            display: flex;
+            justify-content: flex-start;
         }
 
-        .connect-heading {
-            font-size: 22px;
-        }
-
-        .custom-field {
-            height: 48px;
-        }
-
-        .upload-box {
-            height: 48px;
+        .recaptcha-wrap > div {
+            transform: scale(0.85);
+            transform-origin: left center;
+            margin: -4px 0;
+            padding: 2px;
         }
 
         .submit-btn {
-            height: 48px;
+            height: 44px;
             font-size: 15px;
-        }
-
-        .phone-wrapper {
-            height: 48px;
+            margin-top: 4px;
         }
     }
 </style>
@@ -554,7 +575,7 @@
         <div class="w-full md:w-1/2 p-6 md:p-10 relative right-form-area">
 
             <!-- Heading -->
-            <div class="text-center mb-7">
+            <div class="text-center mb-2 md:mb-7">
                 <h2 class="connect-heading">Let's Connect</h2>
             </div>
 

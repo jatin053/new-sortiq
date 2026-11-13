@@ -210,13 +210,25 @@ class LocalMedia
         $targetDirectory = public_path($directory);
 
         if (! is_dir($targetDirectory)) {
-            mkdir($targetDirectory, 0755, true);
+            @mkdir($targetDirectory, 0775, true);
         }
 
-        $extension = strtolower($file->getClientOriginalExtension()) ?: 'bin';
+        $extension = strtolower(trim($file->getClientOriginalExtension())) ?: 'bin';
+        if ($extension === 'jpeg') {
+            $extension = 'jpg';
+        }
         $filename = self::generateUploadedFilename($targetDirectory, $baseName, $extension);
 
         $file->move($targetDirectory, $filename);
+
+        // In environments where public_html is the document root, sync to public_html as well
+        $publicHtmlDir = base_path('../public_html/' . $directory);
+        if (is_dir(base_path('../public_html'))) {
+            if (! is_dir($publicHtmlDir)) {
+                @mkdir($publicHtmlDir, 0775, true);
+            }
+            @copy($targetDirectory . DIRECTORY_SEPARATOR . $filename, $publicHtmlDir . '/' . $filename);
+        }
 
         return $directory . '/' . $filename;
     }

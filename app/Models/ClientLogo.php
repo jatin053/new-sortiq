@@ -61,16 +61,6 @@ class ClientLogo extends Model
             return null;
         }
 
-        $relativePath = ltrim($logo, '/');
-
-        if (
-            ! Str::startsWith($logo, ['http://', 'https://'])
-            && Str::startsWith($relativePath, 'uploads/')
-            && ! is_file(public_path($relativePath))
-        ) {
-            return null;
-        }
-
-        return LocalMedia::url($this->logo);
+        return LocalMedia::url($this->logo) ?: (Str::startsWith($logo, ['http://', 'https://', '//']) ? $logo : asset(ltrim($logo, '/')));
     }
 }

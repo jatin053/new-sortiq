@@ -138,26 +138,60 @@
             <div class="meta-box">
                 <div class="meta-title">Portfolio Details</div>
                 <div class="meta-body review-fields">
-                    <label>
-                        Project Image
-                        <input type="hidden" name="image" value="{{ old('image', $portfolio['image']) }}">
+                    <div class="form-group" style="margin-bottom: 16px;">
+                        <label style="display: block; font-weight: 600; margin-bottom: 6px; color: #1e293b; font-size: 13px;">Project Image</label>
+                        <input type="hidden" name="image" id="portfolioCurrentHiddenImage" value="{{ old('image', $portfolio['image']) }}">
+
+                        {{-- Current Image Display (if exists) --}}
+                        @if (!empty($portfolio['image']) && $portfolio->image_url)
+                            <div id="currentPortfolioImageCard" style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 10px; margin-bottom: 10px;">
+                                <div style="font-size: 11px; font-weight: 700; text-transform: uppercase; color: #64748b; letter-spacing: 0.5px; margin-bottom: 6px;">Current Image</div>
+                                <div style="position: relative; max-width: 100%; border-radius: 6px; overflow: hidden; background: #0b132b; text-align: center; margin-bottom: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.08);">
+                                    <img 
+                                        id="currentPortfolioImageImg"
+                                        src="{{ $portfolio->image_url }}" 
+                                        alt="{{ $portfolio->title ?: 'Portfolio image' }}" 
+                                        style="max-width: 100%; max-height: 180px; width: auto; height: auto; object-fit: contain; display: block; margin: 0 auto; border-radius: 4px;"
+                                    >
+                                </div>
+                                <div style="font-size: 11px; color: #64748b; word-break: break-all; margin-bottom: 4px; line-height: 1.4;">
+                                    File: <strong style="color: #334155;">{{ $portfolio['image'] }}</strong>
+                                </div>
+                            </div>
+                        @elseif (!empty($portfolio['image']))
+                            <p class="current-logo-path" style="margin-bottom: 8px;">
+                                Current file: <strong>{{ $portfolio['image'] }}</strong>
+                            </p>
+                        @endif
+
+                        {{-- Live Preview for newly selected file --}}
+                        <div id="newPortfolioImagePreviewCard" style="display: none; background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 8px; padding: 10px; margin-bottom: 10px;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                                <span style="font-size: 11px; font-weight: 700; text-transform: uppercase; color: #1d4ed8; letter-spacing: 0.5px;">New Image Selected</span>
+                                <button type="button" id="btnCancelNewPortfolioImage" style="background: none; border: none; color: #64748b; font-size: 11px; font-weight: 600; cursor: pointer; text-decoration: underline;">Cancel</button>
+                            </div>
+                            <div style="position: relative; max-width: 100%; border-radius: 6px; overflow: hidden; background: #0f172a; text-align: center; margin-bottom: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.08);">
+                                <img id="newPortfolioImagePreviewImg" src="" alt="New preview" style="max-width: 100%; max-height: 180px; width: auto; height: auto; object-fit: contain; display: block; margin: 0 auto; border-radius: 4px;">
+                            </div>
+                            <div id="newPortfolioImageName" style="font-size: 11px; color: #1e40af; word-break: break-all;"></div>
+                        </div>
+
+                        {{-- File Input --}}
                         <input
+                            id="portfolioImageFileInput"
                             class="@error('image_file') is-invalid @enderror"
                             name="image_file"
                             type="file"
-                            accept="image/webp,image/png,image/jpeg"
+                            accept="image/webp,image/png,image/jpeg,image/jpg,image/gif,image/avif"
+                            style="width: 100%;"
                         >
-                        <span class="field-help">Upload a local portfolio image. The current image stays in place until you replace it.</span>
+                        <span class="field-help" style="display: block; margin-top: 4px; font-size: 11px; color: #64748b;">
+                            Upload a local portfolio image (WebP, PNG, JPG). The current image stays in place until you replace it.
+                        </span>
                         @error('image_file')
-                            <span class="field-error">{{ $message }}</span>
+                            <span class="field-error" style="display: block; margin-top: 4px;">{{ $message }}</span>
                         @enderror
-                    </label>
-
-                    @if ($portfolio->image_url)
-                        <p class="current-logo-path">
-                            Current file: <strong>{{ $portfolio['image'] }}</strong>
-                        </p>
-                    @endif
+                    </div>
 
                     <label>
                         Project Preview URL
@@ -1247,14 +1281,51 @@
                             updateState();
                         }
 
+                        // 3. SETUP IMAGE PREVIEW
+                        function setupImagePreview() {
+                            var input = document.getElementById('portfolioImageFileInput');
+                            var previewCard = document.getElementById('newPortfolioImagePreviewCard');
+                            var previewImg = document.getElementById('newPortfolioImagePreviewImg');
+                            var nameEl = document.getElementById('newPortfolioImageName');
+                            var cancelBtn = document.getElementById('btnCancelNewPortfolioImage');
+
+                            if (!input || !previewCard || !previewImg) return;
+
+                            input.addEventListener('change', function(e) {
+                                var file = e.target.files && e.target.files[0];
+                                if (file) {
+                                    var reader = new FileReader();
+                                    reader.onload = function(evt) {
+                                        previewImg.src = evt.target.result;
+                                        if (nameEl) {
+                                            nameEl.textContent = file.name + ' (' + (file.size / 1024).toFixed(1) + ' KB)';
+                                        }
+                                        previewCard.style.display = 'block';
+                                    };
+                                    reader.readAsDataURL(file);
+                                } else {
+                                    previewCard.style.display = 'none';
+                                }
+                            });
+
+                            if (cancelBtn) {
+                                cancelBtn.addEventListener('click', function() {
+                                    input.value = '';
+                                    previewCard.style.display = 'none';
+                                });
+                            }
+                        }
+
                         if (document.readyState === 'loading') {
                             document.addEventListener('DOMContentLoaded', function() {
                                 setupCategory();
                                 setupTags();
+                                setupImagePreview();
                             });
                         } else {
                             setupCategory();
                             setupTags();
+                            setupImagePreview();
                         }
                     })();
                     </script>

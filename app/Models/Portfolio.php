@@ -82,11 +82,11 @@ class Portfolio extends Model
     {
         $image = trim((string) $this->image);
 
-        if ($this->isMissingLocalUploadPath($image)) {
+        if ($image === '') {
             return null;
         }
 
-        return LocalMedia::url($image) ?: (Str::startsWith($image, ['http://', 'https://', '//']) ? $image : null);
+        return LocalMedia::url($image) ?: (Str::startsWith($image, ['http://', 'https://', '//']) ? $image : asset(ltrim($image, '/')));
     }
 
     public function getWebsiteHrefAttribute(): ?string
@@ -139,16 +139,5 @@ class Portfolio extends Model
     public function hasCategory(string $categoryName): bool
     {
         return in_array(mb_strtolower(trim($categoryName)), array_map('mb_strtolower', $this->categories_list), true);
-    }
-
-    private function isMissingLocalUploadPath(string $image): bool
-    {
-        if ($image === '' || Str::startsWith($image, ['http://', 'https://', '//'])) {
-            return false;
-        }
-
-        $relativePath = ltrim($image, '/');
-
-        return Str::startsWith($relativePath, 'uploads/') && ! is_file(public_path($relativePath));
     }
 }
