@@ -691,14 +691,26 @@
           <h2><span class="sq-section-badge">3</span> Cookies &amp; Tracking Technologies</h2>
           <p class="sq-sec-lead">Our website uses cookies, pixels, and similar web tracking mechanisms to enhance your browsing experience. Specifically, they are used to:</p>
 
-          <ul style="color:#475569; font-size:14.5px; line-height:1.75; padding-left:24px; margin-bottom:16px;">
-            <li>Improve website speed and caching performance</li>
-            <li>Remember user preferences and locale settings</li>
-            <li>Analyze visitor patterns and conversion funnels</li>
-            <li>Deliver relevant insights and support advertising efforts</li>
-          </ul>
+          <div class="sq-check-list">
+            <div class="sq-check-item">
+              <iconify-icon icon="lucide:check-circle-2" width="18" height="18"></iconify-icon>
+              <span>Improve website speed and caching performance</span>
+            </div>
+            <div class="sq-check-item">
+              <iconify-icon icon="lucide:check-circle-2" width="18" height="18"></iconify-icon>
+              <span>Remember user preferences and locale settings</span>
+            </div>
+            <div class="sq-check-item">
+              <iconify-icon icon="lucide:check-circle-2" width="18" height="18"></iconify-icon>
+              <span>Analyze visitor patterns and conversion funnels</span>
+            </div>
+            <div class="sq-check-item">
+              <iconify-icon icon="lucide:check-circle-2" width="18" height="18"></iconify-icon>
+              <span>Deliver relevant insights and support advertising efforts</span>
+            </div>
+          </div>
 
-          <div style="background:#f1f5f9; border-radius:10px; padding:14px 18px; font-size:13.5px; color:#475569; line-height:1.6;">
+          <div style="background:#f1f5f9; border-radius:10px; padding:14px 18px; font-size:13.5px; color:#475569; line-height:1.6; margin-top:20px;">
             <strong>Cookie Control:</strong> You can choose to disable or clear cookies through your browser settings at any time. Please note that disabling certain essential cookies may affect some features or interactivity of the website.
           </div>
         </section>
