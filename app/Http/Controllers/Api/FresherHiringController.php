@@ -46,11 +46,15 @@ class FresherHiringController extends Controller
 
         $this->sendNotificationEmail($fresherHiring);
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Application submitted successfully.',
-            'redirect' => route('frontend.thank-you'),
-        ]);
+        if ($request->wantsJson() || $request->ajax()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Application submitted successfully.',
+                'redirect' => route('frontend.thank-you'),
+            ]);
+        }
+
+        return redirect()->route('frontend.thank-you');
     }
 
     private function checkRecaptcha(?string $token, ?string $ip): void

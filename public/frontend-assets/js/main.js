@@ -539,11 +539,15 @@ const initForms = () => {
           throw new Error(firstError || result.message || "Unable to submit application.");
         }
 
-        showFormMessage(form, result.message || "Submitted successfully!", "success");
+        const isInternship = form.classList.contains("internship-application-form");
+        const isFresher = form.classList.contains("fresher-connect-form") || form.id === "fresherHiringForm";
+        const redirectUrl = result.redirect || result.redirect_url || ((isInternship || isFresher) ? "/thank-you" : null);
+
+        showFormMessage(form, result.message || "Application submitted successfully! Redirecting to thank you page...", "success");
         form.reset();
 
-        // If it is the Fresher Hiring modal form, reset the file chosen label text and close modal
-        if (form.classList.contains("fresher-connect-form") || form.id === "fresherHiringForm") {
+        // If it is the Fresher Hiring modal form, reset the file chosen label text
+        if (isFresher) {
           const nameNode = document.getElementById("fresher-file-name") || $("#fresher-file-name") || document.getElementById("uploadLabel");
           if (nameNode) {
             if (nameNode.id === "uploadLabel") {
@@ -556,6 +560,23 @@ const initForms = () => {
               nameNode.textContent = "No file chosen";
             }
           }
+        }
+
+        try {
+          window.grecaptcha?.reset();
+        } catch {
+          // Ignore routes without an active widget.
+        }
+
+        if (redirectUrl) {
+          setButtonLoading(form, true, "Redirecting...");
+          window.setTimeout(() => {
+            window.location.href = redirectUrl;
+          }, 600);
+          return;
+        }
+
+        if (isFresher) {
           window.setTimeout(() => {
             if (typeof window.closeFresherModal === "function") {
               window.closeFresherModal();
@@ -563,12 +584,6 @@ const initForms = () => {
               setModalState($("#fresher-modal-shell"), false);
             }
           }, 2000);
-        }
-
-        try {
-          window.grecaptcha?.reset();
-        } catch {
-          // Ignore routes without an active widget.
         }
       } catch (error) {
         showFormMessage(form, error.message || "Error submitting form.", "error");
