@@ -4,7 +4,6 @@
 @section('body_attributes') data-route="/why-us" @endsection
 
 @push('head')
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/18.2.1/css/intlTelInput.css">
 <style>
     :root {
       --sq-blue: #00173e;
@@ -167,149 +166,7 @@
       line-height: 1.65;
     }
 
-    /* --- Form Field Styles --- */
-    .sq-form-card {
-      padding: 0;
-      background: transparent;
-      border: none;
-      box-shadow: none;
-    }
 
-    .sq-form {
-      display: grid;
-      gap: 16px;
-      font-family: inherit;
-      width: 100%;
-    }
-
-    .sq-form-row {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 16px 30px;
-    }
-
-    .sq-field {
-      position: relative;
-      display: block;
-    }
-
-    .sq-phone-field {
-      position: relative;
-      display: block;
-    }
-
-    .sq-field iconify-icon {
-      position: absolute;
-      left: 15px;
-      top: 50%;
-      transform: translateY(-50%);
-      color: var(--sq-orange);
-      pointer-events: none;
-      font-size: 16px;
-      z-index: 1;
-    }
-
-    .sq-field .sq-textarea-icon {
-      top: 22px;
-      transform: none;
-    }
-
-    .sq-input,
-    .sq-textarea {
-      width: 100%;
-      min-height: 50px;
-      padding: 11px 14px 11px 42px;
-      color: #333333;
-      font: inherit;
-      border: 1px solid #dcdcdc;
-      border-radius: 4px;
-      background: #ffffff;
-      outline: none;
-      transition: border-color 0.2s ease, box-shadow 0.2s ease;
-    }
-
-    .sq-textarea {
-      min-height: 120px;
-      resize: vertical;
-    }
-
-    .sq-input::placeholder,
-    .sq-textarea::placeholder {
-      color: #aaaaaa;
-      font-style: italic; 
-      font-weight: 400;
-    }
-
-    .sq-input:focus,
-    .sq-textarea:focus {
-      border-color: var(--sq-orange);
-      box-shadow: 0 0 0 2px rgba(255, 90, 0, 0.1);
-    }
-
-    /* Multi-flag Phone Dropdown Overrides */
-    .sq-phone-field { position: relative; z-index: 50; }
-    .iti { width: 100%; display: block; position: relative; }
-    .iti__country-list,
-    .iti__country-list.iti__country-list--dropup {
-      top: 100% !important;
-      bottom: auto !important;
-      left: 0 !important;
-      margin-top: 4px !important;
-      margin-bottom: 0 !important;
-      z-index: 99999 !important;
-      max-height: 240px !important;
-      overflow-y: auto !important;
-      -webkit-overflow-scrolling: touch !important;
-      color: #111827 !important;
-      text-align: left !important;
-      background-color: #ffffff !important;
-      border: 1px solid #cbd5e1 !important;
-      border-radius: 8px !important;
-      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.2), 0 8px 10px -6px rgba(0, 0, 0, 0.1) !important;
-    }
-    @media (max-width: 640px) {
-      .iti__country-list,
-      .iti__country-list.iti__country-list--dropup {
-        width: 100% !important;
-        max-width: 100% !important;
-        left: 0 !important;
-        right: 0 !important;
-      }
-    }
-    .iti__flag-container { z-index: 2; }
-    #sq-phone { 
-      padding-left: 55px !important; 
-    }
-
-    .sq-recaptcha {
-      padding: 4px 0;
-      overflow-x: auto;
-      margin-bottom: 1px;
-    }
-
-    .sq-recaptcha > div {
-      max-width: 302px;
-    }
-
-    .sq-submit {
-      width: 100%;
-      min-height: 50px;
-      padding: 12px 20px;
-      color: var(--sq-white);
-      font-family: inherit;
-      font-size: 16px;
-      font-weight: 600;
-      text-transform: none;
-      border: 0;
-      border-radius: 4px;
-      background: #ff5a00;
-      cursor: pointer;
-      transition: background 0.2s ease, transform 0.2s ease;
-    }
-
-    .sq-submit:hover {
-      background: #00173e;
-    }
 
     /* --- Clients & Work Sections --- */
     .sq-clients {
@@ -534,7 +391,7 @@
 
     <section class="sq-why-intro">
       <div class="sq-container">
-        <h2 class="sq-heading sq-line">The Advantage of Working With Us</h2>
+        <h2 class="sq-heading sq-line">Your Growth, Our Expertise</h2>
       </div>
     </section>
 
@@ -554,15 +411,15 @@
             <p>We provide innovative, efficient, and scalable technology solutions tailored to optimize your business operations, enhance productivity, and drive long-term success.</p>
           </article>
           <article class="sq-reason-card sq-radius-bl">
-            <h2>Future-Ready Technology</h2>
+            <h2>Scalable Tech Solutions</h2>
             <p>We stay ahead of industry trends, providing innovative solutions that keep your business competitive in a rapidly evolving digital landscape.</p>
           </article>
           <article class="sq-reason-card">
-            <h2>Client-Centric Approach</h2>
+            <h2>Tailored to Your Needs</h2>
             <p>Your success is our priority—we offer personalized strategies, dedicated support, and long-term partnerships to help you achieve your goals.</p>
           </article>
           <article class="sq-reason-card sq-radius-br">
-            <h2>End-to-End Support</h2>
+            <h2>Support at Every Step</h2>
             <p>From consultation to implementation, our team provides seamless support to keep your business running smoothly.</p>
           </article>
         </div>
@@ -644,43 +501,7 @@
           </div>
 
           <div class="sq-form-card">
-            <form method="post" action="{{ route('api.contact-messages.store') }}" class="sq-form sortiq-contact-form">
-              @csrf
-              <input type="hidden" name="form_type" value="Why Choose Us Form">
-              <input type="hidden" name="country_code" value="+91">
-
-              <div class="sq-form-row">
-                <label class="sq-field">
-                  <iconify-icon icon="fa6-solid:user" width="16" height="16"></iconify-icon>
-                  <input class="sq-input" name="name" type="text" placeholder="Enter Your Name" required>
-                </label>
-                <label class="sq-field">
-                  <iconify-icon icon="fa6-solid:envelope" width="16" height="16"></iconify-icon>
-                  <input class="sq-input" name="email" type="email" placeholder="Enter Your Email" required>
-                </label>
-              </div>
-
-              <div class="sq-form-row">
-                <div class="sq-phone-field">
-                  <input class="sq-input" id="sq-phone" name="phone" type="tel" placeholder="Enter Phone No." required>
-                </div>
-                <label class="sq-field">
-                  <iconify-icon icon="fa6-solid:list-ul" width="16" height="16"></iconify-icon>
-                  <input class="sq-input" name="subject" type="text" placeholder="Subject" required>
-                </label>
-              </div>
-
-              <label class="sq-field">
-                <iconify-icon class="sq-textarea-icon" icon="fa6-solid:comments" width="16" height="16"></iconify-icon>
-                <textarea class="sq-textarea" name="message" rows="5" placeholder="Enter your message" required></textarea>
-              </label>
-
-              <div class="sq-recaptcha">
-                @include('components.recaptcha')
-              </div>
-
-              <button type="submit" class="sq-submit">Send Message</button>
-            </form>
+            <x-common-form />
           </div>
         </div>
       </div>
@@ -689,7 +510,6 @@
 @endsection
 
 @push('scripts')
-<script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/18.2.1/js/intlTelInput.min.js"></script>
 <script>
 (function () {
   const carousel = document.querySelector('[data-sq-carousel]');
@@ -777,37 +597,5 @@
 
   animate();
 })();
-
-const phoneInput = document.querySelector("#sq-phone");
-
-if (phoneInput && window.intlTelInput) {
-  window.intlTelInput(phoneInput, {
-    initialCountry: "in",
-    autoPlaceholder: "off",
-    customPlaceholder: function() {
-      return "Enter Phone No.";
-    },
-    utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/18.2.1/js/utils.js"
-  });
-
-  phoneInput.placeholder = "Enter Phone No.";
-  phoneInput.setAttribute("placeholder", "Enter Phone No.");
-  
-  // RESTRICT TO NUMBERS ONLY
-  phoneInput.addEventListener('input', function(e) {
-    this.value = this.value.replace(/[^\d]/g, '');
-  });
-
-  phoneInput.addEventListener('countrychange', function() {
-     phoneInput.placeholder = "Enter Phone No.";
-     phoneInput.setAttribute("placeholder", "Enter Phone No.");
-     var form = phoneInput.closest('form');
-     var hiddenCode = form ? form.querySelector('input[name="country_code"]') : null;
-     if (hiddenCode) {
-        var instance = window.intlTelInputGlobals.getInstance(phoneInput);
-        hiddenCode.value = "+" + instance.getSelectedCountryData().dialCode;
-     }
-  });
-}
 </script>
 @endpush

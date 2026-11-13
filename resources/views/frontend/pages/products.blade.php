@@ -1322,7 +1322,7 @@
     top: 0 !important;
     bottom: 0 !important;
     left: 0 !important;
-    padding: 0 8px 0 10px !important;
+    /* padding: 0 8px 0 10px !important; */
     border-right: 1.5px solid #cbd5e1 !important;
     background: #f1f5f9 !important;
     border-top-left-radius: 10px !important;

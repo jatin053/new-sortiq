@@ -74,6 +74,7 @@ Route::view('/privacy', 'frontend.pages.privacy-policy');
 
 Route::view('/contact', 'frontend.pages.contact')->name('frontend.contact');
 Route::view('/contact-us', 'frontend.pages.contact');
+Route::post('/form/store', [\App\Http\Controllers\Api\ContactMessageController::class, 'store'])->name('form.store');
 
 Route::view('/thank-you', 'frontend.pages.thank-you')->name('frontend.thank-you');
 Route::view('/thankyou', 'frontend.pages.thank-you');

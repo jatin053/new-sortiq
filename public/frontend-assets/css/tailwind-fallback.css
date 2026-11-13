@@ -762,9 +762,9 @@
         margin-top: calc(var(--spacing) * 8)
     }
 
-    .mt-10 {
-        margin-top: calc(var(--spacing) * 10)
-    }
+    /*.mt-10 {*/
+    /*    margin-top: calc(var(--spacing) * 10)*/
+    /*}*/
 
     /*.mt-12 {*/
     /*    margin-top: calc(var(--spacing) * 12)*/
@@ -2653,7 +2653,7 @@
     }
 
     .pb-20 {
-        padding-bottom: calc(var(--spacing) * 20)
+        padding-bottom: calc(var(--spacing) * 5)
     }
 
     .pl-2 {
