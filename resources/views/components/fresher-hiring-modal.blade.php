@@ -236,7 +236,6 @@
         height: 100%;
         display: flex;
         align-items: center;
-        position: relative;
     }
 
     .phone-wrapper input[type="tel"] {
@@ -267,38 +266,15 @@
         gap: 4px;
         border-top-left-radius: 4px;
         border-bottom-left-radius: 4px;
-        cursor: pointer;
-        touch-action: manipulation;
-        -webkit-tap-highlight-color: transparent;
-        z-index: 10;
-        position: relative;
     }
 
-    .phone-wrapper .iti__selected-flag * {
-        pointer-events: none;
-    }
-
-    .phone-wrapper .iti__country-list,
-    .phone-wrapper .iti__country-list.iti__country-list--dropup {
-        position: absolute;
-        top: 100%;
-        bottom: auto;
-        left: 0;
-        margin-top: 4px;
-        margin-bottom: 0;
+    .phone-wrapper .iti__country-list {
         color: #1f2937;
         text-align: left;
         z-index: 10050;
         width: 300px;
-        max-width: calc(100vw - 48px);
+        max-width: calc(100vw - 32px);
         white-space: normal;
-        background-color: #ffffff;
-        border: 1px solid #cbd5e1;
-        border-radius: 6px;
-        box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-        max-height: 220px;
-        overflow-y: auto;
-        -webkit-overflow-scrolling: touch;
     }
 
     /* Upload */
@@ -725,17 +701,6 @@
                 },
                 utilsScript: 'https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/18.2.1/js/utils.js'
             });
-
-            // Prevent intl-tel-input from switching to fullscreen body overlay on real mobile phones
-            phonePicker.isMobile = false;
-            phonePicker.options.dropdownContainer = null;
-            if (phonePicker.dropdown && phonePicker.dropdown.parentNode) {
-                phonePicker.dropdown.parentNode.removeChild(phonePicker.dropdown);
-            }
-            if (phonePicker.countryList && phonePicker.flagsContainer) {
-                phonePicker.flagsContainer.appendChild(phonePicker.countryList);
-            }
-            document.body.classList.remove("iti-mobile");
 
             phoneInput.placeholder = 'Enter Phone No.';
             phoneInput.setAttribute('placeholder', 'Enter Phone No.');
