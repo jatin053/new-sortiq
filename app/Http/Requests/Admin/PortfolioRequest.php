@@ -113,7 +113,7 @@ class PortfolioRequest extends FormRequest
             'tags_text' => 'nullable|string|max:1000',
 
             'image' => 'required_without:image_file|nullable|string|max:255',
-            'image_file' => 'nullable|file|mimes:webp,png,jpg,jpeg,gif,avif|max:10240',
+            'image_file' => 'nullable|file|mimes:webp,png,jpg,jpeg,gif,avif|max:110240',
 
             'website_url' => [
                 'nullable',
